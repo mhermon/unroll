@@ -131,6 +131,13 @@
           <a class="crop" style="--x:0;--y:70;--w:1229;--h:665" href="assets/source.png" aria-label="View full-size screenshot"><img loading="lazy" src="assets/source.png" width="1229" height="768" alt="Readable tool call and result beside the unchanged JSONL source at line 4"></a>
         </div>
       </article>
+      <article class="entry feature feature-text">
+        <div class="entry-gutter"><span class="entry-role">Datasets</span><span class="keys"><kbd>C</kbd> <kbd>⇧J</kbd><kbd>⇧K</kbd></span></div>
+        <div class="entry-main">
+          <h3>Browse a file of many traces</h3>
+          <p>When each row holds a whole conversation, as in agent-trajectory datasets from Hugging Face, Unroll lists the rows with their size and outcome. Filter the list by id, field or message text, and read each row’s other fields, like model, reward or patch, above its conversation.</p>
+        </div>
+      </article>
       <div class="feature-pair">
         <article class="entry feature">
           <div class="entry-gutter"><span class="entry-role">Live</span><span class="keys"><kbd>F</kbd></span></div>
@@ -189,7 +196,7 @@
       <div><dt><svg class="logo" aria-hidden="true"><use href="#i-vercel"/></svg>Vercel AI SDK</dt><dd>Text, reasoning and tool parts</dd></div>
       <div><dt><svg class="logo" aria-hidden="true"><use href="#i-otel"/></svg>OpenTelemetry GenAI</dt><dd>Input and output message attributes on spans</dd></div>
       <div><dt><svg class="logo" aria-hidden="true"><use href="#i-langchain"/></svg>LangChain, LangGraph</dt><dd>Human, AI and tool messages, including state dumps</dd></div>
-      <div><dt><svg class="logo" aria-hidden="true"><use href="#i-table"/></svg>ShareGPT and datasets</dt><dd>Conversation and message envelopes</dd></div>
+      <div><dt><svg class="logo" aria-hidden="true"><use href="#i-table"/></svg>Chat and trace datasets</dt><dd>One conversation per row: ShareGPT, SWE-agent, OpenHands, τ-bench and similar</dd></div>
     </dl>
     <p class="fine">Exports differ between tools and versions, so some files may only partly match. Records that aren’t recognized are still shown as raw events. Parquet isn’t supported. <a href="guide.html#formats">Format details</a></p>
   </section>

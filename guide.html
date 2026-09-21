@@ -35,6 +35,7 @@
     <ol>
       <li><a href="#open">Open a file</a></li>
       <li><a href="#search">Search and filter</a></li>
+      <li><a href="#datasets">Many conversations</a></li>
       <li><a href="#tools">Tool calls</a></li>
       <li><a href="#records">Records and source</a></li>
       <li><a href="#live">Growing files</a></li>
@@ -56,7 +57,17 @@
 
     <h2 id="search">Search and filter</h2>
     <p>Press <kbd>Ctrl</kbd><kbd>F</kbd> (<kbd>Cmd</kbd><kbd>F</kbd> on macOS) or <kbd>/</kbd> to search. Search covers message text, tool names, arguments and results.</p>
-    <p>The role tabs (All, User, Assistant, Tool, System) filter the selected conversation. Files with more than one conversation get a picker next to the search box. Step numbers always match the original file, including when you filter.</p>
+    <p>The role tabs (All, User, Assistant, Tool, System) filter the open conversation. Step numbers always match the original file, including when you filter.</p>
+
+    <h2 id="datasets">Files with many conversations</h2>
+    <p>A dataset file often holds one full conversation or agent trace per JSONL row or JSON array item. Hugging Face trace datasets in the shapes of SWE-agent, OpenHands, τ-bench, AgentInstruct and Hermes function calling all work this way. Unroll opens each row as its own conversation.</p>
+    <ul>
+      <li><strong>Conversation list.</strong> Each row is listed with its id, message and tool-call counts, and its outcome when the row has one (<code>resolved</code>, <code>success</code>, <code>reward</code>, <code>exit_status</code> and similar). Press <kbd>C</kbd> to show or hide the list; narrow panels get a dropdown instead.</li>
+      <li><strong>Filter.</strong> The box above the list matches ids, row fields and message text. A row that matched only in its messages is marked <em>in text</em>, and opening it highlights the match.</li>
+      <li><strong>Row fields.</strong> The row’s other fields, such as model, outcome, reward or a generated patch, appear above its conversation. Long values fold away.</li>
+      <li><strong>Moving between rows.</strong> <kbd>⇧</kbd><kbd>J</kbd> and <kbd>⇧</kbd><kbd>K</kbd> open the next and previous conversation in the filtered list.</li>
+    </ul>
+    <p>A JSON file that wraps its rows in one key, such as <code>{"data": [...]}</code>, works the same way. Source links go to the line where each row starts.</p>
 
     <h2 id="tools">Tool calls</h2>
     <p>Expand a call to see its arguments. Below it, <strong>result at step N</strong> isolates the call and its result together; clear the filter to go back. Results stay in chronological order in the main list.</p>
@@ -69,7 +80,7 @@
       <li><strong>Copy</strong> copies the step’s content.</li>
       <li><strong>L<em>n</em></strong> opens the source file beside the preview at that line.</li>
     </ul>
-    <p class="muted">For a single JSON array, the source link opens the start of the document. Record previews are capped at 2,097,152 characters.</p>
+    <p class="muted">In a JSON array, the source link opens the line where that item starts. Record previews are capped at 2,097,152 characters.</p>
 
     <h2 id="live">Files that are still being written</h2>
     <p>The preview updates as the source changes, including unsaved edits. Turn on <strong>Follow latest</strong> (<kbd>F</kbd>) to keep the newest matching steps in view while new lines are added to the file. Scrolling up or changing a filter pauses following.</p>
@@ -83,6 +94,8 @@
         <tbody>
           <tr><td><kbd>J</kbd><kbd>K</kbd></td><td>Next / previous step</td></tr>
           <tr><td><kbd>N</kbd><kbd>P</kbd></td><td>Next / previous tool call</td></tr>
+          <tr><td><kbd>⇧J</kbd><kbd>⇧K</kbd></td><td>Next / previous conversation</td></tr>
+          <tr><td><kbd>C</kbd></td><td>Conversation list</td></tr>
           <tr><td><kbd>[</kbd><kbd>]</kbd></td><td>Previous / next page (60 steps per page)</td></tr>
           <tr><td><kbd>R</kbd><kbd>O</kbd></td><td>Original record / open source line</td></tr>
           <tr><td><kbd>F</kbd></td><td>Follow latest</td></tr>
@@ -110,6 +123,7 @@
           <tr><td><svg class="logo" aria-hidden="true"><use href="#i-otel"/></svg>OpenTelemetry GenAI</td><td><code>gen_ai.input.messages</code> and <code>gen_ai.output.messages</code> span attributes</td></tr>
           <tr><td><svg class="logo" aria-hidden="true"><use href="#i-langchain"/></svg>LangChain, LangGraph</td><td>Human, AI and tool messages, including nested state dumps</td></tr>
           <tr><td><svg class="logo" aria-hidden="true"><use href="#i-table"/></svg>ShareGPT, datasets</td><td>Conversation and message envelopes</td></tr>
+          <tr><td><svg class="logo" aria-hidden="true"><use href="#i-table"/></svg>Trace datasets</td><td>One trace per row or array item: SWE-agent <code>trajectory</code>, OpenHands <code>messages</code>, τ-bench <code>traj</code>, AgentInstruct and Hermes <code>conversations</code>, xLAM-style <code>query</code> / <code>answers</code> function calls, and agent turns written as <code>thought</code> + <code>action</code> with an <code>environment</code> reply (Agent-SafetyBench, ReAct-style logs)</td></tr>
         </tbody>
       </table>
     </div>

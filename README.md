@@ -24,6 +24,7 @@ Try the downloadable [chat dataset](https://mhermon.github.io/unroll/examples/ch
 - **Readable tool calls.** Arguments are formatted, and each call links to its result.
 - **Original JSON.** Show the record a message came from, or open its line in the source file.
 - **Growing files.** The preview updates as lines are added. Follow latest keeps the newest messages in view.
+- **Trace datasets.** Files with one conversation per row, such as agent-trajectory datasets from Hugging Face, get a filterable conversation list with each row's outcome, and the row's other fields above its conversation.
 - **Long files.** Move around with the step map, stable step numbers and keyboard shortcuts.
 
 ![Opening a Claude Code session in Unroll, following a tool call, searching and switching to a chat dataset](https://mhermon.github.io/unroll/assets/walkthrough.gif)
@@ -42,6 +43,7 @@ Try the downloadable [chat dataset](https://mhermon.github.io/unroll/examples/ch
 | OpenTelemetry GenAI | Input and output message attributes on spans |
 | LangChain / LangGraph | Human, AI and tool messages, including nested state dumps |
 | ShareGPT / chat datasets | Conversation and message envelopes |
+| Trace datasets | One trace per row or array item: SWE-agent, OpenHands, τ-bench, AgentInstruct, Hermes, xLAM and Agent-SafetyBench-style (`thought` / `action` / `environment`) shapes |
 
 Files can be JSONL or a single JSON array. Formats vary between tools and versions, so some files may only partly match. Records that aren’t recognized are still shown as raw events. Parquet isn’t supported.
 
@@ -49,7 +51,7 @@ Files can be JSONL or a single JSON array. Formats vary between tools and versio
 
 ![Unroll in a light VS Code theme](https://mhermon.github.io/unroll/assets/light.png)
 
-Unroll uses your VS Code theme. Press **?** in the preview to see all shortcuts. The main ones are **J/K** for steps, **N/P** for tool calls, **R** for the original record and **O** for the source line. Single-letter shortcuts are ignored while you type in an input.
+Unroll uses your VS Code theme. Press **?** in the preview to see all shortcuts. The main ones are **J/K** for steps, **N/P** for tool calls, **R** for the original record, **O** for the source line and **Shift+J/K** for the next or previous conversation. Single-letter shortcuts are ignored while you type in an input.
 
 ## Privacy
 
@@ -61,7 +63,6 @@ Files are processed in the VS Code extension host and webview. In a remote works
 
 - Desktop VS Code 1.96 or newer. Standalone vscode.dev isn’t supported.
 - Files up to 100 MB by default. Files are parsed in memory.
-- In a JSON array file, source links open the start of the document.
 - Token counts are estimates of the text in the file. They aren’t billed usage or the context size of a request.
 
 ## Feedback

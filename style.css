@@ -294,6 +294,8 @@ kbd {
   margin-left: calc(var(--x) / var(--w) * -100%);
   margin-top: calc(var(--y) / var(--w) * -100%);
 }
+.feature-text .entry-main { display: block; }
+.feature-text p { max-width: 62ch; }
 .feature-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .feature-pair .feature { --gutter: 140px; }
 .feature-pair .entry-main { display: block; }
