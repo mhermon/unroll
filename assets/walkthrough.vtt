@@ -1,0 +1,16 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:03.312
+Read an agent trace as a conversation.
+
+00:00:03.312 --> 00:00:06.549
+Search for TypeError to find the failed test.
+
+00:00:06.549 --> 00:00:10.820
+Follow the result to inspect the tool call and arguments.
+
+00:00:10.820 --> 00:00:15.072
+Inspect the original JSON record.
+
+00:00:15.072 --> 00:00:19.529
+Jump to the matching source line in VS Code.
