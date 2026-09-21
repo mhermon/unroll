@@ -1,16 +1,28 @@
 WEBVTT
 
-00:00:00.000 --> 00:00:03.312
-Read an agent trace as a conversation.
+00:00:00.300 --> 00:00:04.609
+A Claude Code session, saved as JSONL: one record per line.
 
-00:00:03.312 --> 00:00:06.549
-Search for TypeError to find the failed test.
+00:00:04.609 --> 00:00:07.810
+Unroll opens the same file as a conversation.
 
-00:00:06.549 --> 00:00:10.820
-Follow the result to inspect the tool call and arguments.
+00:00:07.810 --> 00:00:12.489
+Tool calls show their arguments and link to their results.
 
-00:00:10.820 --> 00:00:15.072
-Inspect the original JSON record.
+00:00:12.489 --> 00:00:16.419
+Any message can show the JSON record it came from.
 
-00:00:15.072 --> 00:00:19.529
-Jump to the matching source line in VS Code.
+00:00:16.419 --> 00:00:22.729
+Or open that line in the file, beside the preview.
+
+00:00:22.729 --> 00:00:28.969
+Search messages, tool names, arguments and results.
+
+00:00:28.969 --> 00:00:36.049
+Leave it open while a session runs. New lines appear as they’re written.
+
+00:00:36.049 --> 00:00:45.339
+Chat datasets work too. Pick a conversation to read it.
+
+00:00:45.339 --> 00:00:47.739
+Unroll for Visual Studio Code

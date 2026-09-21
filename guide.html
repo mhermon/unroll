@@ -1,1 +1,150 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Using RunTranscript | RunTranscript</title><meta name="description" content="Using RunTranscript for RunTranscript, the AI agent trace viewer for VS Code."><link rel="canonical" href="https://mhermon.github.io/runtranscript/guide.html"><link rel="stylesheet" href="style.css"><link rel="icon" href="assets/icon.png"></head><body><nav aria-label="Main"><a class="brand" href="./"><img src="assets/icon.png" width="32" height="32" alt="">RunTranscript</a><div class="nav-links"><a href="guide.html">Guide</a><a href="./#demo">Demo</a><a href="https://github.com/mhermon/runtranscript/issues">Feedback</a></div></nav><main class="prose"><h1>Using RunTranscript</h1><p>Open a JSONL, NDJSON or JSON trace in VS Code, then choose <strong>RunTranscript: Open as Agent Trace</strong> from the Command Palette or the file’s context menu. <a href="examples/checkout-debug.jsonl">Try the synthetic checkout example.</a></p><h2>Search and navigate</h2><p>Press Ctrl/Cmd+F or / to search message text, tool names, arguments and results. Role tabs filter the selected conversation. The conversation picker appears for multi-conversation datasets. Step numbers remain tied to the original trajectory across filters.</p><p>The trajectory map covers all filtered steps. Click a tick to jump; paging follows automatically. The viewer renders 60 steps per page.</p><h2>Inspect a tool call</h2><p>Expand its arguments, then follow “result at step…” to isolate the call and its result. Clear the filter to return. Results remain in chronological order. Pairing uses explicit IDs; Gemini records without IDs can pair by tool name. Ambiguous matches are not guessed.</p><h2>Original records and source</h2><p>Hover a message to reveal Record, Copy and its L… source-line button. Record shows the original JSON. The line button opens the source beside the preview. JSON arrays link to the beginning of the document. Record previews are limited to 2,097,152 characters.</p><h2>Follow updates</h2><p>Source edits, including unsaved changes, update the preview. Follow latest keeps the newest matching steps in view as records are appended. Scrolling up or changing filters pauses following. A half-written final JSONL line does not hide earlier valid records.</p><h2>Keyboard shortcuts</h2><table><tr><th>Key</th><th>Action</th></tr><tr><td>J / K</td><td>Next / previous step</td></tr><tr><td>N / P</td><td>Next / previous tool call</td></tr><tr><td>[ / ]</td><td>Previous / next page</td></tr><tr><td>R / O</td><td>Original record / source</td></tr><tr><td>F / T</td><td>Follow latest / trajectory map</td></tr><tr><td>?</td><td>Shortcut reference</td></tr></table><p>Commands apply to a focused preview. Single-letter shortcuts yield in text inputs and native controls. Rebind commands in VS Code Keyboard Shortcuts. Existing command and setting identifiers keep the <code>chatview.*</code> prefix for compatibility with earlier local builds.</p><h2 id="formats">Formats</h2><p>Recognized shapes include OpenAI role/content/tool_calls messages; Codex response_item and event_msg records; Anthropic content blocks and Claude Code message envelopes; Gemini parts; Vercel AI SDK parts; OpenTelemetry gen_ai.input.messages and gen_ai.output.messages span attributes; LangChain human/ai/tool messages; and ShareGPT conversations or messages envelopes. Unknown records remain available as events. Provider names describe compatibility, not affiliation.</p><h2>Limits and troubleshooting</h2><p>This is a preview release for VS Code 1.96+. It needs a desktop Node extension host and does not run in standalone vscode.dev. The default maximum file size is 100 MB; change <strong>RunTranscript: Max File Size MB</strong> in Settings (identifier <code>chatview.maxFileSizeMB</code>). Parsing is synchronous and in memory. Very large individual records and searches can be expensive. Parquet and editing belong to the separate browser/Python application and are not extension features.</p><p>If a file shows no recognized messages, enable metadata events in View and inspect the source. Invalid JSONL lines appear in an expandable notice. If the preview fails, try reopening it and inspect the RunTranscript output channel. <a href="https://github.com/mhermon/runtranscript/issues/new/choose">Report a reproducible problem</a> with versions, OS and a sanitized example.</p><h2>Content counts</h2><p>Click the document total to cycle through estimated tokens, words and Unicode characters. Counts include recognized text, reasoning, tool names, arguments and results. They exclude envelopes and non-text payloads. The total is recorded text across the document, not a request’s context size or billed model usage.</p><h2>Privacy</h2><p>No extension telemetry, account, provider calls or remote trace images. Processing happens in the extension host and webview, which can include your remote development environment. <a href="privacy.html">Read the privacy details.</a></p></main><footer><a href="./">RunTranscript home</a><a href="privacy.html">Privacy</a></footer></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Guide | Unroll</title>
+<meta name="description" content="How to open, search and navigate agent traces with Unroll for VS Code: tool calls, original records, live updates, shortcuts, formats and limits.">
+<link rel="canonical" href="https://mhermon.github.io/unroll/guide.html">
+<meta name="theme-color" content="#1a1a1c" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f4f4f6" media="(prefers-color-scheme: light)">
+<link rel="icon" href="assets/icon.png">
+<link rel="preload" href="assets/fonts/instrument-sans.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true"><symbol id="i-claudecode" viewBox="0 0 24 24"><path fill="currentColor" d="M21 10.5h3v3h-3v3h-1.5v3H18v-3h-1.5v3H15v-3H9v3H7.5v-3H6v3H4.5v-3H3v-3H0v-3h3v-6h18Zm-15 0h1.5v-3H6Zm10.5 0H18v-3h-1.5z"/></symbol><symbol id="i-gemini" viewBox="0 0 24 24"><path fill="currentColor" d="M11.04 19.32Q12 21.51 12 24q0-2.49.93-4.68.96-2.19 2.58-3.81t3.81-2.55Q21.51 12 24 12q-2.49 0-4.68-.93a12.3 12.3 0 0 1-3.81-2.58 12.3 12.3 0 0 1-2.58-3.81Q12 2.49 12 0q0 2.49-.96 4.68-.93 2.19-2.55 3.81a12.3 12.3 0 0 1-3.81 2.58Q2.49 12 0 12q2.49 0 4.68.96 2.19.93 3.81 2.55t2.55 3.81"/></symbol><symbol id="i-vercel" viewBox="0 0 24 24"><path fill="currentColor" d="m12 1.608 12 20.784H0Z"/></symbol><symbol id="i-otel" viewBox="0 0 24 24"><path fill="currentColor" d="M12.6974 13.1173c-1.0224 1.0224-1.0224 2.68 0 3.7024 1.0224 1.0224 2.68 1.0224 3.7024 0 1.0224-1.0223 1.0224-2.68 0-3.7024-1.0223-1.0223-2.68-1.0223-3.7024 0zm2.7677 2.7701c-.5063.5063-1.3267.5063-1.833 0s-.5063-1.3266 0-1.833c.5063-.5062 1.3267-.5062 1.833 0 .5063.504.5063 1.3267 0 1.833zM16.356.2355l-1.6041 1.6042c-.314.314-.314.83 0 1.144L21.015 9.247c.314.314.83.314 1.144 0l1.6042-1.6041c.314-.314.314-.83 0-1.144L17.4976.2354c-.314-.314-.8276-.314-1.1416 0zM5.1173 20.734c.2848-.2848.2848-.7497 0-1.0345l-.8155-.8155c-.2848-.2848-.7497-.2848-1.0345 0l-1.6845 1.6845-.0024.0024-.4625-.4625c-.2556-.2556-.6718-.2556-.925 0-.2556.2556-.2556.6718 0 .925l2.775 2.775c.2556.2556.6718.2556.925 0 .2532-.2556.2556-.6718 0-.925l-.4625-.4625.0024-.0024zm8.4856-15.893-3.5637 3.5637c-.3164.3164-.3164.8374 0 1.1538l2.2006 2.2005c1.5554-1.1197 3.7365-.981 5.1361.4187l1.7819-1.7818c.3164-.3165.3164-.8374 0-1.1538l-4.401-4.401c-.3165-.319-.8374-.319-1.1539 0zm-2.2881 7.8455-1.2999-1.2999c-.3043-.3043-.8033-.3043-1.1076 0l-4.5836 4.586c-.3042.3043-.3042.8033 0 1.1076l2.5973 2.5973c.3043.3043.8033.3043 1.1076 0l2.9478-2.9527c-.6231-1.2877-.5112-2.8431.3384-4.0383z"/></symbol><symbol id="i-langchain" viewBox="0 0 24 24"><path fill="currentColor" d="M13.796 0a6.93 6.93 0 0 0-4.91 2.019L5.451 5.455l3.273 3.27 3.432-3.432a2.284 2.284 0 0 1 3.277 0 2.28 2.28 0 0 1 0 3.275L12 12.001l3.273 3.273 3.433-3.435c2.692-2.692 2.692-7.127 0-9.82A6.92 6.92 0 0 0 13.796 0m-5.07 8.728-3.433 3.434c-2.692 2.693-2.692 7.126 0 9.819A6.92 6.92 0 0 0 10.203 24a6.93 6.93 0 0 0 4.911-2.02l3.432-3.432-3.271-3.272-3.433 3.433a2.284 2.284 0 0 1-3.277 0 2.28 2.28 0 0 1 0-3.276L12 12z"/></symbol><symbol id="i-hf" viewBox="0 0 24 24"><path fill="currentColor" d="M12.025 1.13c-5.77 0-10.449 4.647-10.449 10.378 0 1.112.178 2.181.503 3.185.064-.222.203-.444.416-.577a.96.96 0 0 1 .524-.15c.293 0 .584.124.84.284.278.173.48.408.71.694.226.282.458.611.684.951v-.014c.017-.324.106-.622.264-.874s.403-.487.762-.543c.3-.047.596.06.787.203s.31.313.4.467c.15.257.212.468.233.542.01.026.653 1.552 1.657 2.54.616.605 1.01 1.223 1.082 1.912.055.537-.096 1.059-.38 1.572.637.121 1.294.187 1.967.187.657 0 1.298-.063 1.921-.178-.287-.517-.44-1.041-.384-1.581.07-.69.465-1.307 1.081-1.913 1.004-.987 1.647-2.513 1.657-2.539.021-.074.083-.285.233-.542.09-.154.208-.323.4-.467a1.08 1.08 0 0 1 .787-.203c.359.056.604.29.762.543s.247.55.265.874v.015c.225-.34.457-.67.683-.952.23-.286.432-.52.71-.694.257-.16.547-.284.84-.285a.97.97 0 0 1 .524.151c.228.143.373.388.43.625l.006.04a10.3 10.3 0 0 0 .534-3.273c0-5.731-4.678-10.378-10.449-10.378M8.327 6.583a1.5 1.5 0 0 1 .713.174 1.487 1.487 0 0 1 .617 2.013c-.183.343-.762-.214-1.102-.094-.38.134-.532.914-.917.71a1.487 1.487 0 0 1 .69-2.803m7.486 0a1.487 1.487 0 0 1 .689 2.803c-.385.204-.536-.576-.916-.71-.34-.12-.92.437-1.103.094a1.487 1.487 0 0 1 .617-2.013 1.5 1.5 0 0 1 .713-.174m-10.68 1.55a.96.96 0 1 1 0 1.921.96.96 0 0 1 0-1.92m13.838 0a.96.96 0 1 1 0 1.92.96.96 0 0 1 0-1.92M8.489 11.458c.588.01 1.965 1.157 3.572 1.164 1.607-.007 2.984-1.155 3.572-1.164.196-.003.305.12.305.454 0 .886-.424 2.328-1.563 3.202-.22-.756-1.396-1.366-1.63-1.32q-.011.001-.02.006l-.044.026-.01.008-.03.024q-.018.017-.035.036l-.032.04a1 1 0 0 0-.058.09l-.014.025q-.049.088-.11.19a1 1 0 0 1-.083.116 1.2 1.2 0 0 1-.173.18q-.035.029-.075.058a1.3 1.3 0 0 1-.251-.243 1 1 0 0 1-.076-.107c-.124-.193-.177-.363-.337-.444-.034-.016-.104-.008-.2.022q-.094.03-.216.087-.06.028-.125.063l-.13.074q-.067.04-.136.086a3 3 0 0 0-.135.096 3 3 0 0 0-.26.219 2 2 0 0 0-.12.121 2 2 0 0 0-.106.128l-.002.002a2 2 0 0 0-.09.132l-.001.001a1.2 1.2 0 0 0-.105.212q-.013.036-.024.073c-1.139-.875-1.563-2.317-1.563-3.203 0-.334.109-.457.305-.454m.836 10.354c.824-1.19.766-2.082-.365-3.194-1.13-1.112-1.789-2.738-1.789-2.738s-.246-.945-.806-.858-.97 1.499.202 2.362c1.173.864-.233 1.45-.685.64-.45-.812-1.683-2.896-2.322-3.295s-1.089-.175-.938.647 2.822 2.813 2.562 3.244-1.176-.506-1.176-.506-2.866-2.567-3.49-1.898.473 1.23 2.037 2.16c1.564.932 1.686 1.178 1.464 1.53s-3.675-2.511-4-1.297c-.323 1.214 3.524 1.567 3.287 2.405-.238.839-2.71-1.587-3.216-.642-.506.946 3.49 2.056 3.522 2.064 1.29.33 4.568 1.028 5.713-.624m5.349 0c-.824-1.19-.766-2.082.365-3.194 1.13-1.112 1.789-2.738 1.789-2.738s.246-.945.806-.858.97 1.499-.202 2.362c-1.173.864.233 1.45.685.64.451-.812 1.683-2.896 2.322-3.295s1.089-.175.938.647-2.822 2.813-2.562 3.244 1.176-.506 1.176-.506 2.866-2.567 3.49-1.898-.473 1.23-2.037 2.16c-1.564.932-1.686 1.178-1.464 1.53s3.675-2.511 4-1.297c.323 1.214-3.524 1.567-3.287 2.405.238.839 2.71-1.587 3.216-.642.506.946-3.49 2.056-3.522 2.064-1.29.33-4.568 1.028-5.713-.624"/></symbol><symbol id="i-terminal" viewBox="0 0 24 24"><rect x="2.5" y="4" width="19" height="16" rx="3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 9.5l3 2.5-3 2.5M12.5 15h4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v7a2.5 2.5 0 0 1-2.5 2.5H10l-4.5 4v-4H6.5A2.5 2.5 0 0 1 4 13.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="i-table" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 9.5h18M3 14.5h18M9.5 9.5V20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol></svg>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="./"><img src="assets/icon.png" width="24" height="24" alt="">Unroll</a>
+    <nav class="site-nav" aria-label="Main">
+      <a class="hide-sm" href="./#demo">Demo</a>
+      <a class="hide-sm" href="./#formats">Formats</a>
+      <a class="keep" href="guide.html" aria-current="page">Guide</a>
+      <a class="hide-sm" href="https://github.com/mhermon/unroll">GitHub</a>
+      <a class="button quiet small" href="./#install">Install</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap doc">
+  <nav class="toc" aria-label="On this page">
+    <p>On this page</p>
+    <ol>
+      <li><a href="#open">Open a file</a></li>
+      <li><a href="#search">Search and filter</a></li>
+      <li><a href="#tools">Tool calls</a></li>
+      <li><a href="#records">Records and source</a></li>
+      <li><a href="#live">Growing files</a></li>
+      <li><a href="#keys">Keyboard</a></li>
+      <li><a href="#formats">Formats</a></li>
+      <li><a href="#counts">Content counts</a></li>
+      <li><a href="#limits">Limits</a></li>
+      <li><a href="#help">Troubleshooting</a></li>
+    </ol>
+  </nav>
+
+  <main id="main" class="prose">
+    <h1>Using Unroll</h1>
+    <p class="lede">How to open a conversation file, move around it, and check the original records. To follow along, download the <a href="examples/checkout-debug.jsonl" download>example file</a>.</p>
+
+    <h2 id="open">Open a file</h2>
+    <p>Open any <code>.jsonl</code>, <code>.ndjson</code> or <code>.json</code> file, then choose <strong>Unroll: Open as Agent Trace</strong>. It’s in the file’s right-click menu, the editor’s preview icon and the Command Palette. You can also use <strong>Reopen Editor With… → Agent Trace (Unroll)</strong>.</p>
+    <p>The normal text editor stays the default for these file types.</p>
+
+    <h2 id="search">Search and filter</h2>
+    <p>Press <kbd>Ctrl</kbd><kbd>F</kbd> (<kbd>Cmd</kbd><kbd>F</kbd> on macOS) or <kbd>/</kbd> to search. Search covers message text, tool names, arguments and results.</p>
+    <p>The role tabs (All, User, Assistant, Tool, System) filter the selected conversation. Files with more than one conversation get a picker next to the search box. Step numbers always match the original file, including when you filter.</p>
+
+    <h2 id="tools">Tool calls</h2>
+    <p>Expand a call to see its arguments. Below it, <strong>result at step N</strong> isolates the call and its result together; clear the filter to go back. Results stay in chronological order in the main list.</p>
+    <p>Pairing uses the call IDs in the trace. Gemini records without IDs can pair by tool name. When a match is ambiguous, Unroll leaves it unpaired rather than guessing.</p>
+
+    <h2 id="records">Original records and source</h2>
+    <p>Hover a step to show three actions:</p>
+    <ul>
+      <li><strong>Record</strong> shows the original JSON for that step.</li>
+      <li><strong>Copy</strong> copies the step’s content.</li>
+      <li><strong>L<em>n</em></strong> opens the source file beside the preview at that line.</li>
+    </ul>
+    <p class="muted">For a single JSON array, the source link opens the start of the document. Record previews are capped at 2,097,152 characters.</p>
+
+    <h2 id="live">Files that are still being written</h2>
+    <p>The preview updates as the source changes, including unsaved edits. Turn on <strong>Follow latest</strong> (<kbd>F</kbd>) to keep the newest matching steps in view while new lines are added to the file. Scrolling up or changing a filter pauses following.</p>
+    <p>A half-written final JSONL line doesn’t hide the valid records before it.</p>
+
+    <h2 id="keys">Keyboard</h2>
+    <p>Press <kbd>?</kbd> in the preview for the full reference.</p>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Keys</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td><kbd>J</kbd><kbd>K</kbd></td><td>Next / previous step</td></tr>
+          <tr><td><kbd>N</kbd><kbd>P</kbd></td><td>Next / previous tool call</td></tr>
+          <tr><td><kbd>[</kbd><kbd>]</kbd></td><td>Previous / next page (60 steps per page)</td></tr>
+          <tr><td><kbd>R</kbd><kbd>O</kbd></td><td>Original record / open source line</td></tr>
+          <tr><td><kbd>F</kbd></td><td>Follow latest</td></tr>
+          <tr><td><kbd>T</kbd></td><td>Trajectory map</td></tr>
+          <tr><td><kbd>/</kbd></td><td>Search</td></tr>
+          <tr><td><kbd>?</kbd></td><td>Shortcut reference</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Shortcuts apply to the focused preview. Single-letter keys are ignored while you type in an input. Rebind any command in VS Code’s Keyboard Shortcuts editor.</p>
+    <p class="muted">Command and setting IDs keep the <code>chatview.*</code> prefix for compatibility with earlier builds.</p>
+    <p>The trajectory map covers every filtered step, colored by role. Click a tick to jump there; the page changes with it.</p>
+
+    <h2 id="formats">Formats</h2>
+    <p>Files can be JSONL, NDJSON or a single JSON array. These record shapes are recognized:</p>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Source</th><th>Recognized content</th></tr></thead>
+        <tbody>
+          <tr><td><svg class="logo" aria-hidden="true"><use href="#i-claudecode"/></svg>Claude Code, Anthropic</td><td>Message envelopes, text, thinking, tool use and tool results</td></tr>
+          <tr><td><svg class="logo" aria-hidden="true"><use href="#i-terminal"/></svg>Codex, OpenAI Responses</td><td><code>response_item</code> and <code>event_msg</code> records, messages, function calls, custom tools and outputs</td></tr>
+          <tr><td><svg class="logo" aria-hidden="true"><use href="#i-chat"/></svg>OpenAI Chat Completions</td><td><code>role</code> / <code>content</code> messages and <code>tool_calls</code></td></tr>
+          <tr><td><svg class="logo" aria-hidden="true"><use href="#i-gemini"/></svg>Gemini</td><td>Model messages, parts, function calls and responses</td></tr>
+          <tr><td><svg class="logo" aria-hidden="true"><use href="#i-vercel"/></svg>Vercel AI SDK</td><td>Text, reasoning and tool parts</td></tr>
+          <tr><td><svg class="logo" aria-hidden="true"><use href="#i-otel"/></svg>OpenTelemetry GenAI</td><td><code>gen_ai.input.messages</code> and <code>gen_ai.output.messages</code> span attributes</td></tr>
+          <tr><td><svg class="logo" aria-hidden="true"><use href="#i-langchain"/></svg>LangChain, LangGraph</td><td>Human, AI and tool messages, including nested state dumps</td></tr>
+          <tr><td><svg class="logo" aria-hidden="true"><use href="#i-table"/></svg>ShareGPT, datasets</td><td>Conversation and message envelopes</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Records that don’t match any shape remain available as events. Provider names describe compatible formats, not affiliation.</p>
+
+    <h2 id="counts">Content counts</h2>
+    <p>Click the document total in the header to cycle between estimated tokens, words and Unicode characters. Counts include recognized text, reasoning, tool names, arguments and results, and leave out envelopes and non-text payloads.</p>
+    <div class="callout"><p>The total describes recorded text across the whole file. It isn’t the context size of any single request, and it isn’t billed usage.</p></div>
+
+    <h2 id="limits">Limits</h2>
+    <ul>
+      <li>Preview release for desktop VS Code 1.96 or newer. It needs a Node extension host, so it doesn’t run in standalone vscode.dev.</li>
+      <li>The default maximum file size is 100 MB. Change it with <strong>Unroll: Max File Size MB</strong> (<code>chatview.maxFileSizeMB</code>).</li>
+      <li>Parsing is synchronous and in memory, not streamed. Very large single records and broad searches can be slow.</li>
+      <li>Parquet files and editing belong to the separate browser/Python app, not this extension.</li>
+    </ul>
+
+    <h2 id="help">Troubleshooting</h2>
+    <p>If a file shows no recognized messages, turn on metadata events in <strong>View</strong> and look at the source. Invalid JSONL lines are listed in an expandable notice at the top of the preview. If the preview fails to load, reopen it and check the <strong>Unroll</strong> output channel.</p>
+    <p><a href="https://github.com/mhermon/unroll/issues/new/choose">Report a problem</a> with your extension version, VS Code version, OS and a small sanitized example. Never attach credentials or private conversations.</p>
+    <p class="muted">No telemetry, account, provider calls or remote trace images. Processing happens in the extension host and webview, which can be your remote development environment. <a href="privacy.html">Privacy details</a></p>
+  </main>
+</div>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <a class="brand" href="./"><img src="assets/icon.png" width="24" height="24" alt="">Unroll</a>
+    <nav aria-label="Footer">
+      <a href="guide.html">Guide</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="https://github.com/mhermon/unroll/releases">Releases</a>
+      <a href="https://github.com/mhermon/unroll/issues/new/choose">Report a bug</a>
+      <a href="LICENSE">MIT license</a>
+    </nav>
+  </div>
+</footer>
+</body>
+</html>

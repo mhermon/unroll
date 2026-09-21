@@ -1,1 +1,69 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Walkthrough transcript | RunTranscript</title><meta name="description" content="Walkthrough transcript for RunTranscript, the AI agent trace viewer for VS Code."><link rel="canonical" href="https://mhermon.github.io/runtranscript/demo-transcript.html"><link rel="stylesheet" href="style.css"><link rel="icon" href="assets/icon.png"></head><body><nav aria-label="Main"><a class="brand" href="./"><img src="assets/icon.png" width="32" height="32" alt="">RunTranscript</a><div class="nav-links"><a href="guide.html">Guide</a><a href="./#demo">Demo</a><a href="https://github.com/mhermon/runtranscript/issues">Feedback</a></div></nav><main class="prose"><h1>Walkthrough transcript</h1><p>This recording uses a synthetic checkout test investigation in the actual VS Code extension. It contains no private conversations.</p><ol><li>Open the JSONL trace as a readable conversation.</li><li>Search for the failed test output.</li><li>Follow the result back to the tool call and inspect its arguments.</li><li>Open the original record and jump to the matching source line.</li></ol><p>The tool activity shown is recorded data. RunTranscript does not execute the test or change the sample project.</p><p><a href="./#demo">Watch the walkthrough</a> or <a href="examples/checkout-debug.jsonl">download the example</a>.</p></main><footer><a href="./">RunTranscript home</a><a href="privacy.html">Privacy</a></footer></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Walkthrough transcript | Unroll</title>
+<meta name="description" content="Text transcript of the Unroll walkthrough video.">
+<link rel="canonical" href="https://mhermon.github.io/unroll/demo-transcript.html">
+<meta name="theme-color" content="#1a1a1c" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f4f4f6" media="(prefers-color-scheme: light)">
+<link rel="icon" href="assets/icon.png">
+<link rel="preload" href="assets/fonts/instrument-sans.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="./"><img src="assets/icon.png" width="24" height="24" alt="">Unroll</a>
+    <nav class="site-nav" aria-label="Main">
+      <a class="hide-sm" href="./#demo">Demo</a>
+      <a class="hide-sm" href="./#formats">Formats</a>
+      <a class="keep" href="guide.html">Guide</a>
+      <a class="hide-sm" href="https://github.com/mhermon/unroll">GitHub</a>
+      <a class="button quiet small" href="./#install">Install</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap doc single">
+  <main id="main" class="prose">
+    <h1>Walkthrough transcript</h1>
+    <p class="lede">A text version of the 48-second walkthrough on the <a href="./#demo">home page</a>. It was recorded from the extension’s viewer running inside a drawn, VS Code-style window, using two synthetic example files. The window frame, context menu and conversation dropdown are drawn for the recording; everything inside the preview is the extension’s own output.</p>
+
+    <h2>What happens</h2>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Time</th><th>On screen</th></tr></thead>
+        <tbody>
+          <tr><td>0:00</td><td>A Claude Code session is open as raw JSONL. Every line starts with the same envelope fields, so the conversation isn’t readable. The file is opened with <strong>Unroll: Open as Agent Trace</strong> and appears as a conversation.</td></tr>
+          <tr><td>0:07</td><td>A <code>Bash</code> tool call shows its formatted arguments. Clicking <strong>result at step 4</strong> shows the call and its result together.</td></tr>
+          <tr><td>0:12</td><td>The result switches to its original JSON record, with every field from the log.</td></tr>
+          <tr><td>0:16</td><td>The record’s line opens in the source file beside the preview, on line 4.</td></tr>
+          <tr><td>0:22</td><td>Searching for <code>tool_calls</code> finds an assistant message and a <code>Grep</code> call whose arguments contain the text.</td></tr>
+          <tr><td>0:29</td><td>With Follow latest on, two new records are added to the file. The tool result and the final answer, with a table, appear at the bottom.</td></tr>
+          <tr><td>0:36</td><td>A chat dataset with two conversations opens in another tab. The conversation picker switches to the second one.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>The tool calls shown are recorded data. Unroll doesn’t run them.</p>
+    <p><a href="./#demo">Watch the walkthrough</a> or download the <a href="examples/chat-samples.jsonl" download>chat dataset</a> and <a href="examples/claude-session.jsonl" download>Claude Code session</a>.</p>
+  </main>
+</div>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <a class="brand" href="./"><img src="assets/icon.png" width="24" height="24" alt="">Unroll</a>
+    <nav aria-label="Footer">
+      <a href="guide.html">Guide</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="https://github.com/mhermon/unroll/releases">Releases</a>
+      <a href="https://github.com/mhermon/unroll/issues/new/choose">Report a bug</a>
+      <a href="LICENSE">MIT license</a>
+    </nav>
+  </div>
+</footer>
+</body>
+</html>

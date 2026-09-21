@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.6.0
+
+- Rename the extension to Unroll (extension ID `mhermon.unroll`). Uninstall `mhermon.runtranscript` before installing Unroll in the same profile. Command and setting IDs keep the `chatview.*` prefix, so keybindings and settings carry over.
+- Describe the extension as a viewer for agent traces and chat logs, including chat datasets.
+- New website, README, walkthrough video and synthetic examples (a Claude Code session and a chat dataset).
+
 ## 0.5.0
 
 - Introduce RunTranscript, the AI agent trace viewer for VS Code.

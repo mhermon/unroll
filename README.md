@@ -1,60 +1,71 @@
-# RunTranscript
+# Unroll
 
-**Read AI agent traces as conversations inside VS Code.**
+**Read agent traces and chat logs in VS Code.**
 
-Open Claude Code, Codex, and other JSONL transcripts. Follow the conversation, inspect tool calls, and find the original source record. No server, account, Python installation, or API key required.
+Unroll opens a JSONL conversation file as a chat you can scroll, search and filter. Use it on sessions you record yourself, such as Claude Code or Codex logs, or on JSONL datasets you download from Hugging Face or a repository.
 
-![RunTranscript showing an agent investigating a failing checkout test](https://mhermon.github.io/runtranscript/assets/overview.png)
+No account, API key, server or Python install needed.
 
-## Start with a trace
+![A complete saved chat with clear roles, formatted paragraphs and code](https://mhermon.github.io/unroll/assets/overview.png)
 
-1. Install **RunTranscript — AI Agent Trace Viewer** from the VS Code Marketplace, or download a VSIX from [Releases](https://github.com/mhermon/runtranscript/releases).
-2. Open a `.jsonl`, `.ndjson`, or `.json` file. [Download a synthetic example](https://mhermon.github.io/runtranscript/examples/checkout-debug.jsonl).
-3. Right-click the file and choose **RunTranscript: Open as Agent Trace**.
+## Getting started
 
-You can also use the editor’s preview icon, the Command Palette, or **Reopen Editor With… → Agent Trace (RunTranscript)**. The normal text editor remains the default.
+1. Download the VSIX from [Releases](https://github.com/mhermon/unroll/releases/latest) and choose **Extensions → … → Install from VSIX…** in VS Code. A Marketplace listing is on the way.
+2. Open a `.jsonl`, `.ndjson` or `.json` file. To try it first, [download the example file](https://mhermon.github.io/unroll/examples/claude-session.jsonl).
+3. Right-click the file and choose **Unroll: Open as Agent Trace**.
 
-## Find the step that matters
+You can also use the preview icon in the editor title bar, the Command Palette, or **Reopen Editor With… → Agent Trace (Unroll)**. The normal text editor stays the default.
 
-- **Search the run.** Find message text, tool names, arguments, and results with Ctrl/Cmd+F. Filter by role.
-- **Inspect tool activity.** Expand arguments and follow the connection between a call and its recorded result.
-- **Check the original.** Open a step’s JSON record or jump to its source line beside the preview.
-- **Follow a growing trace.** Enable Follow latest to stay with new steps as the file changes.
-- **Navigate long conversations.** Use the trajectory map, stable step numbers, and keyboard shortcuts.
+Try the downloadable [chat dataset](https://mhermon.github.io/unroll/examples/chat-samples.jsonl) or [agent trace](https://mhermon.github.io/unroll/examples/claude-session.jsonl). Both are synthetic examples used in the screenshots.
 
-![A short recording of search and tool inspection in RunTranscript](https://mhermon.github.io/runtranscript/assets/walkthrough.gif)
+## Features
 
-[Watch the walkthrough with captions](https://mhermon.github.io/runtranscript/#demo) · [Read the full guide](https://mhermon.github.io/runtranscript/guide.html)
+- **Search and filter.** Search message text, tool names, arguments and results with Ctrl/Cmd+F, and filter by role.
+- **Readable tool calls.** Arguments are formatted, and each call links to its result.
+- **Original JSON.** Show the record a message came from, or open its line in the source file.
+- **Growing files.** The preview updates as lines are added. Follow latest keeps the newest messages in view.
+- **Long files.** Move around with the step map, stable step numbers and keyboard shortcuts.
+
+![Opening a Claude Code session in Unroll, following a tool call, searching and switching to a chat dataset](https://mhermon.github.io/unroll/assets/walkthrough.gif)
+
+[Watch the walkthrough with captions](https://mhermon.github.io/unroll/#demo) · [Read the guide](https://mhermon.github.io/unroll/guide.html)
 
 ## Supported formats
 
-| Trace or dataset | Recognized content |
+| Source | Recognized content |
 | --- | --- |
 | Claude Code / Anthropic | Message envelopes, text, thinking, tool use and tool results |
 | Codex / OpenAI Responses | Response items, messages, function calls, custom tools and outputs |
 | OpenAI Chat Completions | Role/content messages and tool calls |
 | Gemini | Model messages, parts, function calls and responses |
 | Vercel AI SDK | Text, reasoning and tool parts |
-| OpenTelemetry GenAI | Input/output message attributes in spans |
+| OpenTelemetry GenAI | Input and output message attributes on spans |
 | LangChain / LangGraph | Human, AI and tool messages, including nested state dumps |
-| ShareGPT / conversation datasets | Conversation and message envelopes |
+| ShareGPT / chat datasets | Conversation and message envelopes |
 
-These are recognized record shapes, not a promise to parse every export from each provider. Unrecognized records remain available as original events. Files may contain JSONL records or a single JSON array. Parquet belongs to the separate browser/Python application and is not supported by this extension.
+Files can be JSONL or a single JSON array. Formats vary between tools and versions, so some files may only partly match. Records that aren’t recognized are still shown as raw events. Parquet isn’t supported.
 
-## Built for your editor
+## Themes and shortcuts
 
-![RunTranscript in a light VS Code theme](https://mhermon.github.io/runtranscript/assets/light.png)
+![Unroll in a light VS Code theme](https://mhermon.github.io/unroll/assets/light.png)
 
-Press **?** in the preview for shortcuts. Use **J/K** for steps, **N/P** for tool calls, **R** for the original record, and **O** for source. Single-letter shortcuts yield while you type in inputs.
+Unroll uses your VS Code theme. Press **?** in the preview to see all shortcuts. The main ones are **J/K** for steps, **N/P** for tool calls, **R** for the original record and **O** for the source line. Single-letter shortcuts are ignored while you type in an input.
 
-## Privacy and limits
+## Privacy
 
-The extension processes trace content in the VS Code extension host and webview. In a remote workspace, that host can be remote. It has no telemetry or model-provider connection, does not execute recorded tools, does not load remote images from traces, and does not modify trace files. External Markdown links open only when clicked. See [Privacy](https://mhermon.github.io/runtranscript/privacy.html).
+Unroll only reads and displays the file you open. It has no telemetry and doesn’t connect to any model provider. It doesn’t run recorded tool calls, load remote images from file content, or change your files. Markdown links open only when you click them.
 
-VS Code 1.96 or newer is required. This is a desktop extension; a standalone vscode.dev browser host is not supported. The default file limit is **100 MB**. Parsing is in memory; it is not a streaming parser. JSON-array source links open the start of the document. Token counts are heuristic estimates of recorded text, not billed usage or a request’s context size.
+Files are processed in the VS Code extension host and webview. In a remote workspace, that can be the remote machine. See the [privacy page](https://mhermon.github.io/unroll/privacy.html) for details.
 
-## Help and feedback
+## Requirements and limits
 
-[Report a bug or unsupported format](https://github.com/mhermon/runtranscript/issues/new/choose). Include your extension version, VS Code version, OS, and a small sanitized example. Never attach credentials or private conversations.
+- Desktop VS Code 1.96 or newer. Standalone vscode.dev isn’t supported.
+- Files up to 100 MB by default. Files are parsed in memory.
+- In a JSON array file, source links open the start of the document.
+- Token counts are estimates of the text in the file. They aren’t billed usage or the context size of a request.
 
-RunTranscript is a preview release. The public repository contains documentation, examples and binary releases; implementation source is maintained privately. The distributed extension is MIT licensed. Provider names describe compatible formats and do not imply affiliation.
+## Feedback
+
+[Report a bug or an unsupported format](https://github.com/mhermon/unroll/issues/new/choose). Include your extension version, VS Code version, OS and a small sanitized example. Don’t attach credentials or private conversations.
+
+Unroll is a preview release under the MIT license. This repository has documentation, examples and release builds; the source code is maintained privately. Provider names describe compatible formats and don’t imply affiliation.
