@@ -4,11 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Unroll | Agent Trace & Chat Log Viewer for VS Code</title>
-<meta name="description" content="Read agent traces and chat logs in VS Code. Unroll shows Claude Code, Codex and other JSONL conversation files as a readable chat, with search, formatted tool calls and links back to the source. Free, no account.">
+<meta name="description" content="Unroll is a free VS Code extension for reading agent traces and chat logs. Open Claude Code sessions, Codex logs and Hugging Face trajectory datasets as a searchable conversation, and check any step against the raw JSON. Fast on large files, and your data never leaves your machine.">
 <link rel="canonical" href="https://mhermon.github.io/unroll/">
-<meta property="og:title" content="Unroll: read agent traces in VS Code">
-<meta property="og:description" content="Read Claude Code, Codex and other JSONL conversation files as a chat in VS Code.">
-<meta property="og:image" content="https://mhermon.github.io/unroll/assets/overview.png">
+<meta property="og:title" content="Unroll: read agent traces like a conversation">
+<meta property="og:description" content="See every message, tool call and result in order. A free VS Code extension for Claude Code sessions, Codex logs and trajectory datasets. Fast on large files, and your data stays on your machine.">
+<meta property="og:image" content="https://mhermon.github.io/unroll/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Unroll: read agent traces like a conversation, in VS Code">
 <meta property="og:url" content="https://mhermon.github.io/unroll/">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
@@ -27,6 +30,7 @@
   <div class="wrap">
     <a class="brand" href="./"><img src="assets/icon.png" width="24" height="24" alt="">Unroll</a>
     <nav class="site-nav" aria-label="Main">
+      <a class="hide-sm" href="#features">Features</a>
       <a class="hide-sm" href="#demo">Demo</a>
       <a class="hide-sm" href="#formats">Formats</a>
       <a class="keep" href="guide.html">Guide</a>
@@ -37,156 +41,143 @@
 </header>
 
 <main id="main">
-  <section class="wrap hero">
-    <h1>Read agent traces and chat logs in VS Code.</h1>
-    <div class="hero-body">
-      <p class="lede">Unroll shows a JSONL conversation file as a chat you can scroll, search and filter. Use it on runs you record yourself, like <strong class="named"><svg class="logo" aria-hidden="true"><use href="#i-claudecode"/></svg>Claude Code</strong> or <strong class="named"><svg class="logo" aria-hidden="true"><use href="#i-terminal"/></svg>Codex</strong> sessions, or on datasets you download from <strong class="named"><svg class="logo" aria-hidden="true"><use href="#i-hf"/></svg>Hugging Face</strong> or a repo, to see what the conversations actually look like.</p>
-      <div class="actions">
-        <a class="button primary" href="https://github.com/mhermon/unroll/releases/latest">
-          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v8m0 0L4.5 6.5M8 10l3.5-3.5M2.5 13.5h11"/></svg>
-          Download for VS Code
-        </a>
-        <a class="button quiet" href="#demo">Watch the demo</a>
-      </div>
+  <section class="wrap hero" aria-labelledby="hero-title">
+    <h1 id="hero-title">Read agent traces like a conversation.</h1>
+    <p class="lede">Open a <strong class="named"><svg class="logo" aria-hidden="true"><use href="#i-claudecode"/></svg>Claude Code</strong> session, a <strong class="named"><svg class="logo" aria-hidden="true"><use href="#i-terminal"/></svg>Codex</strong> log or a trajectory dataset from <strong class="named"><svg class="logo" aria-hidden="true"><use href="#i-hf"/></svg>Hugging Face</strong> and see every message, tool call and result in order. Check any step against the raw JSON. Your data never leaves your machine.</p>
+    <div class="actions">
+      <a class="button primary" href="https://github.com/mhermon/unroll/releases/latest">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v8m0 0L4.5 6.5M8 10l3.5-3.5M2.5 13.5h11"/></svg>
+        Download for VS Code
+      </a>
+      <a class="button quiet" href="#demo">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3.2v9.6L12.6 8z" fill="currentColor"/></svg>
+        Watch the 1-minute tour
+      </a>
     </div>
-    <ul class="facts" aria-label="At a glance">
-      <li>Free, MIT licensed</li>
-      <li>VS Code 1.96+</li>
-      <li>Windows, macOS, Linux</li>
-      <li>No account or telemetry</li>
-    </ul>
+    <p class="facts">Free and MIT licensed. Works offline in VS Code 1.96 or newer on Windows, macOS and Linux.</p>
   </section>
 
   <div class="wrap">
-    <figure class="shot hero-shot">
-      <a href="assets/overview.png" aria-label="View the full-size chat screenshot"><picture>
-        <source srcset="assets/light.png" media="(prefers-color-scheme: light)" width="1229" height="768">
-        <img src="assets/overview.png" width="2416" height="1480" alt="A complete saved chat in Unroll: clear user and assistant turns, formatted paragraphs, a list and a Python code block">
+    <figure class="stage hero-shot">
+      <a href="assets/overview.png" aria-label="View the full-size screenshot"><picture>
+        <source srcset="assets/light.png" media="(prefers-color-scheme: light)" width="2416" height="1480">
+        <img src="assets/overview.png" width="2416" height="1480" alt="A Claude Code session in Unroll: the user’s request, the assistant’s reasoning, a Bash tool call linked to its result, and the failing test output">
       </picture></a>
-      <figcaption>A saved chat from the <a href="examples/chat-samples.jsonl" download>synthetic chat dataset</a>, in your editor’s theme. Light theme: a VS Code capture. Dark theme: the extension’s viewer rendered in a VS Code-style frame.</figcaption>
     </figure>
   </div>
 
-  <section class="wrap section" aria-labelledby="same-file">
-    <div class="section-head">
-      <h2 id="same-file">The same file, easier to read.</h2>
-      <p>Messages have clear roles and step numbers. Tool calls show their arguments and link to their results. Open the original JSONL alongside the preview whenever you need it. Your file isn’t changed.</p>
-    </div>
-    <figure class="shot source-comparison">
-      <a href="assets/source.png" aria-label="View the full-size preview and JSONL source screenshot"><img loading="lazy" src="assets/source.png" width="1229" height="768" alt="The same recorded read_file call and result in two views: formatted on the left, original JSONL with line 4 selected on the right"></a>
-      <figcaption>The readable preview and its source, side by side. Select any screenshot to view it full size.</figcaption>
-    </figure>
+  <section class="wrap strip" aria-label="What Unroll reads">
+    <p>Reads the logs your tools already write</p>
+    <ul>
+      <li><svg class="logo" aria-hidden="true"><use href="#i-claudecode"/></svg>Claude Code</li>
+      <li><svg class="logo" aria-hidden="true"><use href="#i-terminal"/></svg>Codex</li>
+      <li><svg class="logo" aria-hidden="true"><use href="#i-chat"/></svg>OpenAI</li>
+      <li><svg class="logo" aria-hidden="true"><use href="#i-gemini"/></svg>Gemini</li>
+      <li><svg class="logo" aria-hidden="true"><use href="#i-vercel"/></svg>AI SDK</li>
+      <li><svg class="logo" aria-hidden="true"><use href="#i-langchain"/></svg>LangChain</li>
+      <li><svg class="logo" aria-hidden="true"><use href="#i-otel"/></svg>OpenTelemetry</li>
+      <li><svg class="logo" aria-hidden="true"><use href="#i-hf"/></svg>HF datasets</li>
+    </ul>
   </section>
 
-  <section class="wrap section" aria-labelledby="features">
+  <section class="wrap section" id="features" aria-labelledby="features-title">
     <div class="section-head">
-      <h2 id="features">Made for reading long conversations.</h2>
-      <p>Move around a file, find specific messages and check the underlying JSON without scrolling through raw lines.</p>
+      <h2 id="features-title">See what the agent actually did.</h2>
+      <p>Each step shows who said it, when, and which line of the file it came from. Tool calls are tied to their results, reasoning folds away until you want it, and steps stay in the order they were recorded.</p>
     </div>
-    <div class="features">
-      <article class="entry feature assistant">
-        <div class="entry-gutter"><span class="entry-role">Conversations</span></div>
-        <div class="entry-main">
-          <div><h3>Look through a saved dataset</h3><p>When a file contains several conversations, choose one and read its turns together. Useful for checking what a downloaded JSONL dataset actually contains.</p></div>
-          <a class="crop" style="--x:10;--y:78;--w:1200;--h:505" href="assets/conversations.png" aria-label="View the full-size dataset screenshot"><img loading="lazy" src="assets/conversations.png" width="1229" height="768" alt="The conversation selector showing the second chat in a two-conversation JSONL dataset, with its question and formatted answer"></a>
+
+    <div class="rows">
+      <article class="row">
+        <div class="row-text">
+          <h3>Follow each call to its result</h3>
+          <p>Arguments appear as readable fields, not escaped JSON strings. Select <em>result at line 4</em> to see a call next to everything it returned, even when the result arrived many steps later.</p>
         </div>
+        <a class="shot" href="assets/tool-inspection.png" aria-label="View the full-size tool call screenshot"><img loading="lazy" src="assets/tool-inspection.png" width="1560" height="1200" alt="A Bash call filtered by its call ID, shown directly above its failing test output"></a>
       </article>
-      <article class="entry feature user">
-        <div class="entry-gutter"><span class="entry-role">Search</span><span class="keys"><kbd>/</kbd> or <kbd>Ctrl</kbd><kbd>F</kbd></span></div>
-        <div class="entry-main">
-          <div>
-            <h3>Search and filter</h3>
-            <p>Search message text, tool names, arguments and results. Filter by role: user, assistant, tool or system.</p>
-          </div>
-          <a class="crop" style="--x:10;--y:112;--w:1200;--h:330" href="assets/search.png" aria-label="View full-size screenshot"><img loading="lazy" src="assets/search.png" width="1229" height="768" alt="Search for roles highlights the matching passage and shows one matching assistant message"></a>
+
+      <article class="row flip">
+        <div class="row-text">
+          <h3>Check it against the raw data</h3>
+          <p>The formatting never hides anything. Switch any message to the exact JSON record it came from, or open its line in the file beside the preview. Records Unroll doesn’t recognize stay available as raw events.</p>
         </div>
+        <a class="shot" href="assets/record.png" aria-label="View the full-size record screenshot"><img loading="lazy" src="assets/record.png" width="1560" height="1120" alt="An assistant message switched to its original Claude Code record: parentUuid, sessionId, gitBranch, message and usage fields"></a>
       </article>
-      <article class="entry feature tool">
-        <div class="entry-gutter"><span class="entry-role">Tool calls</span><span class="keys"><kbd>N</kbd><kbd>P</kbd></span></div>
-        <div class="entry-main">
-          <div>
-            <h3>Readable tool calls</h3>
-            <p>Arguments are formatted instead of escaped JSON strings, and each call links to its result. Click the link to see the two together.</p>
-          </div>
-          <a class="crop" style="--x:70;--y:200;--w:1130;--h:300" href="assets/tool-inspection.png" aria-label="View full-size screenshot"><img loading="lazy" src="assets/tool-inspection.png" width="1229" height="768" alt="A recorded read_file call with formatted path arguments, linked to its matching result"></a>
+
+      <article class="row">
+        <div class="row-text">
+          <h3>Find the step that matters</h3>
+          <p>Search messages, tool names, arguments and outputs, and filter by role. Matches are highlighted inside formatted arguments and results. On a long log, search covers the whole file and you can stop it at any time.</p>
         </div>
+        <a class="shot" href="assets/search.png" aria-label="View the full-size search screenshot"><img loading="lazy" src="assets/search.png" width="1560" height="1240" alt="Searching for applyCoupon highlights the Grep call’s pattern and the matching lines in its result and in the file it read"></a>
       </article>
-      <article class="entry feature assistant">
-        <div class="entry-gutter"><span class="entry-role">Record</span><span class="keys"><kbd>R</kbd></span></div>
-        <div class="entry-main">
-          <div>
-            <h3>See the original JSON</h3>
-            <p>Switch any message to the record it came from, to check field names and structure.</p>
-          </div>
-          <a class="crop" style="--x:70;--y:345;--w:1130;--h:355" href="assets/record.png" aria-label="View full-size screenshot"><img loading="lazy" src="assets/record.png" width="1229" height="768" alt="The original tool-result record, including role, tool_call_id, name, content and timestamp"></a>
+
+      <article class="row flip">
+        <div class="row-text">
+          <h3>Review a whole eval or dataset</h3>
+          <p>When each row is a full run, as in SWE-agent, OpenHands or τ-bench exports, Unroll lists every run with its outcome. Filter by id, field or message text, see each run’s model, reward or cost at the top, and step through runs with <kbd>⇧J</kbd> and <kbd>⇧K</kbd>.</p>
         </div>
+        <a class="shot" href="assets/conversations.png" aria-label="View the full-size dataset screenshot"><img loading="lazy" src="assets/conversations.png" width="1800" height="1200" alt="A dataset of eight agent runs: a list with resolved and failed outcomes, and the selected run’s model, cost and conversation"></a>
       </article>
-      <article class="entry feature system">
-        <div class="entry-gutter"><span class="entry-role">Source</span><span class="keys"><kbd>O</kbd></span></div>
-        <div class="entry-main">
-          <div>
-            <h3>Open the line in the file</h3>
-            <p>Open the source beside the preview, at the line for that message.</p>
-          </div>
-          <a class="crop" style="--x:0;--y:70;--w:1229;--h:665" href="assets/source.png" aria-label="View full-size screenshot"><img loading="lazy" src="assets/source.png" width="1229" height="768" alt="Readable tool call and result beside the unchanged JSONL source at line 4"></a>
-        </div>
-      </article>
-      <article class="entry feature feature-text">
-        <div class="entry-gutter"><span class="entry-role">Datasets</span><span class="keys"><kbd>C</kbd> <kbd>⇧J</kbd><kbd>⇧K</kbd></span></div>
-        <div class="entry-main">
-          <h3>Browse a file of many traces</h3>
-          <p>When each row holds a whole conversation, as in agent-trajectory datasets from Hugging Face, Unroll lists the rows with their size and outcome. Filter the list by id, field or message text, and read each row’s other fields, like model, reward or patch, above its conversation.</p>
-        </div>
-      </article>
-      <div class="feature-pair">
-        <article class="entry feature">
-          <div class="entry-gutter"><span class="entry-role">Live</span><span class="keys"><kbd>F</kbd></span></div>
-          <div class="entry-main">
-            <h3>Keep it open while a file grows</h3>
-            <p>The preview updates as lines are added. Follow latest keeps the newest messages in view.</p>
-          </div>
-        </article>
-        <article class="entry feature">
-          <div class="entry-gutter"><span class="entry-role">Map</span><span class="keys"><kbd>T</kbd></span></div>
-          <div class="entry-main">
-            <h3>Get around long files</h3>
-            <p>The map on the left shows every step, colored by role. Click to jump, or use <kbd>J</kbd> and <kbd>K</kbd>.</p>
-          </div>
-        </article>
-      </div>
     </div>
+
+    <ul class="notes">
+      <li>
+        <h3>Watch a run live</h3>
+        <p>Leave a session open while the agent works. New steps appear as they’re written; press <kbd>F</kbd> to follow the latest.</p>
+      </li>
+      <li>
+        <h3>Fast on big logs</h3>
+        <p>In benchmarks on a laptop, a 110 MB log with 110,000 messages shows its first messages in under a second, and jumping to the end is near-instant. Unroll reads what you scroll to, not the whole file.</p>
+      </li>
+      <li>
+        <h3>Move by keyboard</h3>
+        <p><kbd>J</kbd>/<kbd>K</kbd> between steps, <kbd>N</kbd>/<kbd>P</kbd> between tool calls, <kbd>R</kbd> for the raw record. Press <kbd>?</kbd> for the rest.</p>
+      </li>
+      <li>
+        <h3>Chat datasets too</h3>
+        <p>Spot-check fine-tuning or preference data: pick a conversation and read its turns with Markdown, tables and code rendered.</p>
+      </li>
+    </ul>
+  </section>
+
+  <section class="wrap section" aria-labelledby="source-title">
+    <div class="section-head">
+      <h2 id="source-title">The same file, easier to read.</h2>
+      <p>Unroll opens beside your file, never instead of it. Every message links to its line, so you can switch between the readable view and the raw JSONL at any point.</p>
+    </div>
+    <figure class="stage">
+      <a href="assets/source.png" aria-label="View the full-size preview and JSONL source screenshot"><img loading="lazy" src="assets/source.png" width="2416" height="1480" alt="A tool call and its result in Unroll on the left, and the same records as raw JSONL on the right with line 4 selected"></a>
+    </figure>
   </section>
 
   <section class="wrap section" id="demo" aria-labelledby="demo-title">
     <div class="section-head">
-      <h2 id="demo-title">From saved file to readable conversation.</h2>
-      <p>A 48-second tour: open a Claude Code session, follow a tool call, check the original record and source line, search, watch new lines arrive, then read a chat dataset. Recorded from the extension’s viewer inside a VS Code-style window, with synthetic example files.</p>
+      <h2 id="demo-title">One minute, start to finish.</h2>
+      <p>Open a Claude Code session, trace a failing test to its cause, check the raw record, search, watch new steps arrive, then review a dataset of agent runs. Recorded with the extension’s own viewer and made-up example files.</p>
     </div>
     <div class="demo">
       <video controls preload="metadata" playsinline poster="assets/walkthrough-poster.jpg" aria-label="Unroll walkthrough">
+        <source src="assets/walkthrough.webm" type="video/webm">
         <source src="assets/walkthrough.mp4" type="video/mp4">
         <track kind="captions" src="assets/walkthrough.vtt" srclang="en" label="English">
         <a href="assets/walkthrough.mp4">Download the walkthrough</a>
       </video>
-      <div>
-        <ol class="chapters" aria-label="Walkthrough chapters">
-          <li><button type="button" data-t="0"><time>0:00</time>Open a session log</button></li>
-          <li><button type="button" data-t="7.8"><time>0:07</time>Tool calls and results</button></li>
-          <li><button type="button" data-t="12.5"><time>0:12</time>Original JSON record</button></li>
-          <li><button type="button" data-t="16.4"><time>0:16</time>Source line</button></li>
-          <li><button type="button" data-t="22.7"><time>0:22</time>Search</button></li>
-          <li><button type="button" data-t="29"><time>0:29</time>Live updates</button></li>
-          <li><button type="button" data-t="36"><time>0:36</time>Chat datasets</button></li>
-        </ol>
-        <p class="demo-note">Silent, with on-screen explanations and optional captions. <a href="demo-transcript.html">Text transcript</a>.</p>
-      </div>
+      <ol class="chapters" aria-label="Walkthrough chapters">
+        <li><button type="button" data-t="0"><time>0:00</time>Open a session</button></li>
+        <li><button type="button" data-t="10.2"><time>0:10</time>Follow a tool call</button></li>
+        <li><button type="button" data-t="16.7"><time>0:16</time>Check the raw data</button></li>
+        <li><button type="button" data-t="28.2"><time>0:28</time>Search</button></li>
+        <li><button type="button" data-t="33.6"><time>0:33</time>Watch it live</button></li>
+        <li><button type="button" data-t="41.2"><time>0:41</time>Review a dataset</button></li>
+      </ol>
+      <p class="demo-note">No sound. On-screen notes explain each step, and captions and a <a href="demo-transcript.html">text transcript</a> are available.</p>
     </div>
   </section>
 
   <section class="wrap section" id="formats" aria-labelledby="formats-title">
     <div class="section-head">
       <h2 id="formats-title">Supported formats</h2>
-      <p>Open <code>.jsonl</code>, <code>.ndjson</code> or <code>.json</code> files directly. Unroll recognizes these message formats.</p>
+      <p>Open <code>.jsonl</code>, <code>.ndjson</code> or <code>.json</code> files. Unroll recognizes these formats, and still shows anything else as raw JSON events.</p>
     </div>
     <dl class="formats">
       <div><dt><svg class="logo" aria-hidden="true"><use href="#i-claudecode"/></svg>Claude Code, Anthropic</dt><dd>Message envelopes, text, thinking, tool use and results</dd></div>
@@ -198,53 +189,54 @@
       <div><dt><svg class="logo" aria-hidden="true"><use href="#i-langchain"/></svg>LangChain, LangGraph</dt><dd>Human, AI and tool messages, including state dumps</dd></div>
       <div><dt><svg class="logo" aria-hidden="true"><use href="#i-table"/></svg>Chat and trace datasets</dt><dd>One conversation per row: ShareGPT, SWE-agent, OpenHands, τ-bench and similar</dd></div>
     </dl>
-    <p class="fine">Exports differ between tools and versions, so some files may only partly match. Records that aren’t recognized are still shown as raw events. Parquet isn’t supported. <a href="guide.html#formats">Format details</a></p>
+    <p class="fine">Log formats change between tool versions, so a file may only partly match. If yours doesn’t read well, <a href="https://github.com/mhermon/unroll/issues/new/choose">send a small sanitized sample</a>. Parquet isn’t supported. <a href="guide.html#formats">Format details</a></p>
   </section>
 
   <section class="wrap section" id="install" aria-labelledby="install-title">
     <div class="install">
       <div class="section-head stacked">
         <h2 id="install-title">Install</h2>
-        <p>Unroll is a free preview release for desktop VS Code 1.96 or newer. It’s distributed as a VSIX file on GitHub.</p>
-        <div class="actions" style="margin-top:28px">
+        <p>Unroll is free and works with desktop VS Code 1.96 or newer. Until the Marketplace listing is live, install it from a VSIX file on GitHub. It takes about a minute.</p>
+        <div class="actions">
           <a class="button primary" href="https://github.com/mhermon/unroll/releases/latest">Download the VSIX</a>
-          <a class="button quiet" href="examples/claude-session.jsonl" download>Example file</a>
+          <a class="button quiet" href="examples/claude-session.jsonl" download>Try the example session</a>
         </div>
       </div>
       <div>
         <ol class="steps">
-          <li><h3>Install the VSIX</h3><p>In the Extensions view, open the <span class="menu-path">…</span> menu and choose <span class="menu-path">Install from VSIX…</span></p></li>
-          <li><h3>Open a file</h3><p>Any <code>.jsonl</code>, <code>.ndjson</code> or <code>.json</code> file, or the <a href="examples/claude-session.jsonl" download>example session</a>.</p></li>
-          <li><h3>Open it in Unroll</h3><p>Right-click the file and choose <span class="menu-path">Unroll: Open as Agent Trace</span>. The normal text editor stays the default.</p></li>
+          <li><h3>Download</h3><p>Get <code>unroll-&lt;version&gt;.vsix</code> from the latest <a href="https://github.com/mhermon/unroll/releases/latest">GitHub release</a>.</p></li>
+          <li><h3>Install it in VS Code</h3><p>In the Extensions view, open the <span class="menu-path">…</span> menu and choose <span class="menu-path">Install from VSIX…</span></p></li>
+          <li><h3>Open a trace</h3><p>Right-click a <code>.jsonl</code>, <code>.ndjson</code> or <code>.json</code> file and choose <span class="menu-path">Unroll: Open as Agent Trace</span>. Your usual text editor stays the default.</p></li>
         </ol>
-        <div class="cli" aria-label="Install from a terminal"><code>code --install-extension unroll-&lt;version&gt;.vsix</code></div>
+        <div class="cli" aria-label="Or install from a terminal"><code>code --install-extension unroll-&lt;version&gt;.vsix</code></div>
       </div>
     </div>
   </section>
 
   <section class="wrap section" aria-labelledby="privacy-title">
-    <div class="quiet-box">
+    <div class="privacy">
       <div class="section-head stacked">
-        <h2 id="privacy-title">Privacy</h2>
-        <p>The extension only reads and displays the file you open. <a href="privacy.html">Privacy details</a></p>
+        <h2 id="privacy-title">Your traces stay on your machine.</h2>
+        <p>Traces often hold source code, file paths, credentials and unreleased prompts. Unroll reads the file you open and displays it. That’s all it does. <a href="privacy.html">Privacy details</a></p>
       </div>
-      <ul class="checks">
-        <li>No telemetry, account or API key</li>
-        <li>Doesn’t run recorded tool calls</li>
-        <li>Doesn’t change your files</li>
-        <li>Doesn’t load remote images from file content</li>
-        <li>Doesn’t upload anything</li>
+      <ul class="plain-list">
+        <li>Sends nothing anywhere: no telemetry, account or API key</li>
+        <li>Never runs the tool calls recorded in a trace</li>
+        <li>Never changes your files</li>
+        <li>Doesn’t load remote images found in trace content</li>
+        <li>Works with no network connection</li>
       </ul>
     </div>
   </section>
 
   <section class="wrap closing" aria-labelledby="closing-title">
-    <h2 id="closing-title">Try a chat log or an agent trace.</h2>
-    <p>Start with the same synthetic files shown above, or open a conversation file you already have. If it doesn’t display correctly, share a small sanitized sample in an issue.</p>
+    <h2 id="closing-title">Open your last agent run.</h2>
+    <p>Or try the made-up example files used on this page. If one of your files doesn’t display correctly, a small sanitized sample in an issue is the fastest way to get it supported.</p>
     <div class="actions">
       <a class="button primary" href="https://github.com/mhermon/unroll/releases/latest">Download for VS Code</a>
+      <a class="button quiet" href="examples/claude-session.jsonl" download>Claude Code session</a>
+      <a class="button quiet" href="examples/agent-runs.jsonl" download>Agent runs dataset</a>
       <a class="button quiet" href="examples/chat-samples.jsonl" download>Chat dataset</a>
-      <a class="button quiet" href="examples/claude-session.jsonl" download>Agent trace</a>
     </div>
   </section>
 </main>
@@ -264,6 +256,10 @@
 </footer>
 
 <script>
+// A <picture> can show the light capture; open whichever version is on screen.
+for (const link of document.querySelectorAll('a:has(> picture)')) {
+  link.addEventListener('click', () => { link.href = link.querySelector('img').currentSrc || link.href })
+}
 (() => {
   const video = document.querySelector('#demo video')
   const buttons = [...document.querySelectorAll('.chapters button')]

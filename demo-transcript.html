@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Walkthrough transcript | Unroll</title>
-<meta name="description" content="Text transcript of the Unroll walkthrough video.">
+<meta name="description" content="Text transcript of the one-minute Unroll walkthrough: opening a Claude Code session, following a tool call, checking the raw record, search, live updates and a dataset of agent runs.">
 <link rel="canonical" href="https://mhermon.github.io/unroll/demo-transcript.html">
 <meta name="theme-color" content="#1a1a1c" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#f4f4f6" media="(prefers-color-scheme: light)">
@@ -31,25 +31,24 @@
 <div class="wrap doc single">
   <main id="main" class="prose">
     <h1>Walkthrough transcript</h1>
-    <p class="lede">A text version of the 48-second walkthrough on the <a href="./#demo">home page</a>. It was recorded from the extension’s viewer running inside a drawn, VS Code-style window, using two synthetic example files. The window frame, context menu and conversation dropdown are drawn for the recording; everything inside the preview is the extension’s own output.</p>
+    <p class="lede">A text version of the one-minute walkthrough on the <a href="./#demo">home page</a>. It was recorded with the extension’s own viewer and three made-up example files. The window frame, raw editor and context menu are drawn for the recording; everything inside the preview is what Unroll displays.</p>
 
     <h2>What happens</h2>
     <div class="table-scroll">
       <table>
         <thead><tr><th>Time</th><th>On screen</th></tr></thead>
         <tbody>
-          <tr><td>0:00</td><td>A Claude Code session is open as raw JSONL. Every line starts with the same envelope fields, so the conversation isn’t readable. The file is opened with <strong>Unroll: Open as Agent Trace</strong> and appears as a conversation.</td></tr>
-          <tr><td>0:07</td><td>A <code>Bash</code> tool call shows its formatted arguments. Clicking <strong>result at step 4</strong> shows the call and its result together.</td></tr>
-          <tr><td>0:12</td><td>The result switches to its original JSON record, with every field from the log.</td></tr>
-          <tr><td>0:16</td><td>The record’s line opens in the source file beside the preview, on line 4.</td></tr>
-          <tr><td>0:22</td><td>Searching for <code>tool_calls</code> finds an assistant message and a <code>Grep</code> call whose arguments contain the text.</td></tr>
-          <tr><td>0:29</td><td>With Follow latest on, two new records are added to the file. The tool result and the final answer, with a table, appear at the bottom.</td></tr>
-          <tr><td>0:36</td><td>A chat dataset with two conversations opens in another tab. The conversation picker switches to the second one.</td></tr>
+          <tr><td>0:00</td><td>A Claude Code session is open as raw JSONL. Every line starts with the same envelope fields, so the conversation is hard to follow. The file is opened with <strong>Unroll: Open as Agent Trace</strong> and appears as a conversation: the request to fix a failing checkout test, the assistant’s reasoning, a <code>Bash</code> call and its test output.</td></tr>
+          <tr><td>0:10</td><td>Selecting <strong>result at line 4</strong> on the <code>npm test -- cart</code> call shows the call and its failing result together. <strong>Clear</strong> returns to the whole session.</td></tr>
+          <tr><td>0:16</td><td>The assistant’s explanation of the bug switches to its original JSON record, with fields such as <code>parentUuid</code>, <code>gitBranch</code>, <code>message</code> and <code>usage</code>. Its line button opens line 9 of the file in a split editor beside the preview.</td></tr>
+          <tr><td>0:28</td><td>Searching for <code>applyCoupon</code> finds the <code>Grep</code> call, its matching lines and the file the assistant read, with every match highlighted.</td></tr>
+          <tr><td>0:33</td><td>With Follow latest on, two new records are added to the file: the passing test run and the final summary, which includes a before/after table and the one-line fix.</td></tr>
+          <tr><td>0:41</td><td>A dataset of eight agent runs opens in another tab. The list shows each run’s outcome. Filtering for <code>tidyframe</code> and selecting a failed run shows its model, cost and turn count above its conversation.</td></tr>
         </tbody>
       </table>
     </div>
     <p>The tool calls shown are recorded data. Unroll doesn’t run them.</p>
-    <p><a href="./#demo">Watch the walkthrough</a> or download the <a href="examples/chat-samples.jsonl" download>chat dataset</a> and <a href="examples/claude-session.jsonl" download>Claude Code session</a>.</p>
+    <p><a href="./#demo">Watch the walkthrough</a> or download the <a href="examples/claude-session.jsonl" download>Claude Code session</a>, <a href="examples/agent-runs.jsonl" download>agent runs dataset</a> and <a href="examples/chat-samples.jsonl" download>chat dataset</a>.</p>
   </main>
 </div>
 

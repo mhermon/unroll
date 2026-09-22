@@ -1,35 +1,37 @@
 # Unroll
 
-**Read agent traces and chat logs in VS Code.**
+**Read agent traces like a conversation, right in VS Code.**
 
-Unroll opens a JSONL conversation file as a chat you can scroll, search and filter. Use it on sessions you record yourself, such as Claude Code or Codex logs, or on JSONL datasets you download from Hugging Face or a repository.
+Open a Claude Code session, a Codex log or a Hugging Face trajectory dataset and see every message, tool call and result in order. Check any step against the raw JSON. Your data never leaves your machine.
 
-No account, API key, server or Python install needed.
+- **Works with the logs you already have.** Claude Code, Codex, OpenAI, Gemini, Vercel AI SDK, LangChain and OpenTelemetry logs, plus eval and training datasets such as SWE-agent, OpenHands and τ-bench.
+- **Fast on big files.** In benchmarks, a 110 MB log with 110,000 messages shows its first messages in under a second. Scroll, jump to the end or search the whole file.
+- **Nothing hidden.** Every message links to its raw JSON record and its line in the file.
+- **Private and free.** Works offline, with no account, API key or telemetry. It never runs recorded tool calls or changes your files.
 
-![A complete saved chat with clear roles, formatted paragraphs and code](https://mhermon.github.io/unroll/assets/overview.png)
+![A Claude Code session in Unroll: the request, the assistant's reasoning, a Bash call linked to its result and the failing test output](https://mhermon.github.io/unroll/assets/overview.png)
 
-## Getting started
+## Get started
 
-1. Download the VSIX from [Releases](https://github.com/mhermon/unroll/releases/latest) and choose **Extensions → … → Install from VSIX…** in VS Code. A Marketplace listing is on the way.
-2. Open a `.jsonl`, `.ndjson` or `.json` file. To try it first, [download the example file](https://mhermon.github.io/unroll/examples/claude-session.jsonl).
-3. Right-click the file and choose **Unroll: Open as Agent Trace**.
+1. Download the VSIX from [GitHub Releases](https://github.com/mhermon/unroll/releases/latest). In VS Code, open the Extensions view, choose **… → Install from VSIX…** and select the file. A Marketplace listing is on the way.
+2. Right-click a `.jsonl`, `.ndjson` or `.json` file and choose **Unroll: Open as Agent Trace**. The editor's preview icon, the Command Palette and **Reopen Editor With…** work too. Your usual text editor stays the default.
 
-You can also use the preview icon in the editor title bar, the Command Palette, or **Reopen Editor With… → Agent Trace (Unroll)**. The normal text editor stays the default.
+No trace handy? Try one of the made-up examples: a [Claude Code session](https://mhermon.github.io/unroll/examples/claude-session.jsonl), a [dataset of agent runs](https://mhermon.github.io/unroll/examples/agent-runs.jsonl) or a [chat dataset](https://mhermon.github.io/unroll/examples/chat-samples.jsonl).
 
-Try the downloadable [chat dataset](https://mhermon.github.io/unroll/examples/chat-samples.jsonl) or [agent trace](https://mhermon.github.io/unroll/examples/claude-session.jsonl). Both are synthetic examples used in the screenshots.
+![Opening a Claude Code session in Unroll, following a tool call to its result, checking the original record and source line, searching, and browsing a dataset of agent runs](https://mhermon.github.io/unroll/assets/walkthrough.gif)
 
-## Features
+[Watch the one-minute walkthrough with captions](https://mhermon.github.io/unroll/#demo) · [Read the guide](https://mhermon.github.io/unroll/guide.html)
 
-- **Search and filter.** Search message text, tool names, arguments and results with Ctrl/Cmd+F, and filter by role.
-- **Readable tool calls.** Arguments are formatted, and each call links to its result.
-- **Original JSON.** Show the record a message came from, or open its line in the source file.
-- **Growing files.** The preview updates as lines are added. Follow latest keeps the newest messages in view.
-- **Trace datasets.** Files with one conversation per row, such as agent-trajectory datasets from Hugging Face, get a filterable conversation list with each row's outcome, and the row's other fields above its conversation.
-- **Long files.** Move around with the step map, stable step numbers and keyboard shortcuts.
+## What you can do
 
-![Opening a Claude Code session in Unroll, following a tool call, searching and switching to a chat dataset](https://mhermon.github.io/unroll/assets/walkthrough.gif)
+- **Follow each tool call to its result.** Arguments appear as readable fields, not escaped JSON. Select *result at line N* to see a call next to everything it returned.
+- **Check it against the raw data.** Switch any message to the exact JSON record it came from (**R**), switch to its whole dataset row, or open its line in the file (**O**). Records Unroll doesn't recognize stay available under **View → Show events**.
+- **Search and filter.** Search messages, tool names, arguments and results with Ctrl/Cmd+F, and filter by role. On a long file you can stop a search and continue it later; **Esc** clears it and returns you to where you were reading.
+- **Review a whole eval or dataset.** When each row is a full run, Unroll lists the runs with their outcome. Filter by id, field or text, see each run's model, reward or cost above its conversation, and move between runs with **Shift+J/K**.
+- **Watch a run live.** Leave a session open while an agent works. New steps appear as they're written, and **F** follows the latest.
+- **Read large logs.** Saved JSONL files open straight from disk and load as you scroll. Jump to the start or end, or use the map of loaded messages.
 
-[Watch the walkthrough with captions](https://mhermon.github.io/unroll/#demo) · [Read the guide](https://mhermon.github.io/unroll/guide.html)
+![A dataset of eight agent runs: a list with resolved and failed outcomes, and the selected run's model, cost and conversation](https://mhermon.github.io/unroll/assets/conversations.png)
 
 ## Supported formats
 
@@ -45,28 +47,52 @@ Try the downloadable [chat dataset](https://mhermon.github.io/unroll/examples/ch
 | ShareGPT / chat datasets | Conversation and message envelopes |
 | Trace datasets | One trace per row or array item: SWE-agent, OpenHands, τ-bench, AgentInstruct, Hermes, xLAM and Agent-SafetyBench-style (`thought` / `action` / `environment`) shapes |
 
-Files can be JSONL or a single JSON array. Formats vary between tools and versions, so some files may only partly match. Records that aren’t recognized are still shown as raw events. Parquet isn’t supported.
+Files can be JSONL, NDJSON or a single JSON array. Log formats change between tool versions, so a file may only partly match; anything unrecognized is still available as raw events. Parquet isn't supported.
 
-## Themes and shortcuts
+## Keyboard shortcuts
+
+Press **?** in the preview for the full list.
+
+| Keys | Action |
+| --- | --- |
+| **J** / **K** | Next / previous step |
+| **N** / **P** | Next / previous tool call |
+| **Shift+J** / **Shift+K** | Next / previous run in a dataset |
+| **R** | Show the original record |
+| **O** | Open the step's line in the file |
+| **/** or **Ctrl/Cmd+F** | Search |
+| **Esc** | Clear search and filters |
+| **F** | Follow the newest steps |
+| **C** | Show or hide the run list |
+| **T** | Show or hide the map |
+
+Single-letter shortcuts are ignored while you type in a field. In the run list and the map, **Up/Down** and **Home/End** move the selection; in the map, **Enter** opens the selected message. Every shortcut is a VS Code command named **Unroll: …**, so you can rebind it.
+
+## Themes
 
 ![Unroll in a light VS Code theme](https://mhermon.github.io/unroll/assets/light.png)
 
-Unroll uses your VS Code theme. Press **?** in the preview to see all shortcuts. The main ones are **J/K** for steps, **N/P** for tool calls, **R** for the original record, **O** for the source line and **Shift+J/K** for the next or previous conversation. Single-letter shortcuts are ignored while you type in an input.
+Unroll follows your VS Code theme, including light, dark and high contrast. Times are shown in UTC; hover one for the full timestamp.
 
 ## Privacy
 
-Unroll only reads and displays the file you open. It has no telemetry and doesn’t connect to any model provider. It doesn’t run recorded tool calls, load remote images from file content, or change your files. Markdown links open only when you click them.
+Unroll reads the file you open and shows it to you. That's all it does.
 
-Files are processed in the VS Code extension host and webview. In a remote workspace, that can be the remote machine. See the [privacy page](https://mhermon.github.io/unroll/privacy.html) for details.
+- It sends nothing anywhere: no telemetry, account or model provider.
+- It never runs the tool calls recorded in a trace, and never edits your files.
+- It doesn't load remote images from trace content. Links open only when you click them.
+
+In a remote workspace (SSH, containers, WSL), the file is read on the remote machine, where VS Code runs its extensions. See the [privacy page](https://mhermon.github.io/unroll/privacy.html) for details.
 
 ## Requirements and limits
 
-- Desktop VS Code 1.96 or newer. Standalone vscode.dev isn’t supported.
-- Files up to 100 MB by default. Files are parsed in memory.
-- Token counts are estimates of the text in the file. They aren’t billed usage or the context size of a request.
+- Desktop VS Code 1.96 or newer on Windows, macOS or Linux. The browser-only vscode.dev isn't supported.
+- Saved `.jsonl` and `.ndjson` files have no size limit. `.json` files, unsaved edits and virtual filesystems are read into memory, up to 100 MB by default (**Unroll: Max File Size MB**).
+- Large messages keep a short preview. **Read full text** opens the complete message in plain-text sections, with section search, copy, and Original JSON access. Closing restores your conversation position.
+- The **In view** total estimates the size of the loaded messages in tokens, words or characters. It isn't a whole-file count or billed usage.
 
 ## Feedback
 
-[Report a bug or an unsupported format](https://github.com/mhermon/unroll/issues/new/choose). Include your extension version, VS Code version, OS and a small sanitized example. Don’t attach credentials or private conversations.
+[Report a bug or an unsupported format](https://github.com/mhermon/unroll/issues/new/choose) with your extension version, VS Code version, OS and a small sanitized example. Issues are public, so don't attach credentials or private conversations.
 
-Unroll is a preview release under the MIT license. This repository has documentation, examples and release builds; the source code is maintained privately. Provider names describe compatible formats and don’t imply affiliation.
+Unroll is a preview release under the MIT license. This repository has documentation, examples and release builds; the source code is maintained privately. Provider names describe compatible formats and don't imply affiliation.

@@ -1,28 +1,28 @@
 WEBVTT
 
-00:00:00.300 --> 00:00:04.609
-A Claude Code session, saved as JSONL: one record per line.
+00:00:00.300 --> 00:00:05.209
+A Claude Code session as it’s saved: one JSON record per line.
 
-00:00:04.609 --> 00:00:07.810
+00:00:05.209 --> 00:00:10.210
 Unroll opens the same file as a conversation.
 
-00:00:07.810 --> 00:00:12.489
-Tool calls show their arguments and link to their results.
+00:00:10.210 --> 00:00:17.670
+Each tool call links to its result.
 
-00:00:12.489 --> 00:00:16.419
-Any message can show the JSON record it came from.
+00:00:17.670 --> 00:00:22.000
+Check the exact JSON record behind any message.
 
-00:00:16.419 --> 00:00:22.729
-Or open that line in the file, beside the preview.
+00:00:22.000 --> 00:00:28.160
+Or open its line in the file, beside the preview.
 
-00:00:22.729 --> 00:00:28.969
+00:00:28.160 --> 00:00:33.626
 Search messages, tool names, arguments and results.
 
-00:00:28.969 --> 00:00:36.049
-Leave it open while a session runs. New lines appear as they’re written.
+00:00:33.626 --> 00:00:41.206
+Leave it open while an agent works. New steps appear as they’re written.
 
-00:00:36.049 --> 00:00:45.339
-Chat datasets work too. Pick a conversation to read it.
+00:00:41.206 --> 00:00:47.696
+A dataset of runs gets a list with each run’s outcome.
 
-00:00:45.339 --> 00:00:47.739
-Unroll for Visual Studio Code
+00:00:47.696 --> 00:00:52.296
+Each run’s model, outcome and cost sit above its conversation.
