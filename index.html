@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Unroll | Agent Trace & Chat Log Viewer for VS Code</title>
-<meta name="description" content="Unroll is a free VS Code extension for reading agent traces and chat logs. Open Claude Code sessions, Codex logs and Hugging Face trajectory datasets as a searchable conversation, and check any step against the raw JSON. Fast on large files, and reading is fully offline.">
+<title>Unroll | Read agent transcripts and eval runs in VS Code</title>
+<meta name="description" content="Unroll is a free VS Code extension for reading agent transcripts, eval runs and trajectory datasets. Select runs by outcome or any field, follow each tool call to its result, and check every step against its raw JSON record. Files are read locally.">
 <link rel="canonical" href="https://mhermon.github.io/unroll/">
-<meta property="og:title" content="Unroll: read agent traces like a conversation">
-<meta property="og:description" content="See every message, tool call and result in order. A free VS Code extension for Claude Code sessions, Codex logs and trajectory datasets. Fast on large files, and reading never sends your data anywhere.">
+<meta property="og:title" content="Unroll: read agent transcripts and eval runs in VS Code">
+<meta property="og:description" content="Read each agent run as a conversation, pick the runs worth reading by any field, and check every step against the file. Free, and your files stay local.">
 <meta property="og:image" content="https://mhermon.github.io/unroll/assets/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -23,7 +23,7 @@
 <link rel="stylesheet" href="window.css">
 <link rel="stylesheet" href="home.css">
 <script>let seen;try{const t=localStorage.getItem('unroll-theme');if(t)document.documentElement.dataset.theme=t;seen=localStorage.getItem('unroll-seen')}catch{}if(!location.hash&&!seen)document.documentElement.classList.add('start-raw')</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Unroll","applicationCategory":"DeveloperApplication","operatingSystem":"Windows, macOS, Linux","softwareRequirements":"Visual Studio Code 1.96 or newer","description":"AI agent trace viewer for Claude Code, Codex and JSONL conversations in VS Code.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://mhermon.github.io/unroll/"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Unroll","applicationCategory":"DeveloperApplication","operatingSystem":"Windows, macOS, Linux","softwareRequirements":"Visual Studio Code 1.96 or newer","description":"VS Code extension for reading agent transcripts, eval runs and trajectory datasets, with every step linked to its raw record.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://mhermon.github.io/unroll/"}</script>
 </head>
 <body>
 <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true"><symbol id="i-claudecode" viewBox="0 0 24 24"><path fill="currentColor" d="M21 10.5h3v3h-3v3h-1.5v3H18v-3h-1.5v3H15v-3H9v3H7.5v-3H6v3H4.5v-3H3v-3H0v-3h3v-6h18Zm-15 0h1.5v-3H6Zm10.5 0H18v-3h-1.5z"/></symbol><symbol id="i-gemini" viewBox="0 0 24 24"><path fill="currentColor" d="M11.04 19.32Q12 21.51 12 24q0-2.49.93-4.68.96-2.19 2.58-3.81t3.81-2.55Q21.51 12 24 12q-2.49 0-4.68-.93a12.3 12.3 0 0 1-3.81-2.58 12.3 12.3 0 0 1-2.58-3.81Q12 2.49 12 0q0 2.49-.96 4.68-.93 2.19-2.55 3.81a12.3 12.3 0 0 1-3.81 2.58Q2.49 12 0 12q2.49 0 4.68.96 2.19.93 3.81 2.55t2.55 3.81"/></symbol><symbol id="i-vercel" viewBox="0 0 24 24"><path fill="currentColor" d="m12 1.608 12 20.784H0Z"/></symbol><symbol id="i-otel" viewBox="0 0 24 24"><path fill="currentColor" d="M12.6974 13.1173c-1.0224 1.0224-1.0224 2.68 0 3.7024 1.0224 1.0224 2.68 1.0224 3.7024 0 1.0224-1.0223 1.0224-2.68 0-3.7024-1.0223-1.0223-2.68-1.0223-3.7024 0zm2.7677 2.7701c-.5063.5063-1.3267.5063-1.833 0s-.5063-1.3266 0-1.833c.5063-.5062 1.3267-.5062 1.833 0 .5063.504.5063 1.3267 0 1.833zM16.356.2355l-1.6041 1.6042c-.314.314-.314.83 0 1.144L21.015 9.247c.314.314.83.314 1.144 0l1.6042-1.6041c.314-.314.314-.83 0-1.144L17.4976.2354c-.314-.314-.8276-.314-1.1416 0zM5.1173 20.734c.2848-.2848.2848-.7497 0-1.0345l-.8155-.8155c-.2848-.2848-.7497-.2848-1.0345 0l-1.6845 1.6845-.0024.0024-.4625-.4625c-.2556-.2556-.6718-.2556-.925 0-.2556.2556-.2556.6718 0 .925l2.775 2.775c.2556.2556.6718.2556.925 0 .2532-.2556.2556-.6718 0-.925l-.4625-.4625.0024-.0024zm8.4856-15.893-3.5637 3.5637c-.3164.3164-.3164.8374 0 1.1538l2.2006 2.2005c1.5554-1.1197 3.7365-.981 5.1361.4187l1.7819-1.7818c.3164-.3165.3164-.8374 0-1.1538l-4.401-4.401c-.3165-.319-.8374-.319-1.1539 0zm-2.2881 7.8455-1.2999-1.2999c-.3043-.3043-.8033-.3043-1.1076 0l-4.5836 4.586c-.3042.3043-.3042.8033 0 1.1076l2.5973 2.5973c.3043.3043.8033.3043 1.1076 0l2.9478-2.9527c-.6231-1.2877-.5112-2.8431.3384-4.0383z"/></symbol><symbol id="i-langchain" viewBox="0 0 24 24"><path fill="currentColor" d="M13.796 0a6.93 6.93 0 0 0-4.91 2.019L5.451 5.455l3.273 3.27 3.432-3.432a2.284 2.284 0 0 1 3.277 0 2.28 2.28 0 0 1 0 3.275L12 12.001l3.273 3.273 3.433-3.435c2.692-2.692 2.692-7.127 0-9.82A6.92 6.92 0 0 0 13.796 0m-5.07 8.728-3.433 3.434c-2.692 2.693-2.692 7.126 0 9.819A6.92 6.92 0 0 0 10.203 24a6.93 6.93 0 0 0 4.911-2.02l3.432-3.432-3.271-3.272-3.433 3.433a2.284 2.284 0 0 1-3.277 0 2.28 2.28 0 0 1 0-3.276L12 12z"/></symbol><symbol id="i-hf" viewBox="0 0 24 24"><path fill="currentColor" d="M12.025 1.13c-5.77 0-10.449 4.647-10.449 10.378 0 1.112.178 2.181.503 3.185.064-.222.203-.444.416-.577a.96.96 0 0 1 .524-.15c.293 0 .584.124.84.284.278.173.48.408.71.694.226.282.458.611.684.951v-.014c.017-.324.106-.622.264-.874s.403-.487.762-.543c.3-.047.596.06.787.203s.31.313.4.467c.15.257.212.468.233.542.01.026.653 1.552 1.657 2.54.616.605 1.01 1.223 1.082 1.912.055.537-.096 1.059-.38 1.572.637.121 1.294.187 1.967.187.657 0 1.298-.063 1.921-.178-.287-.517-.44-1.041-.384-1.581.07-.69.465-1.307 1.081-1.913 1.004-.987 1.647-2.513 1.657-2.539.021-.074.083-.285.233-.542.09-.154.208-.323.4-.467a1.08 1.08 0 0 1 .787-.203c.359.056.604.29.762.543s.247.55.265.874v.015c.225-.34.457-.67.683-.952.23-.286.432-.52.71-.694.257-.16.547-.284.84-.285a.97.97 0 0 1 .524.151c.228.143.373.388.43.625l.006.04a10.3 10.3 0 0 0 .534-3.273c0-5.731-4.678-10.378-10.449-10.378M8.327 6.583a1.5 1.5 0 0 1 .713.174 1.487 1.487 0 0 1 .617 2.013c-.183.343-.762-.214-1.102-.094-.38.134-.532.914-.917.71a1.487 1.487 0 0 1 .69-2.803m7.486 0a1.487 1.487 0 0 1 .689 2.803c-.385.204-.536-.576-.916-.71-.34-.12-.92.437-1.103.094a1.487 1.487 0 0 1 .617-2.013 1.5 1.5 0 0 1 .713-.174m-10.68 1.55a.96.96 0 1 1 0 1.921.96.96 0 0 1 0-1.92m13.838 0a.96.96 0 1 1 0 1.92.96.96 0 0 1 0-1.92M8.489 11.458c.588.01 1.965 1.157 3.572 1.164 1.607-.007 2.984-1.155 3.572-1.164.196-.003.305.12.305.454 0 .886-.424 2.328-1.563 3.202-.22-.756-1.396-1.366-1.63-1.32q-.011.001-.02.006l-.044.026-.01.008-.03.024q-.018.017-.035.036l-.032.04a1 1 0 0 0-.058.09l-.014.025q-.049.088-.11.19a1 1 0 0 1-.083.116 1.2 1.2 0 0 1-.173.18q-.035.029-.075.058a1.3 1.3 0 0 1-.251-.243 1 1 0 0 1-.076-.107c-.124-.193-.177-.363-.337-.444-.034-.016-.104-.008-.2.022q-.094.03-.216.087-.06.028-.125.063l-.13.074q-.067.04-.136.086a3 3 0 0 0-.135.096 3 3 0 0 0-.26.219 2 2 0 0 0-.12.121 2 2 0 0 0-.106.128l-.002.002a2 2 0 0 0-.09.132l-.001.001a1.2 1.2 0 0 0-.105.212q-.013.036-.024.073c-1.139-.875-1.563-2.317-1.563-3.203 0-.334.109-.457.305-.454m.836 10.354c.824-1.19.766-2.082-.365-3.194-1.13-1.112-1.789-2.738-1.789-2.738s-.246-.945-.806-.858-.97 1.499.202 2.362c1.173.864-.233 1.45-.685.64-.45-.812-1.683-2.896-2.322-3.295s-1.089-.175-.938.647 2.822 2.813 2.562 3.244-1.176-.506-1.176-.506-2.866-2.567-3.49-1.898.473 1.23 2.037 2.16c1.564.932 1.686 1.178 1.464 1.53s-3.675-2.511-4-1.297c-.323 1.214 3.524 1.567 3.287 2.405-.238.839-2.71-1.587-3.216-.642-.506.946 3.49 2.056 3.522 2.064 1.29.33 4.568 1.028 5.713-.624m5.349 0c-.824-1.19-.766-2.082.365-3.194 1.13-1.112 1.789-2.738 1.789-2.738s.246-.945.806-.858.97 1.499-.202 2.362c-1.173.864.233 1.45.685.64.451-.812 1.683-2.896 2.322-3.295s1.089-.175.938.647-2.822 2.813-2.562 3.244 1.176-.506 1.176-.506 2.866-2.567 3.49-1.898-.473 1.23-2.037 2.16c-1.564.932-1.686 1.178-1.464 1.53s3.675-2.511 4-1.297c.323 1.214-3.524 1.567-3.287 2.405.238.839 2.71-1.587 3.216-.642.506.946-3.49 2.056-3.522 2.064-1.29.33-4.568 1.028-5.713-.624"/></symbol><symbol id="i-terminal" viewBox="0 0 24 24"><rect x="2.5" y="4" width="19" height="16" rx="3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 9.5l3 2.5-3 2.5M12.5 15h4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v7a2.5 2.5 0 0 1-2.5 2.5H10l-4.5 4v-4H6.5A2.5 2.5 0 0 1 4 13.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="i-table" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 9.5h18M3 14.5h18M9.5 9.5V20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol></svg>
@@ -99,23 +99,23 @@
       <main class="records" id="main">
 
         <!-- L1 -->
-        <article class="rec" data-role="user" id="r1" data-title="Can I actually read it?">
+        <article class="rec" data-role="user" id="r1" data-title="Where do I start?">
           <div class="meta"><span class="who">user</span><span class="ln">L1</span><time>14:02:00Z</time></div>
           <div class="body">
-            <p class="ask">My agent wrote a 110&nbsp;MB log overnight and the eval says it failed. Can I actually read what it did?</p>
+            <p class="ask">Our agent failed 58 of 200 tasks in last night’s eval. The results file is 110&nbsp;MB of JSONL. How do I find out what went wrong?</p>
           </div>
         </article>
 
         <!-- L2 -->
-        <article class="rec hero" data-role="assistant" id="r2" data-title="Read agent traces like a conversation">
+        <article class="rec hero" data-role="assistant" id="r2" data-title="Read what your agent did">
           <div class="meta"><span class="who">assistant</span><span class="ln">L2</span><time>14:02:02Z</time></div>
           <div class="body">
             <details class="reasoning">
-              <summary><span>reasoning</span><span class="words mono">28 words</span></summary>
-              <p>They don’t need another wall of escaped JSON. Show every step in order, tie each tool call to its result, and keep the raw record one keypress away.</p>
+              <summary><span>reasoning</span><span class="words mono">31 words</span></summary>
+              <p>They need to read the failed runs, be able to trust that what they see matches the file, and skip writing another parsing script. Start with the runs, then the steps.</p>
             </details>
-            <h1>Read agent traces<br> like a <span class="unrolled" id="unroll-word">conversation.</span></h1>
-            <p class="lede">Unroll is a free VS Code extension. Open a <strong class="named"><svg class="logo" aria-hidden="true"><use href="#i-claudecode"/></svg>Claude Code</strong> session, a <strong class="named"><svg class="logo" aria-hidden="true"><use href="#i-terminal"/></svg>Codex</strong> log or a trajectory dataset from <strong class="named"><svg class="logo" aria-hidden="true"><use href="#i-hf"/></svg>Hugging Face</strong> and see every message, tool call and result in order. Check any step against the raw JSON. Reading never sends your data anywhere.</p>
+            <h1>Read what your agent did,<br> step by <span class="unrolled" id="unroll-word">step.</span></h1>
+            <p class="lede">Unroll is a free VS Code extension for reading agent transcripts: eval runs, <strong class="named"><svg class="logo" aria-hidden="true"><use href="#i-hf"/></svg>Hugging Face</strong> trajectory datasets, and <strong class="named"><svg class="logo" aria-hidden="true"><use href="#i-claudecode"/></svg>Claude Code</strong> or <strong class="named"><svg class="logo" aria-hidden="true"><use href="#i-terminal"/></svg>Codex</strong> sessions. It shows each run as a conversation, links every step to the JSON record it came from, and lets you pick the runs worth reading by outcome or any other field. Files are read locally and nothing is sent anywhere.</p>
             <div class="actions">
               <a class="btn primary desktop-only" href="https://marketplace.visualstudio.com/items?itemName=mhermon.unroll">
                 <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v8m0 0L4.5 6.5M8 10l3.5-3.5M2.5 13.5h11"/></svg>
@@ -138,7 +138,7 @@
           <div class="meta"><span class="who">tool</span><span class="ln">L3</span><time>14:02:03Z</time></div>
           <div class="body">
             <a class="back-link" href="#r2">↳ Unroll · line 2</a>
-            <p class="pg-intro">An example Claude Code session: 13 lines of JSONL, exactly as the agent wrote them. Press play or drag the handle to unroll it, then select any message to see the line it came from. The tabs have datasets, other formats and a 50,000-line stress test.</p>
+            <p class="pg-intro">This is a Claude Code session, 13 lines of JSONL as the agent wrote them. Press play or drag the handle to show it as a conversation, then select any message to see the line it came from. The other tabs have a dataset of agent runs, a chat dataset, other log formats and a 50,000-line file. You can also open one of your own files; it’s read in this tab and not uploaded.</p>
             <div class="pg" id="pg">
               <div class="pg-tabs" role="tablist" aria-label="Example files">
                 <button type="button" role="tab" data-file="examples/claude-session.jsonl" aria-selected="true"><span class="ic braces">{}</span>claude-session.jsonl</button>
@@ -177,134 +177,135 @@
         </article>
 
         <!-- L4 -->
-        <article class="rec" data-role="assistant" id="r4" data-title="Follow each call">
+        <article class="rec" data-role="assistant" id="r4" data-title="Select runs">
           <div class="meta"><span class="who">assistant</span><span class="ln">L4</span><time>14:02:05Z</time></div>
           <div class="body">
-            <p>That was 13 lines. Yours will have thousands, and Unroll still shows the first ones in under a second, because it only reads what you scroll to. Here’s what you get once a trace is unrolled. First, every call is tied to its result.</p>
-            <div class="call" data-name="Follow" data-input='{"call":"toolu_01Hx9Rw2"}'>
-              <span class="tri" aria-hidden="true">▸</span><b>Follow</b> <code class="args">{ "call": "toolu_01Hx9Rw2" }</code>
+            <p>That was one session. An eval usually produces one file with hundreds of runs, so the first job is choosing which runs to read.</p>
+            <div class="call" data-name="Select" data-input='{"where":"resolved is false"}'>
+              <span class="tri" aria-hidden="true">▸</span><b>Select</b> <code class="args">{ "where": "resolved is false" }</code>
               <a class="result-link" href="#r5">→ result at line 5</a>
             </div>
           </div>
         </article>
 
         <!-- L5 -->
-        <article class="rec" data-role="tool" id="r5" data-title="Follow each call to its result">
+        <article class="rec" data-role="tool" id="r5" data-title="Pick the runs to read">
           <div class="meta"><span class="who">tool</span><span class="ln">L5</span><time>14:02:06Z</time></div>
           <div class="body feature">
-            <a class="back-link" href="#r4">↳ Follow · line 4</a>
+            <a class="back-link" href="#r4">↳ Select · line 4</a>
             <div class="feature-text">
-              <h2>Follow each call to its result</h2>
-              <p>Arguments appear as readable fields, not escaped JSON strings. Select <em>result at line 4</em> to see a call next to everything it returned, even when the result arrived many steps later.</p>
-            </div>
-            <a class="shot only-dark" href="assets/tool-inspection.png" aria-label="View the full-size tool call screenshot"><img loading="lazy" src="assets/tool-inspection.png" width="1560" height="1200" alt="A Bash call filtered by its call ID, shown directly above its failing test output"></a>
-            <a class="shot only-light" href="assets/tool-inspection-light.png" aria-label="View the full-size tool call screenshot"><img loading="lazy" src="assets/tool-inspection-light.png" width="1560" height="1200" alt="A Bash call filtered by its call ID, shown directly above its failing test output"></a>
-          </div>
-        </article>
-
-        <!-- L6 -->
-        <article class="rec" data-role="assistant" id="r6" data-title="Check the raw record">
-          <div class="meta"><span class="who">assistant</span><span class="ln">L6</span><time>14:02:08Z</time></div>
-          <div class="body">
-            <p>Don’t trust the formatting? You shouldn’t have to. Press <kbd>R</kbd> on any message on this page to see its record.</p>
-            <div class="call" data-name="Record" data-input='{"line":4}'>
-              <span class="tri" aria-hidden="true">▸</span><b>Record</b> <code class="args">{ "line": 4 }</code>
-              <a class="result-link" href="#r7">→ result at line 7</a>
-            </div>
-          </div>
-        </article>
-
-        <!-- L7 -->
-        <article class="rec" data-role="tool" id="r7" data-title="Check it against the raw data">
-          <div class="meta"><span class="who">tool</span><span class="ln">L7</span><time>14:02:09Z</time></div>
-          <div class="body feature">
-            <a class="back-link" href="#r6">↳ Record · line 6</a>
-            <div class="feature-text">
-              <h2>Check it against the raw data</h2>
-              <p>The formatting never hides anything. Switch any message to the exact JSON record it came from, or open its line in the file beside the preview. Records Unroll doesn’t recognize stay available as raw events.</p>
-            </div>
-            <a class="shot only-dark" href="assets/source.png" aria-label="View the full-size preview and source screenshot"><img loading="lazy" src="assets/source.png" width="2416" height="1480" alt="A tool call and its result in Unroll on the left, and the same records as raw JSONL on the right with line 4 selected"></a>
-            <a class="shot only-light" href="assets/source-light.png" aria-label="View the full-size preview and source screenshot"><img loading="lazy" src="assets/source-light.png" width="2416" height="1480" alt="A tool call and its result in Unroll on the left, and the same records as raw JSONL on the right with line 4 selected"></a>
-          </div>
-        </article>
-
-        <!-- L8 -->
-        <article class="rec" data-role="assistant" id="r8" data-title="Search">
-          <div class="meta"><span class="who">assistant</span><span class="ln">L8</span><time>14:02:11Z</time></div>
-          <div class="body">
-            <p>Then find the one step that matters. The search box above works on this page too; press <kbd>/</kbd>.</p>
-            <div class="call" data-name="Grep" data-input='{"pattern":"applyCoupon"}'>
-              <span class="tri" aria-hidden="true">▸</span><b>Grep</b> <code class="args">{ "pattern": "applyCoupon" }</code>
-              <a class="result-link" href="#r9">→ result at line 9</a>
-            </div>
-          </div>
-        </article>
-
-        <!-- L9 -->
-        <article class="rec" data-role="tool" id="r9" data-title="Find the step that matters">
-          <div class="meta"><span class="who">tool</span><span class="ln">L9</span><time>14:02:12Z</time></div>
-          <div class="body feature">
-            <a class="back-link" href="#r8">↳ Grep · line 8</a>
-            <div class="feature-text">
-              <h2>Find the step that matters</h2>
-              <p>Search messages, tool names, arguments and outputs, and filter by role. Matches are highlighted inside formatted arguments and results. On a long log, search covers the whole file and you can stop it at any time.</p>
-            </div>
-            <a class="shot only-dark" href="assets/search.png" aria-label="View the full-size search screenshot"><img loading="lazy" src="assets/search.png" width="1560" height="1240" alt="Searching for applyCoupon highlights the Grep call’s pattern and the matching lines in its result and in the file it read"></a>
-            <a class="shot only-light" href="assets/search-light.png" aria-label="View the full-size search screenshot"><img loading="lazy" src="assets/search-light.png" width="1560" height="1240" alt="Searching for applyCoupon highlights the Grep call’s pattern and the matching lines in its result and in the file it read"></a>
-          </div>
-        </article>
-
-        <!-- L10 -->
-        <article class="rec" data-role="assistant" id="r10" data-title="Datasets">
-          <div class="meta"><span class="who">assistant</span><span class="ln">L10</span><time>14:02:14Z</time></div>
-          <div class="body">
-            <p>And when one file holds a whole eval, open it as a dataset.</p>
-            <div class="call" data-name="Dataset" data-input='{"file":"agent-runs.jsonl"}'>
-              <span class="tri" aria-hidden="true">▸</span><b>Dataset</b> <code class="args">{ "file": "agent-runs.jsonl" }</code>
-              <a class="result-link" href="#r11">→ result at line 11</a>
-            </div>
-          </div>
-        </article>
-
-        <!-- L11 -->
-        <article class="rec" data-role="tool" id="r11" data-title="Review a whole eval or dataset">
-          <div class="meta"><span class="who">tool</span><span class="ln">L11</span><time>14:02:15Z</time></div>
-          <div class="body feature">
-            <a class="back-link" href="#r10">↳ Dataset · line 10</a>
-            <div class="feature-text">
-              <h2>Review a whole eval or dataset</h2>
-              <p>When each row is a full run, as in SWE-agent, OpenHands or τ-bench exports, Unroll lists every run with its outcome. Pick the runs worth reading by any field, nested metadata included, see each run’s model, reward or cost at the top, and step through them with <kbd>⇧J</kbd> and <kbd>⇧K</kbd>.</p>
+              <h2>Pick the runs to read</h2>
+              <p>When each row of a file is a full run, as in SWE-agent, OpenHands and τ-bench results, Unroll lists the runs with their outcomes. Add conditions on any field, including nested metadata such as <code>metadata.judge.score</code>, to narrow the list to the runs you care about. Each run’s model, score or cost appears above its conversation, and <kbd>⇧J</kbd> and <kbd>⇧K</kbd> step through the matching runs.</p>
             </div>
             <a class="shot only-dark" href="assets/conversations.png" aria-label="View the full-size dataset screenshot"><img loading="lazy" src="assets/conversations.png" width="1800" height="1200" alt="A dataset of eight agent runs narrowed by the condition resolved is false to the three failed runs, with the most expensive one’s model, cost and conversation"></a>
             <a class="shot only-light" href="assets/conversations-light.png" aria-label="View the full-size dataset screenshot"><img loading="lazy" src="assets/conversations-light.png" width="1800" height="1200" alt="A dataset of eight agent runs narrowed by the condition resolved is false to the three failed runs, with the most expensive one’s model, cost and conversation"></a>
           </div>
         </article>
 
+        <!-- L6 -->
+        <article class="rec" data-role="assistant" id="r6" data-title="Follow a call">
+          <div class="meta"><span class="who">assistant</span><span class="ln">L6</span><time>14:02:08Z</time></div>
+          <div class="body">
+            <p>Inside a run, each tool call is linked to its result.</p>
+            <div class="call" data-name="Follow" data-input='{"call":"toolu_01Hx9Rw2"}'>
+              <span class="tri" aria-hidden="true">▸</span><b>Follow</b> <code class="args">{ "call": "toolu_01Hx9Rw2" }</code>
+              <a class="result-link" href="#r7">→ result at line 7</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- L7 -->
+        <article class="rec" data-role="tool" id="r7" data-title="Follow each tool call to its result">
+          <div class="meta"><span class="who">tool</span><span class="ln">L7</span><time>14:02:09Z</time></div>
+          <div class="body feature">
+            <a class="back-link" href="#r6">↳ Follow · line 6</a>
+            <div class="feature-text">
+              <h2>Follow each tool call to its result</h2>
+              <p>Arguments are shown as fields instead of escaped JSON strings. Select <em>result at line N</em> to see a call next to its output, even when the output arrives many steps later. Calls and results are matched by their IDs; when a match is ambiguous, Unroll leaves the call unlinked rather than guessing.</p>
+            </div>
+            <a class="shot only-dark" href="assets/tool-inspection.png" aria-label="View the full-size tool call screenshot"><img loading="lazy" src="assets/tool-inspection.png" width="1560" height="1200" alt="A Bash call filtered by its call ID, shown directly above its failing test output"></a>
+            <a class="shot only-light" href="assets/tool-inspection-light.png" aria-label="View the full-size tool call screenshot"><img loading="lazy" src="assets/tool-inspection-light.png" width="1560" height="1200" alt="A Bash call filtered by its call ID, shown directly above its failing test output"></a>
+          </div>
+        </article>
+
+        <!-- L8 -->
+        <article class="rec" data-role="assistant" id="r8" data-title="Check the record">
+          <div class="meta"><span class="who">assistant</span><span class="ln">L8</span><time>14:02:11Z</time></div>
+          <div class="body">
+            <p>Every step can be checked against the file it came from. Press <kbd>R</kbd> on any message on this page to see its record.</p>
+            <div class="call" data-name="Record" data-input='{"line":7}'>
+              <span class="tri" aria-hidden="true">▸</span><b>Record</b> <code class="args">{ "line": 7 }</code>
+              <a class="result-link" href="#r9">→ result at line 9</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- L9 -->
+        <article class="rec" data-role="tool" id="r9" data-title="Check every step against the source">
+          <div class="meta"><span class="who">tool</span><span class="ln">L9</span><time>14:02:12Z</time></div>
+          <div class="body feature">
+            <a class="back-link" href="#r8">↳ Record · line 8</a>
+            <div class="feature-text">
+              <h2>Check every step against the source</h2>
+              <p>Switch any message to the exact JSON record it came from, or open its line in the file beside the preview. Line numbers always refer to the original file, so a filtered view still points to the right place. Records Unroll doesn’t recognize are kept as raw events rather than dropped.</p>
+            </div>
+            <a class="shot only-dark" href="assets/source.png" aria-label="View the full-size preview and source screenshot"><img loading="lazy" src="assets/source.png" width="2416" height="1480" alt="A tool call and its result in Unroll on the left, and the same records as raw JSONL on the right with line 4 selected"></a>
+            <a class="shot only-light" href="assets/source-light.png" aria-label="View the full-size preview and source screenshot"><img loading="lazy" src="assets/source-light.png" width="2416" height="1480" alt="A tool call and its result in Unroll on the left, and the same records as raw JSONL on the right with line 4 selected"></a>
+          </div>
+        </article>
+
+        <!-- L10 -->
+        <article class="rec" data-role="assistant" id="r10" data-title="Search">
+          <div class="meta"><span class="who">assistant</span><span class="ln">L10</span><time>14:02:14Z</time></div>
+          <div class="body">
+            <p>To find a particular step in a large file, search it. The search box above works on this page too; press <kbd>/</kbd>.</p>
+            <div class="call" data-name="Grep" data-input='{"pattern":"applyCoupon"}'>
+              <span class="tri" aria-hidden="true">▸</span><b>Grep</b> <code class="args">{ "pattern": "applyCoupon" }</code>
+              <a class="result-link" href="#r11">→ result at line 11</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- L11 -->
+        <article class="rec" data-role="tool" id="r11" data-title="Search the whole file">
+          <div class="meta"><span class="who">tool</span><span class="ln">L11</span><time>14:02:15Z</time></div>
+          <div class="body feature">
+            <a class="back-link" href="#r10">↳ Grep · line 10</a>
+            <div class="feature-text">
+              <h2>Search the whole file</h2>
+              <p>Search message text, tool names, arguments and results, and filter by role. Matches are highlighted inside formatted arguments. On a large file, search reads through the whole file in the background, and you can stop it and continue later.</p>
+            </div>
+            <a class="shot only-dark" href="assets/search.png" aria-label="View the full-size search screenshot"><img loading="lazy" src="assets/search.png" width="1560" height="1240" alt="Searching for applyCoupon highlights the Grep call’s pattern and the matching lines in its result and in the file it read"></a>
+            <a class="shot only-light" href="assets/search-light.png" aria-label="View the full-size search screenshot"><img loading="lazy" src="assets/search-light.png" width="1560" height="1240" alt="Searching for applyCoupon highlights the Grep call’s pattern and the matching lines in its result and in the file it read"></a>
+          </div>
+        </article>
+
         <!-- L12 -->
-        <article class="rec" data-role="assistant" id="r12" data-title="The smaller things">
+        <article class="rec" data-role="assistant" id="r12" data-title="More details">
           <div class="meta"><span class="who">assistant</span><span class="ln">L12</span><time>14:02:17Z</time></div>
           <div class="body">
-            <p>A few smaller things you’ll notice:</p>
+            <p>A few more details:</p>
             <ul class="notes">
-              <li><h3>Watch a run live</h3><p>Leave a session open while the agent works. New steps appear as they’re written; press <kbd>F</kbd> to follow the latest.</p></li>
-              <li><h3>Fast on big logs</h3><p>In benchmarks on a laptop, a 110&nbsp;MB log with 110,000 messages shows its first messages in under a second. Unroll reads what you scroll to, not the whole file.</p></li>
-              <li><h3>Move by keyboard</h3><p><kbd>J</kbd>/<kbd>K</kbd> between steps, <kbd>N</kbd>/<kbd>P</kbd> between tool calls, <kbd>R</kbd> for the raw record. They work on this page too.</p></li>
-              <li><h3>Chat datasets too</h3><p>Spot-check fine-tuning or preference data: pick a conversation and read its turns with Markdown, tables and code rendered.</p></li>
+              <li><h3>Large files</h3><p>Saved JSONL of any size opens straight from disk, and Unroll reads only what you scroll to. In benchmarks on a laptop, a 110&nbsp;MB log with 110,000 messages shows its first messages in under a second.</p></li>
+              <li><h3>Remote machines</h3><p>Over Remote SSH, WSL or a dev container, Unroll runs where the files are, so results on a cluster can be read without copying them.</p></li>
+              <li><h3>Runs in progress</h3><p>Leave a file open while an agent writes to it. New steps appear as they’re written; press <kbd>F</kbd> to follow the latest.</p></li>
+              <li><h3>Chat and training data</h3><p>Read fine-tuning and preference datasets one conversation at a time, with Markdown, tables and code rendered.</p></li>
             </ul>
+            <p>Unroll also has an optional, experimental way to ask a language model about a run or a dataset. For questions about how often something happens, it asks you to label a random sample and reports an estimate with a 95% interval computed from your labels. <a href="guide.html#investigations">Investigations</a> are off by default.</p>
           </div>
         </article>
 
         <!-- L13 -->
-        <article class="rec" data-role="user" id="r13" data-title="Show me the whole thing">
+        <article class="rec" data-role="user" id="r13" data-title="Can I see it working?">
           <div class="meta"><span class="who">user</span><span class="ln">L13</span><time>14:02:40Z</time></div>
-          <div class="body"><p class="ask">Show me the whole thing, start to finish.</p></div>
+          <div class="body"><p class="ask">Can I see it working?</p></div>
         </article>
 
         <!-- L14 -->
         <article class="rec" data-role="assistant" id="r14" data-title="Play the walkthrough">
           <div class="meta"><span class="who">assistant</span><span class="ln">L14</span><time>14:02:41Z</time></div>
           <div class="body">
-            <p>One minute, recorded with the extension’s own viewer and made-up example files.</p>
+            <p>Here is a one-minute walkthrough, recorded with the extension and made-up example files.</p>
             <div class="call" data-name="Play" data-input='{"video":"walkthrough.mp4","duration":"1:00"}'>
               <span class="tri" aria-hidden="true">▸</span><b>Play</b> <code class="args">{ "video": "walkthrough.mp4", "duration": "1:00" }</code>
               <a class="result-link" href="#r15">→ result at line 15</a>
@@ -342,7 +343,7 @@
           <div class="meta"><span class="who">system</span><span class="ln">L16</span><time>14:02:43Z</time></div>
           <div class="body">
             <h2>Supported formats</h2>
-            <p>Open <code>.jsonl</code>, <code>.ndjson</code> or <code>.json</code> files. Unroll recognizes these formats, and still shows anything else as raw JSON events.</p>
+            <p>Unroll reads <code>.jsonl</code>, <code>.ndjson</code> and <code>.json</code> files in these formats. Anything it doesn’t recognize is shown as raw JSON events.</p>
             <dl class="formats">
               <div><dt><svg class="logo" aria-hidden="true"><use href="#i-claudecode"/></svg>Claude Code, Anthropic</dt><dd>Message envelopes, text, thinking, tool use and results</dd></div>
               <div><dt><svg class="logo" aria-hidden="true"><use href="#i-terminal"/></svg>Codex, OpenAI Responses</dt><dd>Response items, messages, function calls and outputs</dd></div>
@@ -353,14 +354,14 @@
               <div><dt><svg class="logo" aria-hidden="true"><use href="#i-langchain"/></svg>LangChain, LangGraph</dt><dd>Human, AI and tool messages, including state dumps</dd></div>
               <div><dt><svg class="logo" aria-hidden="true"><use href="#i-table"/></svg>Chat and trace datasets</dt><dd>One conversation per row: ShareGPT, SWE-agent, OpenHands, τ-bench and similar</dd></div>
             </dl>
-            <p class="fine">Log formats change between tool versions, so a file may only partly match. If yours doesn’t read well, <a href="https://github.com/mhermon/unroll/issues/new/choose">send a small sanitized sample</a>. Parquet isn’t supported. <a href="guide.html#formats">Format details</a></p>
+            <p class="fine">Log formats change between tool versions, so a file may only partly match. Inspect eval logs and Parquet files aren’t supported. If your files don’t display well, <a href="https://github.com/mhermon/unroll/issues/new/choose">send a small sanitized sample</a>. <a href="guide.html#formats">Format details</a></p>
           </div>
         </article>
 
         <!-- L17 -->
         <article class="rec" data-role="user" id="r17" data-title="How do I install it?">
           <div class="meta"><span class="who">user</span><span class="ln">L17</span><time>14:03:05Z</time></div>
-          <div class="body"><p class="ask">OK. How do I install it?</p></div>
+          <div class="body"><p class="ask">How do I install it?</p></div>
         </article>
 
         <!-- L18 -->
@@ -371,7 +372,7 @@
             <p>Unroll works with desktop VS Code 1.96 or newer. Install it from the Visual Studio Marketplace; it takes a few seconds.</p>
             <ol class="steps">
               <li><h3>Install</h3><p>Open <a href="https://marketplace.visualstudio.com/items?itemName=mhermon.unroll">Unroll on the Marketplace</a> and choose <span class="menu-path">Install</span>, or search for <span class="menu-path">Unroll</span> in VS Code’s Extensions view.</p></li>
-              <li><h3>Open a trace</h3><p>Right-click a <code>.jsonl</code>, <code>.ndjson</code> or <code>.json</code> file and choose <span class="menu-path">Unroll: Open as Agent Trace</span>. Your usual text editor stays the default.</p></li>
+              <li><h3>Open a file</h3><p>Right-click a <code>.jsonl</code>, <code>.ndjson</code> or <code>.json</code> file and choose <span class="menu-path">Unroll: Open as Agent Trace</span>. Your usual text editor stays the default.</p></li>
               <li><h3>Offline?</h3><p>Download <code>unroll-&lt;version&gt;.vsix</code> from the latest <a href="https://github.com/mhermon/unroll/releases/latest">GitHub release</a>, then choose <span class="menu-path">Install from VSIX…</span> in the Extensions view’s <span class="menu-path">…</span> menu.</p></li>
             </ol>
             <p>Or from a terminal:</p>
@@ -388,47 +389,48 @@
         </article>
 
         <!-- L19 -->
-        <article class="rec" data-role="system" id="r19" data-title="Your traces stay on your machine">
+        <article class="rec" data-role="system" id="r19" data-title="Data stays where it is">
           <div class="meta"><span class="who">system</span><span class="ln">L19</span><time>14:03:07Z</time></div>
           <div class="body privacy">
             <div>
-              <h2>Your traces stay on your machine.</h2>
-              <p>Traces often hold source code, file paths, credentials and unreleased prompts. Unroll reads the file you open and displays it. Nothing leaves your machine unless you turn on <a href="guide.html#investigations">investigations</a>, an opt-in experiment that asks a model you choose about a trace. <a href="privacy.html">Privacy details</a></p>
+              <h2>Your data stays where it is.</h2>
+              <p>Transcripts often contain unreleased model outputs, proprietary code and credentials. Reading a file in Unroll sends nothing anywhere: there is no account, server or telemetry. <a href="guide.html#investigations">Investigations</a> are the only feature that contacts a model provider, and they are off until you turn them on. <a href="privacy.html">Privacy details</a></p>
             </div>
             <ul class="checks">
-              <li>Reading sends nothing anywhere: no telemetry, account or API key</li>
-              <li>Never runs the tool calls recorded in a trace</li>
+              <li>Works with no network connection</li>
+              <li>Reads files on the remote machine over SSH, WSL or containers</li>
+              <li>Never runs the tool calls recorded in a transcript</li>
               <li>Never changes your trace files</li>
-              <li>Doesn’t load remote images found in trace content</li>
-              <li>Reads traces with no network connection</li>
+              <li>Doesn’t load remote images found in transcript content</li>
             </ul>
           </div>
         </article>
 
         <!-- L20 -->
-        <article class="rec closing" data-role="assistant" id="r20" data-title="Done: open your last agent run">
+        <article class="rec closing" data-role="assistant" id="r20" data-title="Try it on your own results">
           <div class="meta"><span class="who">assistant</span><span class="ln">L20</span><time>14:03:09Z</time></div>
           <div class="body">
-            <h2>Done: open your last agent run.</h2>
-            <p>The log you have is already readable. It just needs unrolling.</p>
+            <h2>Try it on your own results.</h2>
+            <p>Install the extension, right-click a results file and choose <span class="menu-path">Unroll: Open as Agent Trace</span>. No setup, conversion or account is needed.</p>
             <div class="md-table">
               <table>
-                <thead><tr><th>Reading a trace</th><th>Before</th><th>With Unroll</th></tr></thead>
+                <thead><tr><th>Task</th><th>Without Unroll</th><th>With Unroll</th></tr></thead>
                 <tbody>
-                  <tr><td>110&nbsp;MB, 110,000 messages</td><td><code>less</code> and patience</td><td><strong>first messages in under 1&nbsp;s</strong></td></tr>
-                  <tr><td>Which result belongs to this call?</td><td>search for the ID by hand</td><td><strong>one click</strong></td></tr>
-                  <tr><td>Is the formatting hiding something?</td><td>hope not</td><td><strong>press <kbd>R</kbd></strong></td></tr>
+                  <tr><td>Pick the failed runs</td><td>write a filter script</td><td><strong>add a condition</strong></td></tr>
+                  <tr><td>Find a tool call’s result</td><td>search for its ID</td><td><strong>one click</strong></td></tr>
+                  <tr><td>Confirm a step matches the file</td><td>find the line by hand</td><td><strong>press <kbd>R</kbd></strong></td></tr>
+                  <tr><td>Open a 110&nbsp;MB log</td><td><code>less</code> or a script</td><td><strong>first messages in under 1&nbsp;s</strong></td></tr>
                 </tbody>
               </table>
             </div>
             <div class="actions">
               <a class="btn primary desktop-only" href="https://marketplace.visualstudio.com/items?itemName=mhermon.unroll">Install for VS Code</a>
               <button type="button" class="btn primary touch-only" data-handoff><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 10.5V2m0 0L5 5m3-3 3 3M4.5 7.5h-1v6h9v-6h-1"/></svg><span>Send to your computer</span></button>
-              <a class="btn quiet" href="examples/claude-session.jsonl" download>Claude Code session</a>
-              <a class="btn quiet" href="examples/agent-runs.jsonl" download>Agent runs dataset</a>
-              <a class="btn quiet" href="examples/chat-samples.jsonl" download>Chat dataset</a>
+              <a class="btn quiet" href="examples/agent-runs.jsonl" download>Example eval runs</a>
+              <a class="btn quiet" href="examples/claude-session.jsonl" download>Example session</a>
+              <a class="btn quiet" href="examples/chat-samples.jsonl" download>Example chat dataset</a>
             </div>
-            <p class="fine">If one of your files doesn’t display correctly, a small sanitized sample in an <a href="https://github.com/mhermon/unroll/issues/new/choose">issue</a> is the fastest way to get it supported.</p>
+            <p class="fine">If one of your files doesn’t display correctly, open an <a href="https://github.com/mhermon/unroll/issues/new/choose">issue</a> with a small sanitized sample. That is the fastest way to get a format supported.</p>
           </div>
         </article>
 
@@ -442,7 +444,7 @@
             <a href="LICENSE">MIT license</a>
             <button type="button" class="linkish" data-save>Save this page as unroll.jsonl</button>
           </nav>
-          <p>Made by Mitchell Hermon. Provider names describe compatible formats, not affiliation.</p>
+          <p>Made by Mitchell Hermon. Provider and benchmark names describe compatible formats, not affiliation.</p>
         </footer>
       </main>
     </div>

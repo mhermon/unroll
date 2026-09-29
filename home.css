@@ -255,6 +255,7 @@
 .notes li { padding: 14px 16px; background: var(--card-2); border: 1px solid var(--border-soft); border-radius: 6px; }
 .notes h3 { margin-bottom: 5px; }
 .notes p { margin: 0; font-size: 14.5px; color: var(--muted); }
+.notes + p { margin-top: 14px; }
 
 /* demo */
 .demo { display: grid; grid-template-columns: minmax(0, 1fr) 210px; gap: 18px; align-items: start; margin-bottom: 12px; }

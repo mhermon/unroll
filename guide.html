@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Guide | Unroll</title>
-<meta name="description" content="How to read agent traces with Unroll for VS Code: open a file, follow tool calls, check the raw JSON, search, review datasets of runs, select cases by their metadata, work with large logs, keyboard shortcuts and opt-in investigations.">
+<meta name="description" content="How to use Unroll to read agent transcripts and eval runs in VS Code: open a results file, select runs by outcome or any field, follow tool calls, check steps against the raw JSON, search large files, and use the optional investigations.">
 <link rel="canonical" href="https://mhermon.github.io/unroll/guide.html">
 <meta name="theme-color" content="#1a1a1c" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#f4f4f6" media="(prefers-color-scheme: light)">
@@ -82,11 +82,12 @@
     <main id="main" class="doc-body">
       <article class="prose">
         <h1>Using Unroll</h1>
-        <p class="lede">Everything you need to read a trace: opening files, following tool calls, checking the raw data, searching, and working with datasets and large logs. To follow along, download the <a href="examples/claude-session.jsonl" download>example Claude Code session</a> or the <a href="examples/agent-runs.jsonl" download>example dataset of agent runs</a>.</p>
+        <p class="lede">This guide covers opening a file, reading a run, following tool calls, checking steps against the source, searching, selecting runs in files that hold many of them, and the optional investigations. To follow along, download the <a href="examples/agent-runs.jsonl" download>example dataset of agent runs</a> or the <a href="examples/claude-session.jsonl" download>example Claude Code session</a>.</p>
 
         <h2 id="open">Open a file</h2>
         <p>Right-click any <code>.jsonl</code>, <code>.ndjson</code> or <code>.json</code> file and choose <strong>Unroll: Open as Agent Trace</strong>. The same command is on the editor’s preview icon and in the Command Palette, and <strong>Reopen Editor With… → Agent Trace (Unroll)</strong> works too.</p>
         <p>Your usual text editor stays the default for these files, so nothing changes until you ask for Unroll.</p>
+        <p>If your results are on another machine, open that folder over Remote SSH, WSL or a dev container. Unroll runs there and reads the file in place, so large results don’t need to be copied.</p>
 
         <h2 id="read">Read a trace</h2>
         <p>Each step shows its role, the line it came from in the file (<strong>L4</strong>) and when it happened. Times are shown in UTC; hover one for the full timestamp.</p>
@@ -153,10 +154,10 @@
         <p>Counts cover the messages, reasoning and tool activity currently loaded, so they change as you scroll or filter. They’re estimates of what you’re looking at, not a total for the whole file, the size of a model request, or what you were billed.</p>
 
         <h2 id="investigations">Investigations (experimental)</h2>
-        <p>Investigations let you ask a language model about a trace or a dataset of runs, such as why a run failed or how often agents edit tests. The model reads the file through read-only tools, cites the steps it relied on and may ask you to label examples. They’re off by default, and nothing else in Unroll needs them.</p>
+        <p>Investigations let you ask a language model about a run or a dataset, such as why a run failed or how often agents edit tests before running them. The model reads the file through read-only tools and cites the steps it relied on. For questions about how often something happens, it asks you to label a random sample of runs; the estimate and its 95% interval come from your labels, not the model’s. Investigations are off by default, and nothing else in Unroll needs them.</p>
         <ul>
           <li><strong>Turn them on</strong> with <strong>Unroll: Enable Investigations (Experimental)…</strong>, which explains what is sent before anything changes. <strong>Unroll: Turn Off Investigations</strong> hides them again.</li>
-          <li><strong>Choose a model</strong> with <strong>Unroll: Choose Investigation Model…</strong>: a VS Code language model such as GitHub Copilot, the Anthropic API with your key, or an API endpoint (its base URL, Responses or Chat Completions, a model ID and that service’s key). Keys are kept in VS Code’s secret storage and used only for the endpoint they were entered for.</li>
+          <li><strong>Choose a model</strong> with <strong>Unroll: Choose Investigation Model…</strong>: a VS Code language model such as GitHub Copilot, the Anthropic API with your key, or an API endpoint (its base URL, Responses or Chat Completions, a model ID and that service’s key). Keys are kept in VS Code’s secret storage and used only for the endpoint they were entered for. An endpoint on another machine over plain HTTP shows a warning, because excerpts would travel unencrypted; use HTTPS where you can.</li>
           <li><strong>Ask</strong>: add steps with <kbd>X</kbd>, <kbd>Ctrl</kbd>-click or a text selection, then press <kbd>A</kbd>. <kbd>I</kbd> shows or hides the investigation panel.</li>
         </ul>
         <p>When you ask, Unroll sends your question, the steps you selected with their context, and what the model reads with its tools, all from the open file. Before the first request to a provider and model, you see where excerpts will go and confirm. Remote providers bill you; the panel shows the steps used and the cost or tokens so far.</p>
@@ -208,7 +209,7 @@
             </tbody>
           </table>
         </div>
-        <p>Log formats change between tool versions, so a file may only partly match. Anything unrecognized is still available with <strong>View → Show events</strong>. Parquet isn’t supported. Provider names describe compatible formats, not affiliation.</p>
+        <p>Log formats change between tool versions, so a file may only partly match. Anything unrecognized is still available with <strong>View → Show events</strong>. Parquet isn’t supported. Provider and benchmark names describe compatible formats, not affiliation.</p>
 
         <h2 id="help">Troubleshooting</h2>
         <ul>

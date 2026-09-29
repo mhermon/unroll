@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.1
+
+- Rewrite the Marketplace listing, README and website around reading eval runs and trajectory datasets.
+
 ## 0.9.0
 
 - Unroll is now on the Visual Studio Marketplace as `mhermon.unroll`. The VSIX stays available from GitHub Releases for offline installs.
