@@ -4,184 +4,251 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Guide | Unroll</title>
-<meta name="description" content="How to read agent traces with Unroll for VS Code: open a file, follow tool calls, check the raw JSON, search, review datasets of runs, work with large logs, and keyboard shortcuts.">
+<meta name="description" content="How to read agent traces with Unroll for VS Code: open a file, follow tool calls, check the raw JSON, search, review datasets of runs, select cases by their metadata, work with large logs, keyboard shortcuts and opt-in investigations.">
 <link rel="canonical" href="https://mhermon.github.io/unroll/guide.html">
 <meta name="theme-color" content="#1a1a1c" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#f4f4f6" media="(prefers-color-scheme: light)">
 <link rel="icon" href="assets/icon.png">
 <link rel="preload" href="assets/fonts/instrument-sans.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="style.css">
+<link rel="preload" href="assets/fonts/jetbrains-mono.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="window.css">
+<link rel="stylesheet" href="docs.css">
+<script>try{const t=localStorage.getItem('unroll-theme');if(t)document.documentElement.dataset.theme=t}catch{}</script>
 </head>
-<body>
+<body class="doc-page">
 <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true"><symbol id="i-claudecode" viewBox="0 0 24 24"><path fill="currentColor" d="M21 10.5h3v3h-3v3h-1.5v3H18v-3h-1.5v3H15v-3H9v3H7.5v-3H6v3H4.5v-3H3v-3H0v-3h3v-6h18Zm-15 0h1.5v-3H6Zm10.5 0H18v-3h-1.5z"/></symbol><symbol id="i-gemini" viewBox="0 0 24 24"><path fill="currentColor" d="M11.04 19.32Q12 21.51 12 24q0-2.49.93-4.68.96-2.19 2.58-3.81t3.81-2.55Q21.51 12 24 12q-2.49 0-4.68-.93a12.3 12.3 0 0 1-3.81-2.58 12.3 12.3 0 0 1-2.58-3.81Q12 2.49 12 0q0 2.49-.96 4.68-.93 2.19-2.55 3.81a12.3 12.3 0 0 1-3.81 2.58Q2.49 12 0 12q2.49 0 4.68.96 2.19.93 3.81 2.55t2.55 3.81"/></symbol><symbol id="i-vercel" viewBox="0 0 24 24"><path fill="currentColor" d="m12 1.608 12 20.784H0Z"/></symbol><symbol id="i-otel" viewBox="0 0 24 24"><path fill="currentColor" d="M12.6974 13.1173c-1.0224 1.0224-1.0224 2.68 0 3.7024 1.0224 1.0224 2.68 1.0224 3.7024 0 1.0224-1.0223 1.0224-2.68 0-3.7024-1.0223-1.0223-2.68-1.0223-3.7024 0zm2.7677 2.7701c-.5063.5063-1.3267.5063-1.833 0s-.5063-1.3266 0-1.833c.5063-.5062 1.3267-.5062 1.833 0 .5063.504.5063 1.3267 0 1.833zM16.356.2355l-1.6041 1.6042c-.314.314-.314.83 0 1.144L21.015 9.247c.314.314.83.314 1.144 0l1.6042-1.6041c.314-.314.314-.83 0-1.144L17.4976.2354c-.314-.314-.8276-.314-1.1416 0zM5.1173 20.734c.2848-.2848.2848-.7497 0-1.0345l-.8155-.8155c-.2848-.2848-.7497-.2848-1.0345 0l-1.6845 1.6845-.0024.0024-.4625-.4625c-.2556-.2556-.6718-.2556-.925 0-.2556.2556-.2556.6718 0 .925l2.775 2.775c.2556.2556.6718.2556.925 0 .2532-.2556.2556-.6718 0-.925l-.4625-.4625.0024-.0024zm8.4856-15.893-3.5637 3.5637c-.3164.3164-.3164.8374 0 1.1538l2.2006 2.2005c1.5554-1.1197 3.7365-.981 5.1361.4187l1.7819-1.7818c.3164-.3165.3164-.8374 0-1.1538l-4.401-4.401c-.3165-.319-.8374-.319-1.1539 0zm-2.2881 7.8455-1.2999-1.2999c-.3043-.3043-.8033-.3043-1.1076 0l-4.5836 4.586c-.3042.3043-.3042.8033 0 1.1076l2.5973 2.5973c.3043.3043.8033.3043 1.1076 0l2.9478-2.9527c-.6231-1.2877-.5112-2.8431.3384-4.0383z"/></symbol><symbol id="i-langchain" viewBox="0 0 24 24"><path fill="currentColor" d="M13.796 0a6.93 6.93 0 0 0-4.91 2.019L5.451 5.455l3.273 3.27 3.432-3.432a2.284 2.284 0 0 1 3.277 0 2.28 2.28 0 0 1 0 3.275L12 12.001l3.273 3.273 3.433-3.435c2.692-2.692 2.692-7.127 0-9.82A6.92 6.92 0 0 0 13.796 0m-5.07 8.728-3.433 3.434c-2.692 2.693-2.692 7.126 0 9.819A6.92 6.92 0 0 0 10.203 24a6.93 6.93 0 0 0 4.911-2.02l3.432-3.432-3.271-3.272-3.433 3.433a2.284 2.284 0 0 1-3.277 0 2.28 2.28 0 0 1 0-3.276L12 12z"/></symbol><symbol id="i-hf" viewBox="0 0 24 24"><path fill="currentColor" d="M12.025 1.13c-5.77 0-10.449 4.647-10.449 10.378 0 1.112.178 2.181.503 3.185.064-.222.203-.444.416-.577a.96.96 0 0 1 .524-.15c.293 0 .584.124.84.284.278.173.48.408.71.694.226.282.458.611.684.951v-.014c.017-.324.106-.622.264-.874s.403-.487.762-.543c.3-.047.596.06.787.203s.31.313.4.467c.15.257.212.468.233.542.01.026.653 1.552 1.657 2.54.616.605 1.01 1.223 1.082 1.912.055.537-.096 1.059-.38 1.572.637.121 1.294.187 1.967.187.657 0 1.298-.063 1.921-.178-.287-.517-.44-1.041-.384-1.581.07-.69.465-1.307 1.081-1.913 1.004-.987 1.647-2.513 1.657-2.539.021-.074.083-.285.233-.542.09-.154.208-.323.4-.467a1.08 1.08 0 0 1 .787-.203c.359.056.604.29.762.543s.247.55.265.874v.015c.225-.34.457-.67.683-.952.23-.286.432-.52.71-.694.257-.16.547-.284.84-.285a.97.97 0 0 1 .524.151c.228.143.373.388.43.625l.006.04a10.3 10.3 0 0 0 .534-3.273c0-5.731-4.678-10.378-10.449-10.378M8.327 6.583a1.5 1.5 0 0 1 .713.174 1.487 1.487 0 0 1 .617 2.013c-.183.343-.762-.214-1.102-.094-.38.134-.532.914-.917.71a1.487 1.487 0 0 1 .69-2.803m7.486 0a1.487 1.487 0 0 1 .689 2.803c-.385.204-.536-.576-.916-.71-.34-.12-.92.437-1.103.094a1.487 1.487 0 0 1 .617-2.013 1.5 1.5 0 0 1 .713-.174m-10.68 1.55a.96.96 0 1 1 0 1.921.96.96 0 0 1 0-1.92m13.838 0a.96.96 0 1 1 0 1.92.96.96 0 0 1 0-1.92M8.489 11.458c.588.01 1.965 1.157 3.572 1.164 1.607-.007 2.984-1.155 3.572-1.164.196-.003.305.12.305.454 0 .886-.424 2.328-1.563 3.202-.22-.756-1.396-1.366-1.63-1.32q-.011.001-.02.006l-.044.026-.01.008-.03.024q-.018.017-.035.036l-.032.04a1 1 0 0 0-.058.09l-.014.025q-.049.088-.11.19a1 1 0 0 1-.083.116 1.2 1.2 0 0 1-.173.18q-.035.029-.075.058a1.3 1.3 0 0 1-.251-.243 1 1 0 0 1-.076-.107c-.124-.193-.177-.363-.337-.444-.034-.016-.104-.008-.2.022q-.094.03-.216.087-.06.028-.125.063l-.13.074q-.067.04-.136.086a3 3 0 0 0-.135.096 3 3 0 0 0-.26.219 2 2 0 0 0-.12.121 2 2 0 0 0-.106.128l-.002.002a2 2 0 0 0-.09.132l-.001.001a1.2 1.2 0 0 0-.105.212q-.013.036-.024.073c-1.139-.875-1.563-2.317-1.563-3.203 0-.334.109-.457.305-.454m.836 10.354c.824-1.19.766-2.082-.365-3.194-1.13-1.112-1.789-2.738-1.789-2.738s-.246-.945-.806-.858-.97 1.499.202 2.362c1.173.864-.233 1.45-.685.64-.45-.812-1.683-2.896-2.322-3.295s-1.089-.175-.938.647 2.822 2.813 2.562 3.244-1.176-.506-1.176-.506-2.866-2.567-3.49-1.898.473 1.23 2.037 2.16c1.564.932 1.686 1.178 1.464 1.53s-3.675-2.511-4-1.297c-.323 1.214 3.524 1.567 3.287 2.405-.238.839-2.71-1.587-3.216-.642-.506.946 3.49 2.056 3.522 2.064 1.29.33 4.568 1.028 5.713-.624m5.349 0c-.824-1.19-.766-2.082.365-3.194 1.13-1.112 1.789-2.738 1.789-2.738s.246-.945.806-.858.97 1.499-.202 2.362c-1.173.864.233 1.45.685.64.451-.812 1.683-2.896 2.322-3.295s1.089-.175.938.647-2.822 2.813-2.562 3.244 1.176-.506 1.176-.506 2.866-2.567 3.49-1.898-.473 1.23-2.037 2.16c-1.564.932-1.686 1.178-1.464 1.53s3.675-2.511 4-1.297c.323 1.214-3.524 1.567-3.287 2.405.238.839 2.71-1.587 3.216-.642.506.946-3.49 2.056-3.522 2.064-1.29.33-4.568 1.028-5.713-.624"/></symbol><symbol id="i-terminal" viewBox="0 0 24 24"><rect x="2.5" y="4" width="19" height="16" rx="3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 9.5l3 2.5-3 2.5M12.5 15h4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v7a2.5 2.5 0 0 1-2.5 2.5H10l-4.5 4v-4H6.5A2.5 2.5 0 0 1 4 13.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="i-table" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 9.5h18M3 14.5h18M9.5 9.5V20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol></svg>
 <a class="skip" href="#main">Skip to content</a>
 
-<header class="site-head">
-  <div class="wrap">
-    <a class="brand" href="./"><img src="assets/icon.png" width="24" height="24" alt="">Unroll</a>
-    <nav class="site-nav" aria-label="Main">
-      <a class="hide-sm" href="./#demo">Demo</a>
-      <a class="hide-sm" href="./#formats">Formats</a>
-      <a class="keep" href="guide.html" aria-current="page">Guide</a>
-      <a class="hide-sm" href="https://github.com/mhermon/unroll">GitHub</a>
-      <a class="button quiet small" href="./#install">Install</a>
+<div class="window has-side">
+  <header class="titlebar">
+    <span class="lights" aria-hidden="true"><i data-light="close"></i><i data-light="min"></i><i data-light="max"></i></span>
+    <a class="brand" href="./"><img src="assets/icon.png" width="16" height="16" alt="">Unroll</a>
+    <span class="title-path" id="title-path">mhermon.github.io/unroll/guide</span>
+    <nav class="title-nav" aria-label="Main">
+      <a href="guide.html" aria-current="page">Guide</a>
+      <a href="https://github.com/mhermon/unroll">GitHub</a>
+      <button type="button" class="theme" id="theme" aria-label="Switch color theme" title="Switch color theme"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="5.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M8 2.5a5.5 5.5 0 0 1 0 11z" fill="currentColor"/></svg></button>
+      <a class="btn primary small" href="./#install">Install</a>
     </nav>
-  </div>
-</header>
+  </header>
 
-<div class="wrap doc">
-  <nav class="toc" aria-label="On this page">
-    <p>On this page</p>
-    <ol>
-      <li><a href="#open">Open a file</a></li>
-      <li><a href="#read">Read a trace</a></li>
-      <li><a href="#tools">Follow a tool call</a></li>
-      <li><a href="#records">Check the raw data</a></li>
-      <li><a href="#search">Search and filter</a></li>
-      <li><a href="#datasets">Datasets of many runs</a></li>
-      <li><a href="#live">Watch a run live</a></li>
-      <li><a href="#large">Large files</a></li>
-      <li><a href="#counts">Size of what you’re reading</a></li>
-      <li><a href="#keys">Keyboard</a></li>
-      <li><a href="#formats">Formats</a></li>
-      <li><a href="#help">Troubleshooting</a></li>
-      <li><a href="#requirements">Requirements</a></li>
-    </ol>
+  <nav class="activity" aria-label="Views">
+    <button type="button" data-explorer aria-pressed="true" aria-controls="side" title="Explorer" aria-label="Explorer"><svg viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z M14 3v4h4" /></svg></button>
   </nav>
 
-  <main id="main" class="prose">
-    <h1>Using Unroll</h1>
-    <p class="lede">Everything you need to read a trace: opening files, following tool calls, checking the raw data, searching, and working with datasets and large logs. To follow along, download the <a href="examples/claude-session.jsonl" download>example Claude Code session</a> or the <a href="examples/agent-runs.jsonl" download>example dataset of agent runs</a>.</p>
+  <aside class="side" id="side" aria-label="Explorer">
+    <section class="side-files">
+      <h2>Unroll</h2>
+      <nav aria-label="Files">
+        <ul>
+          <li><a href="./"><span class="ic braces">{}</span>unroll.jsonl</a></li>
+          <li><a href="guide.html" aria-current="page"><span class="ic doc">▤</span>guide.md</a></li>
+          <li><a href="privacy.html"><span class="ic doc">▤</span>privacy.md</a></li>
+          <li><a href="demo-transcript.html"><span class="ic doc">▤</span>walkthrough.md</a></li>
+        </ul>
+      </nav>
+    </section>
+    <section class="side-outline" hidden>
+      <h2>Outline</h2>
+      <nav aria-label="Outline"><ol id="outline"></ol></nav>
+    </section>
+  </aside>
 
-    <h2 id="open">Open a file</h2>
-    <p>Right-click any <code>.jsonl</code>, <code>.ndjson</code> or <code>.json</code> file and choose <strong>Unroll: Open as Agent Trace</strong>. The same command is on the editor’s preview icon and in the Command Palette, and <strong>Reopen Editor With… → Agent Trace (Unroll)</strong> works too.</p>
-    <p>Your usual text editor stays the default for these files, so nothing changes until you ask for Unroll.</p>
-
-    <h2 id="read">Read a trace</h2>
-    <p>Each step shows its role, the line it came from in the file (<strong>L4</strong>) and when it happened. Times are shown in UTC; hover one for the full timestamp.</p>
-    <ul>
-      <li><strong>Reasoning</strong> is folded by default, with its length shown. Select it to read it.</li>
-      <li><strong>Tool calls</strong> show the tool name and its arguments as readable fields. Expand a call to see every argument.</li>
-      <li><strong>Long messages</strong> start as an excerpt. Select <strong>Show all</strong> to read the rest; when you search, the matching passage is shown.</li>
-      <li><strong>Collapse</strong> any step with <kbd>Enter</kbd> or by selecting its label. The <strong>View</strong> menu collapses or expands all loaded steps and switches between comfortable and compact spacing.</li>
-    </ul>
-
-    <h2 id="tools">Follow a tool call</h2>
-    <p>When a call’s result is in the file, the call shows <strong>result at line N</strong>. Select it to see the call and everything it returned together, even when the result arrived many steps later. Select <strong>Clear</strong> or press <kbd>Esc</kbd> to go back to the whole trace.</p>
-    <p>Calls and results are matched by the call IDs in the log. If a match is ambiguous, Unroll leaves the call unlinked rather than guessing.</p>
-
-    <h2 id="records">Check the raw data</h2>
-    <p>Hover a step to show its actions:</p>
-    <ul>
-      <li><strong>Record</strong> (<kbd>R</kbd>) switches the step to the exact JSON record it came from. In a dataset, you can switch to the whole row.</li>
-      <li><strong>L<em>n</em></strong> (<kbd>O</kbd>) opens the file beside the preview at that line.</li>
-      <li><strong>Copy</strong> copies the step, or the record when it’s shown.</li>
-    </ul>
-    <p>Records Unroll doesn’t recognize, and lines that aren’t valid JSON, are hidden from the conversation but never dropped. Turn on <strong>View → Show events</strong> to see them. Very large records show a labelled preview; open the source to read all of it.</p>
-
-    <h2 id="search">Search and filter</h2>
-    <p>Press <kbd>Ctrl</kbd><kbd>F</kbd> (<kbd>Cmd</kbd><kbd>F</kbd> on macOS) or <kbd>/</kbd> to search message text, tool names, arguments and results. Matches are highlighted, including inside formatted arguments.</p>
-    <p>The role tabs (All, User, Assistant, Tool, System) filter the conversation. Line numbers always refer to the original file, so a filtered view still points at the right place.</p>
-    <p>On a large file, search keeps reading through the file and shows <strong>Stop</strong> while it works; <strong>Continue reading</strong> picks up where it stopped. <kbd>Esc</kbd> clears search and filters and returns you to where you were reading.</p>
-
-    <h2 id="datasets">Datasets of many runs</h2>
-    <p>Eval results and training datasets often hold one full conversation or agent run per row. Unroll reads these as a list of runs. It recognizes SWE-agent, OpenHands, τ-bench, AgentInstruct, Hermes and xLAM rows, ShareGPT-style chats, and JSON files that wrap their rows in one key, such as <code>{"data": [...]}</code>.</p>
-    <ul>
-      <li><strong>Run list.</strong> Each row shows its id and, when the row has one, its outcome (<code>resolved</code>, <code>success</code>, <code>reward</code>, <code>exit_status</code> and similar). Press <kbd>C</kbd> to show or hide the list.</li>
-      <li><strong>Filter.</strong> The box above the list matches ids, row fields and message text. Rows that match only inside their messages are marked <em>in text</em>, and opening one highlights the match.</li>
-      <li><strong>Row fields.</strong> The row’s other fields, such as model, reward, cost or a generated patch, appear above its conversation. Long values are folded.</li>
-      <li><strong>Moving between runs.</strong> <kbd>⇧</kbd><kbd>J</kbd> and <kbd>⇧</kbd><kbd>K</kbd> open the next and previous row. In the list, use <kbd>↑</kbd><kbd>↓</kbd> and <kbd>Home</kbd>/<kbd>End</kbd>, or type a number in the <strong>Row</strong> box.</li>
-    </ul>
-
-    <h2 id="live">Watch a run live</h2>
-    <p>Leave a trace open while an agent writes to it. New steps appear as lines are added, and unsaved edits show up too. Turn on <strong>Follow latest</strong> (<kbd>F</kbd>) to keep the newest steps in view; scrolling up or changing a filter pauses it.</p>
-    <p>A half-written last line doesn’t hide the steps before it.</p>
-
-    <h2 id="large">Large files</h2>
-    <p>Saved <code>.jsonl</code> and <code>.ndjson</code> files have no size limit. Unroll reads the part you’re looking at straight from disk, so a 100 MB log opens about as quickly as a small one.</p>
-    <ul>
-      <li>Scroll to load earlier or later messages, or press <kbd>[</kbd> and <kbd>]</kbd>. The buttons in the footer jump to the first or last messages.</li>
-      <li>The map on the left (<kbd>T</kbd>) shows the loaded messages, colored by role. Select a mark to jump to it.</li>
-      <li>While a new file is still being indexed, totals are marked <strong>+</strong>.</li>
-      <li><code>.json</code> files, unsaved edits and files on virtual filesystems are read into memory instead, up to 100 MB by default. Change this with the <strong>Unroll: Max File Size MB</strong> setting.</li>
-    </ul>
-
-    <h2 id="counts">Size of what you’re reading</h2>
-    <p>The <strong>In view</strong> total in the header estimates the size of the loaded messages. Select it to switch between estimated tokens, words and characters. Turn on per-message counts in <strong>View</strong>.</p>
-    <p>Counts cover the messages, reasoning and tool activity currently loaded, so they change as you scroll or filter. They’re estimates of what you’re looking at, not a total for the whole file, the size of a model request, or what you were billed.</p>
-
-    <h2 id="keys">Keyboard</h2>
-    <p>Press <kbd>?</kbd> in the preview for the full list.</p>
-    <div class="table-scroll">
-      <table>
-        <thead><tr><th>Keys</th><th>Action</th></tr></thead>
-        <tbody>
-          <tr><td><kbd>J</kbd><kbd>K</kbd></td><td>Next / previous step</td></tr>
-          <tr><td><kbd>N</kbd><kbd>P</kbd></td><td>Next / previous tool call</td></tr>
-          <tr><td><kbd>⇧J</kbd><kbd>⇧K</kbd></td><td>Next / previous run in a dataset</td></tr>
-          <tr><td><kbd>R</kbd></td><td>Show the original record</td></tr>
-          <tr><td><kbd>O</kbd></td><td>Open the step’s line in the file</td></tr>
-          <tr><td><kbd>/</kbd> or <kbd>Ctrl</kbd><kbd>F</kbd></td><td>Search</td></tr>
-          <tr><td><kbd>Esc</kbd></td><td>Clear search and filters</td></tr>
-          <tr><td><kbd>F</kbd></td><td>Follow the newest steps</td></tr>
-          <tr><td><kbd>[</kbd><kbd>]</kbd></td><td>Load earlier / later messages</td></tr>
-          <tr><td><kbd>C</kbd></td><td>Show or hide the run list</td></tr>
-          <tr><td><kbd>T</kbd></td><td>Show or hide the map</td></tr>
-          <tr><td><kbd>Enter</kbd></td><td>Collapse or expand the focused step</td></tr>
-        </tbody>
-      </table>
+  <div class="editor">
+    <div class="tabs" role="presentation">
+      <a class="tab" href="./"><span class="ic braces">{}</span>unroll.jsonl</a>
+      <span class="tab active" aria-current="page"><span class="ic doc">▤</span>guide.md<span class="x" aria-hidden="true">×</span></span>
+      <a class="tab hide-sm" href="privacy.html"><span class="ic doc">▤</span>privacy.md</a>
     </div>
-    <p>Single-letter shortcuts are ignored while you type in a field. Every shortcut is a VS Code command named <strong>Unroll: …</strong>, so you can rebind it under Keyboard Shortcuts or run it from the Command Palette.</p>
 
-    <h2 id="formats">Formats</h2>
-    <p>Files can be JSONL, NDJSON or a single JSON array. Unroll recognizes these record shapes:</p>
-    <div class="table-scroll">
-      <table>
-        <thead><tr><th>Source</th><th>Recognized content</th></tr></thead>
-        <tbody>
-          <tr><td><svg class="logo" aria-hidden="true"><use href="#i-claudecode"/></svg>Claude Code, Anthropic</td><td>Message envelopes, text, thinking, tool use and tool results</td></tr>
-          <tr><td><svg class="logo" aria-hidden="true"><use href="#i-terminal"/></svg>Codex, OpenAI Responses</td><td><code>response_item</code> and <code>event_msg</code> records, messages, function calls, custom tools and outputs</td></tr>
-          <tr><td><svg class="logo" aria-hidden="true"><use href="#i-chat"/></svg>OpenAI Chat Completions</td><td><code>role</code> / <code>content</code> messages and <code>tool_calls</code></td></tr>
-          <tr><td><svg class="logo" aria-hidden="true"><use href="#i-gemini"/></svg>Gemini</td><td>Model messages, parts, function calls and responses</td></tr>
-          <tr><td><svg class="logo" aria-hidden="true"><use href="#i-vercel"/></svg>Vercel AI SDK</td><td>Text, reasoning and tool parts</td></tr>
-          <tr><td><svg class="logo" aria-hidden="true"><use href="#i-otel"/></svg>OpenTelemetry GenAI</td><td><code>gen_ai.input.messages</code> and <code>gen_ai.output.messages</code> span attributes</td></tr>
-          <tr><td><svg class="logo" aria-hidden="true"><use href="#i-langchain"/></svg>LangChain, LangGraph</td><td>Human, AI and tool messages, including nested state dumps</td></tr>
-          <tr><td><svg class="logo" aria-hidden="true"><use href="#i-table"/></svg>ShareGPT, chat datasets</td><td>Conversation and message envelopes</td></tr>
-          <tr><td><svg class="logo" aria-hidden="true"><use href="#i-table"/></svg>Trace datasets</td><td>One run per row or array item: SWE-agent <code>trajectory</code>, OpenHands <code>messages</code>, τ-bench <code>traj</code>, AgentInstruct and Hermes <code>conversations</code>, xLAM-style <code>query</code> / <code>answers</code>, and <code>thought</code> + <code>action</code> turns with an <code>environment</code> reply (Agent-SafetyBench, ReAct-style logs)</td></tr>
-        </tbody>
-      </table>
+    <div class="toolbar doc-toolbar">
+      <div class="file-line">
+        <nav class="crumbs" aria-label="Breadcrumbs">
+          <span class="crumb-root">unroll</span><span class="sep" aria-hidden="true">›</span>
+          <strong class="file-name">guide.md</strong><span class="sep" aria-hidden="true">›</span>
+          <details class="crumb-menu" id="crumb-menu" hidden>
+            <summary title="Go to a section"><span id="crumb-section"></span></summary>
+            <ol></ol>
+          </details>
+        </nav>
+        <span class="grow"></span>
+        <div class="mode" role="group" aria-label="View">
+          <button type="button" data-view="source" aria-pressed="false"><span class="ic">#</span>Source</button>
+          <button type="button" data-view="preview" aria-pressed="true"><span class="ic">¶</span>Preview</button>
+        </div>
+      </div>
     </div>
-    <p>Log formats change between tool versions, so a file may only partly match. Anything unrecognized is still available with <strong>View → Show events</strong>. Parquet isn’t supported. Provider names describe compatible formats, not affiliation.</p>
 
-    <h2 id="help">Troubleshooting</h2>
-    <ul>
-      <li><strong>No messages appear.</strong> Turn on <strong>View → Show events</strong> to see what the file contains, and compare it with the source. If it’s a format you expected to work, please report it.</li>
-      <li><strong>The preview doesn’t load.</strong> Close and reopen it. If that doesn’t help, check the <strong>Unroll</strong> output channel for errors.</li>
-      <li><strong>A file is too large to preview.</strong> This only applies to <code>.json</code> files, unsaved edits and virtual filesystems. Raise <strong>Unroll: Max File Size MB</strong>, or save the data as <code>.jsonl</code>.</li>
-    </ul>
-    <p><a href="https://github.com/mhermon/unroll/issues/new/choose">Report a problem</a> with your extension version, VS Code version, OS and a small sanitized example. Issues are public, so never attach credentials or private conversations.</p>
+    <main id="main" class="doc-body">
+      <article class="prose">
+        <h1>Using Unroll</h1>
+        <p class="lede">Everything you need to read a trace: opening files, following tool calls, checking the raw data, searching, and working with datasets and large logs. To follow along, download the <a href="examples/claude-session.jsonl" download>example Claude Code session</a> or the <a href="examples/agent-runs.jsonl" download>example dataset of agent runs</a>.</p>
 
-    <h2 id="requirements">Requirements</h2>
-    <ul>
-      <li>Desktop VS Code 1.96 or newer on Windows, macOS or Linux. The browser-only vscode.dev isn’t supported.</li>
-      <li>Remote workspaces (SSH, containers, WSL) work. Unroll runs wherever VS Code runs its extensions, so the file is read on that machine.</li>
-      <li>Settings and command IDs start with <code>chatview.</code> for compatibility with earlier builds.</li>
-    </ul>
-    <p class="muted">No telemetry, account or model provider calls. <a href="privacy.html">Privacy details</a></p>
-  </main>
-</div>
+        <h2 id="open">Open a file</h2>
+        <p>Right-click any <code>.jsonl</code>, <code>.ndjson</code> or <code>.json</code> file and choose <strong>Unroll: Open as Agent Trace</strong>. The same command is on the editor’s preview icon and in the Command Palette, and <strong>Reopen Editor With… → Agent Trace (Unroll)</strong> works too.</p>
+        <p>Your usual text editor stays the default for these files, so nothing changes until you ask for Unroll.</p>
 
-<footer class="site-foot">
-  <div class="wrap">
-    <a class="brand" href="./"><img src="assets/icon.png" width="24" height="24" alt="">Unroll</a>
-    <nav aria-label="Footer">
-      <a href="guide.html">Guide</a>
-      <a href="privacy.html">Privacy</a>
-      <a href="https://github.com/mhermon/unroll/releases">Releases</a>
-      <a href="https://github.com/mhermon/unroll/issues/new/choose">Report a bug</a>
-      <a href="LICENSE">MIT license</a>
-    </nav>
+        <h2 id="read">Read a trace</h2>
+        <p>Each step shows its role, the line it came from in the file (<strong>L4</strong>) and when it happened. Times are shown in UTC; hover one for the full timestamp.</p>
+        <ul>
+          <li><strong>Reasoning</strong> is folded by default, with its length shown. Select it to read it.</li>
+          <li><strong>Tool calls</strong> show the tool name and its arguments as readable fields. Expand a call to see every argument.</li>
+          <li><strong>Long messages</strong> start as an excerpt. Select <strong>Show all</strong> to read the rest; when you search, the matching passage is shown.</li>
+          <li><strong>Collapse</strong> any step with <kbd>Enter</kbd> or by selecting its label. The <strong>View</strong> menu collapses or expands all loaded steps and switches between comfortable and compact spacing.</li>
+        </ul>
+
+        <h2 id="tools">Follow a tool call</h2>
+        <p>When a call’s result is in the file, the call shows <strong>result at line N</strong>. Select it to see the call and everything it returned together, even when the result arrived many steps later. Select <strong>Clear</strong> or press <kbd>Esc</kbd> to go back to the whole trace.</p>
+        <p>Calls and results are matched by the call IDs in the log. If a match is ambiguous, Unroll leaves the call unlinked rather than guessing.</p>
+
+        <h2 id="records">Check the raw data</h2>
+        <p>Hover a step to show its actions:</p>
+        <ul>
+          <li><strong>Record</strong> (<kbd>R</kbd>) switches the step to the exact JSON record it came from. In a dataset, you can switch to the whole row.</li>
+          <li><strong>L<em>n</em></strong> (<kbd>O</kbd>) opens the file beside the preview at that line.</li>
+          <li><strong>Copy</strong> copies the step, or the record when it’s shown.</li>
+        </ul>
+        <p>Records Unroll doesn’t recognize, and lines that aren’t valid JSON, are hidden from the conversation but never dropped. Turn on <strong>View → Show events</strong> to see them. Very large records show a labelled preview; open the source to read all of it.</p>
+
+        <h2 id="search">Search and filter</h2>
+        <p>Press <kbd>Ctrl</kbd><kbd>F</kbd> (<kbd>Cmd</kbd><kbd>F</kbd> on macOS) or <kbd>/</kbd> to search message text, tool names, arguments and results. Matches are highlighted, including inside formatted arguments.</p>
+        <p>The role tabs (All, User, Assistant, Tool, System) filter the conversation. Line numbers always refer to the original file, so a filtered view still points at the right place.</p>
+        <p>On a large file, search keeps reading through the file and shows <strong>Stop</strong> while it works; <strong>Continue reading</strong> picks up where it stopped. <kbd>Esc</kbd> clears search and filters and returns you to where you were reading.</p>
+
+        <h2 id="datasets">Datasets of many runs</h2>
+        <p>Eval results and training datasets often hold one full conversation or agent run per row. Unroll reads these as a list of runs. It recognizes SWE-agent, OpenHands, τ-bench, AgentInstruct, Hermes and xLAM rows, ShareGPT-style chats, and JSON files that wrap their rows in one key, such as <code>{"data": [...]}</code>.</p>
+        <ul>
+          <li><strong>Run list.</strong> Each row shows its id and, when the row has one, its outcome (<code>resolved</code>, <code>success</code>, <code>reward</code>, <code>exit_status</code> and similar). Press <kbd>C</kbd> to show or hide the list.</li>
+          <li><strong>Filter.</strong> The box above the list matches ids, row fields and message text. Rows that match only inside their messages are marked <em>in text</em>, and opening one highlights the match. To narrow by a field’s value, <a href="#cases">add a condition</a>.</li>
+          <li><strong>Row fields.</strong> The row’s other fields, such as model, reward, cost or a generated patch, appear above its conversation. Long values are folded.</li>
+          <li><strong>Moving between runs.</strong> <kbd>⇧</kbd><kbd>J</kbd> and <kbd>⇧</kbd><kbd>K</kbd> open the next and previous row. In the list, use <kbd>↑</kbd><kbd>↓</kbd> and <kbd>Home</kbd>/<kbd>End</kbd>, or type a number in the <strong>Row</strong> box.</li>
+        </ul>
+
+        <h2 id="cases">Select cases</h2>
+        <p>Conditions pick the runs worth reading, such as the failures a judge scored highly. Select <strong>+ Add condition</strong> above the run list, choose a field, and then how to compare it.</p>
+        <ul>
+          <li><strong>Fields.</strong> The list shows the fields in the runs you’ve loaded, with nested metadata under its parent, and what each holds: text, number, true/false or a list. Any field can be typed as a path, such as <code>metadata.judge.score</code>. Quote a key that contains dots: <code>scores["pass@1"]</code>.</li>
+          <li><strong>Conditions.</strong> Only the comparisons that fit the field are offered: <em>is</em> and <em>is not</em> with one or more values, <em>contains</em>, &gt; ≥ &lt; ≤ for numbers, <em>is true</em>, <em>is null</em>, <em>exists</em> and <em>is missing</em>. <em>Is not</em> also matches runs without the field. Next to text comparisons, <kbd>Aa</kbd> matches case and <kbd>.*</kbd> uses an RE2 regular expression.</li>
+          <li><strong>Values.</strong> Suggestions come from the whole file, most common first, with how many runs hold each. Large files are counted from an even sample, and the list says so. Number fields show their range as you type.</li>
+          <li><strong>Lists.</strong> A condition on a list matches when any item does, and reads <em>any tags is "math"</em>. Its opposite reads <em>no tags is "math"</em>.</li>
+          <li><strong>Combining.</strong> Match all or any of the conditions. Pause one with its checkbox, or select it to edit. <kbd>⇧</kbd><kbd>J</kbd> and <kbd>⇧</kbd><kbd>K</kbd> move between matching runs only.</li>
+        </ul>
+        <p>A run whose field is too large or holds an object can’t be compared; the list says how many weren’t checked rather than leaving them out silently.</p>
+
+        <h2 id="live">Watch a run live</h2>
+        <p>Leave a trace open while an agent writes to it. New steps appear as lines are added, and unsaved edits show up too. Turn on <strong>Follow latest</strong> (<kbd>F</kbd>) to keep the newest steps in view; scrolling up or changing a filter pauses it.</p>
+        <p>A half-written last line doesn’t hide the steps before it.</p>
+
+        <h2 id="large">Large files</h2>
+        <p>Saved <code>.jsonl</code> and <code>.ndjson</code> files have no size limit. Unroll reads the part you’re looking at straight from disk, so a 100 MB log opens about as quickly as a small one.</p>
+        <ul>
+          <li>Scroll to load earlier or later messages, or press <kbd>[</kbd> and <kbd>]</kbd>. The buttons in the footer jump to the first or last messages.</li>
+          <li>The map on the left (<kbd>T</kbd>) shows the loaded messages, colored by role. Select a mark to jump to it.</li>
+          <li>While a new file is still being indexed, totals are marked <strong>+</strong>.</li>
+          <li><code>.json</code> files, unsaved edits and files on virtual filesystems are read into memory instead, up to 100 MB by default. Change this with the <strong>Unroll: Max File Size MB</strong> setting.</li>
+        </ul>
+
+        <h2 id="counts">Size of what you’re reading</h2>
+        <p>The <strong>In view</strong> total in the header estimates the size of the loaded messages. Select it to switch between estimated tokens, words and characters. Turn on per-message counts in <strong>View</strong>.</p>
+        <p>Counts cover the messages, reasoning and tool activity currently loaded, so they change as you scroll or filter. They’re estimates of what you’re looking at, not a total for the whole file, the size of a model request, or what you were billed.</p>
+
+        <h2 id="investigations">Investigations (experimental)</h2>
+        <p>Investigations let you ask a language model about a trace or a dataset of runs, such as why a run failed or how often agents edit tests. The model reads the file through read-only tools, cites the steps it relied on and may ask you to label examples. They’re off by default, and nothing else in Unroll needs them.</p>
+        <ul>
+          <li><strong>Turn them on</strong> with <strong>Unroll: Enable Investigations (Experimental)…</strong>, which explains what is sent before anything changes. <strong>Unroll: Turn Off Investigations</strong> hides them again.</li>
+          <li><strong>Choose a model</strong> with <strong>Unroll: Choose Investigation Model…</strong>: a VS Code language model such as GitHub Copilot, the Anthropic API with your key, or an API endpoint (its base URL, Responses or Chat Completions, a model ID and that service’s key). Keys are kept in VS Code’s secret storage and used only for the endpoint they were entered for.</li>
+          <li><strong>Ask</strong>: add steps with <kbd>X</kbd>, <kbd>Ctrl</kbd>-click or a text selection, then press <kbd>A</kbd>. <kbd>I</kbd> shows or hides the investigation panel.</li>
+        </ul>
+        <p>When you ask, Unroll sends your question, the steps you selected with their context, and what the model reads with its tools, all from the open file. Before the first request to a provider and model, you see where excerpts will go and confirm. Remote providers bill you; the panel shows the steps used and the cost or tokens so far.</p>
+        <ul>
+          <li>Investigations run only in trusted workspaces, and their settings can be changed only in your user settings, so a repository you open can’t turn them on or send them elsewhere.</li>
+          <li>The model’s tools only read the file. Unroll never runs recorded tool calls, whatever a trace or model says.</li>
+          <li>Results are saved in Unroll’s private storage. Set <strong>Unroll › Investigate: Save To</strong> to <em>workspace</em> to keep them in <code>.unroll/investigations</code>. Saved files include trace excerpts and the file’s path, so review them before committing.</li>
+          <li><strong>Unroll: Remove Stored Model Keys</strong> deletes every stored key and confirmation.</li>
+        </ul>
+
+        <h2 id="keys">Keyboard</h2>
+        <p>Press <kbd>?</kbd> in the preview for the full list.</p>
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th>Keys</th><th>Action</th></tr></thead>
+            <tbody>
+              <tr><td><kbd>J</kbd><kbd>K</kbd></td><td>Next / previous step</td></tr>
+              <tr><td><kbd>N</kbd><kbd>P</kbd></td><td>Next / previous tool call</td></tr>
+              <tr><td><kbd>⇧J</kbd><kbd>⇧K</kbd></td><td>Next / previous run in a dataset</td></tr>
+              <tr><td><kbd>R</kbd></td><td>Show the original record</td></tr>
+              <tr><td><kbd>O</kbd></td><td>Open the step’s line in the file</td></tr>
+              <tr><td><kbd>/</kbd> or <kbd>Ctrl</kbd><kbd>F</kbd></td><td>Search</td></tr>
+              <tr><td><kbd>Esc</kbd></td><td>Clear search and filters</td></tr>
+              <tr><td><kbd>F</kbd></td><td>Follow the newest steps</td></tr>
+              <tr><td><kbd>[</kbd><kbd>]</kbd></td><td>Load earlier / later messages</td></tr>
+              <tr><td><kbd>C</kbd></td><td>Show or hide the run list</td></tr>
+              <tr><td><kbd>T</kbd></td><td>Show or hide the map</td></tr>
+              <tr><td><kbd>Enter</kbd></td><td>Collapse or expand the focused step</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Single-letter shortcuts are ignored while you type in a field. Every shortcut is a VS Code command named <strong>Unroll: …</strong>, so you can rebind it under Keyboard Shortcuts or run it from the Command Palette.</p>
+
+        <h2 id="formats">Formats</h2>
+        <p>Files can be JSONL, NDJSON or a single JSON array. Unroll recognizes these record shapes:</p>
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th>Source</th><th>Recognized content</th></tr></thead>
+            <tbody>
+              <tr><td><svg class="logo" aria-hidden="true"><use href="#i-claudecode"/></svg>Claude Code, Anthropic</td><td>Message envelopes, text, thinking, tool use and tool results</td></tr>
+              <tr><td><svg class="logo" aria-hidden="true"><use href="#i-terminal"/></svg>Codex, OpenAI Responses</td><td><code>response_item</code> and <code>event_msg</code> records, messages, function calls, custom tools and outputs</td></tr>
+              <tr><td><svg class="logo" aria-hidden="true"><use href="#i-chat"/></svg>OpenAI Chat Completions</td><td><code>role</code> / <code>content</code> messages and <code>tool_calls</code></td></tr>
+              <tr><td><svg class="logo" aria-hidden="true"><use href="#i-gemini"/></svg>Gemini</td><td>Model messages, parts, function calls and responses</td></tr>
+              <tr><td><svg class="logo" aria-hidden="true"><use href="#i-vercel"/></svg>Vercel AI SDK</td><td>Text, reasoning and tool parts</td></tr>
+              <tr><td><svg class="logo" aria-hidden="true"><use href="#i-otel"/></svg>OpenTelemetry GenAI</td><td><code>gen_ai.input.messages</code> and <code>gen_ai.output.messages</code> span attributes</td></tr>
+              <tr><td><svg class="logo" aria-hidden="true"><use href="#i-langchain"/></svg>LangChain, LangGraph</td><td>Human, AI and tool messages, including nested state dumps</td></tr>
+              <tr><td><svg class="logo" aria-hidden="true"><use href="#i-table"/></svg>ShareGPT, chat datasets</td><td>Conversation and message envelopes</td></tr>
+              <tr><td><svg class="logo" aria-hidden="true"><use href="#i-table"/></svg>Trace datasets</td><td>One run per row or array item: SWE-agent <code>trajectory</code>, OpenHands <code>messages</code>, τ-bench <code>traj</code>, AgentInstruct and Hermes <code>conversations</code>, xLAM-style <code>query</code> / <code>answers</code>, and <code>thought</code> + <code>action</code> turns with an <code>environment</code> reply (Agent-SafetyBench, ReAct-style logs)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Log formats change between tool versions, so a file may only partly match. Anything unrecognized is still available with <strong>View → Show events</strong>. Parquet isn’t supported. Provider names describe compatible formats, not affiliation.</p>
+
+        <h2 id="help">Troubleshooting</h2>
+        <ul>
+          <li><strong>No messages appear.</strong> Turn on <strong>View → Show events</strong> to see what the file contains, and compare it with the source. If it’s a format you expected to work, please report it.</li>
+          <li><strong>The preview doesn’t load.</strong> Close and reopen it. If that doesn’t help, check the <strong>Unroll</strong> output channel for errors.</li>
+          <li><strong>A file is too large to preview.</strong> This only applies to <code>.json</code> files, unsaved edits and virtual filesystems. Raise <strong>Unroll: Max File Size MB</strong>, or save the data as <code>.jsonl</code>.</li>
+        </ul>
+        <p><a href="https://github.com/mhermon/unroll/issues/new/choose">Report a problem</a> with your extension version, VS Code version, OS and a small sanitized example. Issues are public, so never attach credentials or private conversations.</p>
+
+        <h2 id="requirements">Requirements</h2>
+        <ul>
+          <li>Desktop VS Code 1.96 or newer on Windows, macOS or Linux. The browser-only vscode.dev isn’t supported.</li>
+          <li>Remote workspaces (SSH, containers, WSL) work. Unroll runs wherever VS Code runs its extensions, so the file is read on that machine.</li>
+          <li>Settings and command IDs start with <code>chatview.</code> for compatibility with earlier builds.</li>
+        </ul>
+        <p class="muted">No telemetry or account. Reading never contacts a model provider; only investigations you turn on do. <a href="privacy.html">Privacy details</a></p>
+      </article>
+
+      <footer class="eof">
+        <span class="mono">— end of file · guide.md —</span>
+        <nav aria-label="Footer">
+          <a href="./">Home</a>
+          <a href="guide.html">Guide</a>
+          <a href="privacy.html">Privacy</a>
+          <a href="https://github.com/mhermon/unroll/releases">Releases</a>
+          <a href="https://github.com/mhermon/unroll/issues/new/choose">Report a bug</a>
+          <a href="LICENSE">MIT license</a>
+        </nav>
+      </footer>
+    </main>
   </div>
-</footer>
+
+  <footer class="statusbar">
+    <span class="sb-branch"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="4.5" cy="3.5" r="1.6"/><circle cx="4.5" cy="12.5" r="1.6"/><circle cx="11.5" cy="5" r="1.6"/><path d="M4.5 5.1v5.8M11.5 6.6c0 3-7 2-7 4.3"/></svg>main</span>
+    <span id="sb-mode">Preview</span>
+    <span class="grow"></span>
+    <span class="hide-sm">UTF-8 · LF · Markdown</span>
+  </footer>
+</div>
+<script src="window.js" defer></script>
+<script src="docs.js" defer></script>
 </body>
 </html>

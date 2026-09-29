@@ -21,8 +21,11 @@ Search messages, tool names, arguments and results.
 00:00:33.626 --> 00:00:41.206
 Leave it open while an agent works. New steps appear as they’re written.
 
-00:00:41.206 --> 00:00:47.696
+00:00:41.206 --> 00:00:44.736
 A dataset of runs gets a list with each run’s outcome.
 
-00:00:47.696 --> 00:00:52.296
+00:00:44.736 --> 00:00:52.073
+Pick the runs worth reading by any field, such as the ones that failed.
+
+00:00:52.073 --> 00:00:56.673
 Each run’s model, outcome and cost sit above its conversation.

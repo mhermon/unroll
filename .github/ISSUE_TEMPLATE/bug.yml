@@ -13,6 +13,11 @@ body:
       label: Steps, expected behavior and actual behavior
     validations:
       required: true
+  - type: input
+    id: investigation
+    attributes:
+      label: Investigations only — provider and model
+      description: For example "Anthropic API, claude-opus-5-5" or "GitHub Copilot". Never include API keys.
   - type: textarea
     id: sample
     attributes:

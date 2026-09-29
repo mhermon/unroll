@@ -4,73 +4,145 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Privacy | Unroll</title>
-<meta name="description" content="Privacy for Unroll, the AI agent trace viewer for VS Code: no telemetry, no account, no uploads.">
+<meta name="description" content="Privacy for Unroll, the AI agent trace viewer for VS Code: no telemetry, no account, and nothing sent anywhere unless you turn on investigations.">
 <link rel="canonical" href="https://mhermon.github.io/unroll/privacy.html">
 <meta name="theme-color" content="#1a1a1c" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#f4f4f6" media="(prefers-color-scheme: light)">
 <link rel="icon" href="assets/icon.png">
 <link rel="preload" href="assets/fonts/instrument-sans.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="style.css">
+<link rel="preload" href="assets/fonts/jetbrains-mono.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="window.css">
+<link rel="stylesheet" href="docs.css">
+<script>try{const t=localStorage.getItem('unroll-theme');if(t)document.documentElement.dataset.theme=t}catch{}</script>
 </head>
-<body>
+<body class="doc-page">
 <a class="skip" href="#main">Skip to content</a>
 
-<header class="site-head">
-  <div class="wrap">
-    <a class="brand" href="./"><img src="assets/icon.png" width="24" height="24" alt="">Unroll</a>
-    <nav class="site-nav" aria-label="Main">
-      <a class="hide-sm" href="./#demo">Demo</a>
-      <a class="hide-sm" href="./#formats">Formats</a>
-      <a class="keep" href="guide.html">Guide</a>
-      <a class="hide-sm" href="https://github.com/mhermon/unroll">GitHub</a>
-      <a class="button quiet small" href="./#install">Install</a>
-    </nav>
-  </div>
-</header>
-
-<div class="wrap doc single">
-  <main id="main" class="prose">
-    <h1>Privacy</h1>
-    <p class="lede">Unroll reads the file you open and shows it to you. It has no telemetry, analytics, account or server, and it never contacts a model provider. Your traces don’t leave your machine.</p>
-
-    <h2>What Unroll never does</h2>
-    <ul>
-      <li>Send your traces, or anything about them, anywhere. There is no Unroll service to send them to.</li>
-      <li>Run the tool calls recorded in a trace.</li>
-      <li>Edit or save your files.</li>
-      <li>Load remote images that appear in trace content.</li>
-    </ul>
-    <p>Links inside messages open in your browser only when you click them.</p>
-
-    <h2>Where your trace is read</h2>
-    <p>Everything happens inside VS Code: the file is read by the extension and displayed in its preview panel. In a remote workspace (SSH, a container or WSL), VS Code runs extensions on the remote machine, so that’s where the file is read. VS Code itself, other extensions and remote hosts have their own privacy policies.</p>
-
-    <h2>What’s stored</h2>
-    <p>VS Code may remember preview settings and your place in a file, such as the search text, selected conversation, filters and scroll position. To read large files efficiently, Unroll creates temporary indexes on the extension host. These contain file positions and limited parsing context, including field names and tool-link metadata. Full-message checkpoints do not store message bodies. Indexes are removed when the document closes or their cached reader is evicted; an abrupt process termination can leave temporary files for system cleanup.</p>
-    <p>Errors are written to the <strong>Unroll</strong> output channel. They can include file paths and other details, so review them before sharing.</p>
-
-    <h2>Reporting issues</h2>
-    <p>GitHub issues are public. Use a synthetic or sanitized example, and remove secrets and private conversations before attaching anything.</p>
-
-    <h2>This website</h2>
-    <p>The site is hosted on GitHub Pages. It has no analytics, ads, cookies or third-party embeds, and its fonts are served from the same site. GitHub handles requests under its own <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">privacy statement</a>.</p>
-
-    <h2>License and credits</h2>
-    <p>The extension is MIT licensed. The public repository holds documentation, synthetic examples and release builds; the source code is maintained privately. Bundled libraries keep their own notices, and the website fonts are under the <a href="assets/fonts/OFL.txt">SIL Open Font License</a>. Product logos identify compatible formats and belong to their owners. They come from <a href="https://simpleicons.org">Simple Icons</a> (CC0); the OpenTelemetry logo is © CNCF, used under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.</p>
-  </main>
-</div>
-
-<footer class="site-foot">
-  <div class="wrap">
-    <a class="brand" href="./"><img src="assets/icon.png" width="24" height="24" alt="">Unroll</a>
-    <nav aria-label="Footer">
+<div class="window has-side">
+  <header class="titlebar">
+    <span class="lights" aria-hidden="true"><i data-light="close"></i><i data-light="min"></i><i data-light="max"></i></span>
+    <a class="brand" href="./"><img src="assets/icon.png" width="16" height="16" alt="">Unroll</a>
+    <span class="title-path" id="title-path">mhermon.github.io/unroll/privacy</span>
+    <nav class="title-nav" aria-label="Main">
       <a href="guide.html">Guide</a>
-      <a href="privacy.html">Privacy</a>
-      <a href="https://github.com/mhermon/unroll/releases">Releases</a>
-      <a href="https://github.com/mhermon/unroll/issues/new/choose">Report a bug</a>
-      <a href="LICENSE">MIT license</a>
+      <a href="https://github.com/mhermon/unroll">GitHub</a>
+      <button type="button" class="theme" id="theme" aria-label="Switch color theme" title="Switch color theme"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="5.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M8 2.5a5.5 5.5 0 0 1 0 11z" fill="currentColor"/></svg></button>
+      <a class="btn primary small" href="./#install">Install</a>
     </nav>
+  </header>
+
+  <nav class="activity" aria-label="Views">
+    <button type="button" data-explorer aria-pressed="true" aria-controls="side" title="Explorer" aria-label="Explorer"><svg viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z M14 3v4h4" /></svg></button>
+  </nav>
+
+  <aside class="side" id="side" aria-label="Explorer">
+    <section class="side-files">
+      <h2>Unroll</h2>
+      <nav aria-label="Files">
+        <ul>
+          <li><a href="./"><span class="ic braces">{}</span>unroll.jsonl</a></li>
+          <li><a href="guide.html"><span class="ic doc">▤</span>guide.md</a></li>
+          <li><a href="privacy.html" aria-current="page"><span class="ic doc">▤</span>privacy.md</a></li>
+          <li><a href="demo-transcript.html"><span class="ic doc">▤</span>walkthrough.md</a></li>
+        </ul>
+      </nav>
+    </section>
+    <section class="side-outline" hidden>
+      <h2>Outline</h2>
+      <nav aria-label="Outline"><ol id="outline"></ol></nav>
+    </section>
+  </aside>
+
+  <div class="editor">
+    <div class="tabs" role="presentation">
+      <a class="tab" href="./"><span class="ic braces">{}</span>unroll.jsonl</a>
+      <a class="tab" href="guide.html"><span class="ic doc">▤</span>guide.md</a>
+      <span class="tab active" aria-current="page"><span class="ic doc">▤</span>privacy.md<span class="x" aria-hidden="true">×</span></span>
+    </div>
+
+    <div class="toolbar doc-toolbar">
+      <div class="file-line">
+        <nav class="crumbs" aria-label="Breadcrumbs">
+          <span class="crumb-root">unroll</span><span class="sep" aria-hidden="true">›</span>
+          <strong class="file-name">privacy.md</strong><span class="sep" aria-hidden="true">›</span>
+          <details class="crumb-menu" id="crumb-menu" hidden>
+            <summary title="Go to a section"><span id="crumb-section"></span></summary>
+            <ol></ol>
+          </details>
+        </nav>
+        <span class="grow"></span>
+        <div class="mode" role="group" aria-label="View">
+          <button type="button" data-view="source" aria-pressed="false"><span class="ic">#</span>Source</button>
+          <button type="button" data-view="preview" aria-pressed="true"><span class="ic">¶</span>Preview</button>
+        </div>
+      </div>
+    </div>
+
+    <main id="main" class="doc-body">
+      <article class="prose">
+        <h1>Privacy</h1>
+        <p class="lede">Unroll reads the file you open and shows it to you. It has no telemetry, analytics, account or server. Reading a trace never contacts a model provider, and your traces don’t leave your machine unless you turn on investigations and ask a model about them.</p>
+
+        <h2 id="what-unroll-never-does">What Unroll never does</h2>
+        <ul>
+          <li>Send your traces, or anything about them, to Unroll. There is no Unroll service to send them to.</li>
+          <li>Send trace content to a model provider unless you have turned on investigations and asked a question.</li>
+          <li>Run the tool calls recorded in a trace.</li>
+          <li>Edit your trace files.</li>
+          <li>Load remote images that appear in trace content.</li>
+        </ul>
+        <p>Links inside messages open in your browser only when you click them.</p>
+
+        <h2 id="where-your-trace-is-read">Where your trace is read</h2>
+        <p>Everything happens inside VS Code: the file is read by the extension and displayed in its preview panel. In a remote workspace (SSH, a container or WSL), VS Code runs extensions on the remote machine, so that’s where the file is read. VS Code itself, other extensions and remote hosts have their own privacy policies.</p>
+
+        <h2 id="investigations">Investigations (experimental)</h2>
+        <p>Investigations are off by default. They start only after you run <strong>Unroll: Enable Investigations (Experimental)…</strong> and confirm, and only in trusted workspaces. Their settings can be changed only in your user settings, so a repository you open can’t turn them on or point them at another service. Until you turn them on, Unroll doesn’t even load the code that talks to model providers.</p>
+        <p>When you ask a question, Unroll sends the question, the steps you selected with their context, and the parts of the file the model reads with its tools to the provider you chose:</p>
+        <ul>
+          <li><strong>VS Code language models</strong>, such as GitHub Copilot, under that provider’s terms. VS Code asks you before Unroll can use them.</li>
+          <li><strong>The Anthropic API</strong>, with a key you enter.</li>
+          <li><strong>An API endpoint you configure</strong>, such as OpenAI, another hosted service or a local server. Native OpenAI requests set <code>store: false</code>; your account’s data controls still apply.</li>
+        </ul>
+        <p>Before the first request to a provider and model, Unroll shows where excerpts will go and asks you to confirm; endpoints on your own machine don’t ask. Nonlocal HTTP endpoints show an unencrypted-connection warning, since keys and excerpts may be exposed in transit; use HTTPS where available. Each provider handles the data under its own privacy policy and may bill you. Keys are kept in VS Code’s secret storage, used only for the endpoint they were entered for, and removed with <strong>Unroll: Remove Stored Model Keys</strong>.</p>
+        <p>Investigations are saved as JSON in Unroll’s private extension storage. They include your question, the excerpts sent, the model’s findings and request diagnostics without keys or headers. If you set <strong>Save To</strong> to <em>workspace</em>, they’re written to <code>.unroll/investigations</code> in your workspace instead, including the trace file’s path; review them before committing.</p>
+
+        <h2 id="what-s-stored">What’s stored</h2>
+        <p>VS Code may remember preview settings and your place in a file, such as the search text, selected conversation, filters and scroll position. To read large files efficiently, Unroll creates temporary indexes on the extension host. These contain file positions and limited parsing context, including field names and tool-link metadata. Full-message checkpoints do not store message bodies. Indexes are removed when the document closes or their cached reader is evicted; an abrupt process termination can leave temporary files for system cleanup.</p>
+        <p>Errors are written to the <strong>Unroll</strong> output channel. They can include file paths and other details, so review them before sharing.</p>
+
+        <h2 id="reporting-issues">Reporting issues</h2>
+        <p>GitHub issues are public. Use a synthetic or sanitized example, and remove secrets and private conversations before attaching anything.</p>
+
+        <h2 id="this-website">This website</h2>
+        <p>The site is hosted on GitHub Pages. It has no analytics, ads, cookies or third-party embeds, and its fonts are served from the same site. Your browser keeps two small preferences for it in local storage, your color theme and whether you’ve seen the page’s raw opening; they never leave your browser. GitHub handles requests under its own <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">privacy statement</a>.</p>
+
+        <h2 id="license-and-credits">License and credits</h2>
+        <p>The extension is MIT licensed. The public repository holds documentation, synthetic examples and release builds; the source code is maintained privately. Bundled libraries keep their own notices, and the website fonts are under the <a href="assets/fonts/OFL.txt">SIL Open Font License</a>. Product logos identify compatible formats and belong to their owners. They come from <a href="https://simpleicons.org">Simple Icons</a> (CC0); the OpenTelemetry logo is © CNCF, used under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.</p>
+      </article>
+
+      <footer class="eof">
+        <span class="mono">— end of file · privacy.md —</span>
+        <nav aria-label="Footer">
+          <a href="./">Home</a>
+          <a href="guide.html">Guide</a>
+          <a href="privacy.html">Privacy</a>
+          <a href="https://github.com/mhermon/unroll/releases">Releases</a>
+          <a href="https://github.com/mhermon/unroll/issues/new/choose">Report a bug</a>
+          <a href="LICENSE">MIT license</a>
+        </nav>
+      </footer>
+    </main>
   </div>
-</footer>
+
+  <footer class="statusbar">
+    <span class="sb-branch"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="4.5" cy="3.5" r="1.6"/><circle cx="4.5" cy="12.5" r="1.6"/><circle cx="11.5" cy="5" r="1.6"/><path d="M4.5 5.1v5.8M11.5 6.6c0 3-7 2-7 4.3"/></svg>main</span>
+    <span id="sb-mode">Preview</span>
+    <span class="grow"></span>
+    <span class="hide-sm">UTF-8 · LF · Markdown</span>
+  </footer>
+</div>
+<script src="window.js" defer></script>
+<script src="docs.js" defer></script>
 </body>
 </html>

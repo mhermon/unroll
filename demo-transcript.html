@@ -10,59 +10,120 @@
 <meta name="theme-color" content="#f4f4f6" media="(prefers-color-scheme: light)">
 <link rel="icon" href="assets/icon.png">
 <link rel="preload" href="assets/fonts/instrument-sans.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="style.css">
+<link rel="preload" href="assets/fonts/jetbrains-mono.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="window.css">
+<link rel="stylesheet" href="docs.css">
+<script>try{const t=localStorage.getItem('unroll-theme');if(t)document.documentElement.dataset.theme=t}catch{}</script>
 </head>
-<body>
+<body class="doc-page">
 <a class="skip" href="#main">Skip to content</a>
 
-<header class="site-head">
-  <div class="wrap">
-    <a class="brand" href="./"><img src="assets/icon.png" width="24" height="24" alt="">Unroll</a>
-    <nav class="site-nav" aria-label="Main">
-      <a class="hide-sm" href="./#demo">Demo</a>
-      <a class="hide-sm" href="./#formats">Formats</a>
-      <a class="keep" href="guide.html">Guide</a>
-      <a class="hide-sm" href="https://github.com/mhermon/unroll">GitHub</a>
-      <a class="button quiet small" href="./#install">Install</a>
-    </nav>
-  </div>
-</header>
-
-<div class="wrap doc single">
-  <main id="main" class="prose">
-    <h1>Walkthrough transcript</h1>
-    <p class="lede">A text version of the one-minute walkthrough on the <a href="./#demo">home page</a>. It was recorded with the extension’s own viewer and three made-up example files. The window frame, raw editor and context menu are drawn for the recording; everything inside the preview is what Unroll displays.</p>
-
-    <h2>What happens</h2>
-    <div class="table-scroll">
-      <table>
-        <thead><tr><th>Time</th><th>On screen</th></tr></thead>
-        <tbody>
-          <tr><td>0:00</td><td>A Claude Code session is open as raw JSONL. Every line starts with the same envelope fields, so the conversation is hard to follow. The file is opened with <strong>Unroll: Open as Agent Trace</strong> and appears as a conversation: the request to fix a failing checkout test, the assistant’s reasoning, a <code>Bash</code> call and its test output.</td></tr>
-          <tr><td>0:10</td><td>Selecting <strong>result at line 4</strong> on the <code>npm test -- cart</code> call shows the call and its failing result together. <strong>Clear</strong> returns to the whole session.</td></tr>
-          <tr><td>0:16</td><td>The assistant’s explanation of the bug switches to its original JSON record, with fields such as <code>parentUuid</code>, <code>gitBranch</code>, <code>message</code> and <code>usage</code>. Its line button opens line 9 of the file in a split editor beside the preview.</td></tr>
-          <tr><td>0:28</td><td>Searching for <code>applyCoupon</code> finds the <code>Grep</code> call, its matching lines and the file the assistant read, with every match highlighted.</td></tr>
-          <tr><td>0:33</td><td>With Follow latest on, two new records are added to the file: the passing test run and the final summary, which includes a before/after table and the one-line fix.</td></tr>
-          <tr><td>0:41</td><td>A dataset of eight agent runs opens in another tab. The list shows each run’s outcome. Filtering for <code>tidyframe</code> and selecting a failed run shows its model, cost and turn count above its conversation.</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p>The tool calls shown are recorded data. Unroll doesn’t run them.</p>
-    <p><a href="./#demo">Watch the walkthrough</a> or download the <a href="examples/claude-session.jsonl" download>Claude Code session</a>, <a href="examples/agent-runs.jsonl" download>agent runs dataset</a> and <a href="examples/chat-samples.jsonl" download>chat dataset</a>.</p>
-  </main>
-</div>
-
-<footer class="site-foot">
-  <div class="wrap">
-    <a class="brand" href="./"><img src="assets/icon.png" width="24" height="24" alt="">Unroll</a>
-    <nav aria-label="Footer">
+<div class="window has-side">
+  <header class="titlebar">
+    <span class="lights" aria-hidden="true"><i data-light="close"></i><i data-light="min"></i><i data-light="max"></i></span>
+    <a class="brand" href="./"><img src="assets/icon.png" width="16" height="16" alt="">Unroll</a>
+    <span class="title-path" id="title-path">mhermon.github.io/unroll/walkthrough</span>
+    <nav class="title-nav" aria-label="Main">
       <a href="guide.html">Guide</a>
-      <a href="privacy.html">Privacy</a>
-      <a href="https://github.com/mhermon/unroll/releases">Releases</a>
-      <a href="https://github.com/mhermon/unroll/issues/new/choose">Report a bug</a>
-      <a href="LICENSE">MIT license</a>
+      <a href="https://github.com/mhermon/unroll">GitHub</a>
+      <button type="button" class="theme" id="theme" aria-label="Switch color theme" title="Switch color theme"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="5.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M8 2.5a5.5 5.5 0 0 1 0 11z" fill="currentColor"/></svg></button>
+      <a class="btn primary small" href="./#install">Install</a>
     </nav>
+  </header>
+
+  <nav class="activity" aria-label="Views">
+    <button type="button" data-explorer aria-pressed="true" aria-controls="side" title="Explorer" aria-label="Explorer"><svg viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z M14 3v4h4" /></svg></button>
+  </nav>
+
+  <aside class="side" id="side" aria-label="Explorer">
+    <section class="side-files">
+      <h2>Unroll</h2>
+      <nav aria-label="Files">
+        <ul>
+          <li><a href="./"><span class="ic braces">{}</span>unroll.jsonl</a></li>
+          <li><a href="guide.html"><span class="ic doc">▤</span>guide.md</a></li>
+          <li><a href="privacy.html"><span class="ic doc">▤</span>privacy.md</a></li>
+          <li><a href="demo-transcript.html" aria-current="page"><span class="ic doc">▤</span>walkthrough.md</a></li>
+        </ul>
+      </nav>
+    </section>
+    <section class="side-outline" hidden>
+      <h2>Outline</h2>
+      <nav aria-label="Outline"><ol id="outline"></ol></nav>
+    </section>
+  </aside>
+
+  <div class="editor">
+    <div class="tabs" role="presentation">
+      <a class="tab" href="./"><span class="ic braces">{}</span>unroll.jsonl</a>
+      <a class="tab" href="guide.html"><span class="ic doc">▤</span>guide.md</a>
+      <a class="tab hide-sm" href="privacy.html"><span class="ic doc">▤</span>privacy.md</a>
+      <span class="tab active" aria-current="page"><span class="ic doc">▤</span>walkthrough.md<span class="x" aria-hidden="true">×</span></span>
+    </div>
+
+    <div class="toolbar doc-toolbar">
+      <div class="file-line">
+        <nav class="crumbs" aria-label="Breadcrumbs">
+          <span class="crumb-root">unroll</span><span class="sep" aria-hidden="true">›</span>
+          <strong class="file-name">walkthrough.md</strong><span class="sep" aria-hidden="true">›</span>
+          <details class="crumb-menu" id="crumb-menu" hidden>
+            <summary title="Go to a section"><span id="crumb-section"></span></summary>
+            <ol></ol>
+          </details>
+        </nav>
+        <span class="grow"></span>
+        <div class="mode" role="group" aria-label="View">
+          <button type="button" data-view="source" aria-pressed="false"><span class="ic">#</span>Source</button>
+          <button type="button" data-view="preview" aria-pressed="true"><span class="ic">¶</span>Preview</button>
+        </div>
+      </div>
+    </div>
+
+    <main id="main" class="doc-body">
+      <article class="prose">
+        <h1>Walkthrough transcript</h1>
+        <p class="lede">A text version of the one-minute walkthrough on the <a href="./#demo">home page</a>. It was recorded with the extension’s own viewer and three made-up example files. The window frame, raw editor and context menu are drawn for the recording; everything inside the preview is what Unroll displays.</p>
+
+        <h2 id="what-happens">What happens</h2>
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th>Time</th><th>On screen</th></tr></thead>
+            <tbody>
+              <tr><td>0:00</td><td>A Claude Code session is open as raw JSONL. Every line starts with the same envelope fields, so the conversation is hard to follow. The file is opened with <strong>Unroll: Open as Agent Trace</strong> and appears as a conversation: the request to fix a failing checkout test, the assistant’s reasoning, a <code>Bash</code> call and its test output.</td></tr>
+              <tr><td>0:10</td><td>Selecting <strong>result at line 4</strong> on the <code>npm test -- cart</code> call shows the call and its failing result together. <strong>Clear</strong> returns to the whole session.</td></tr>
+              <tr><td>0:16</td><td>The assistant’s explanation of the bug switches to its original JSON record, with fields such as <code>parentUuid</code>, <code>gitBranch</code>, <code>message</code> and <code>usage</code>. Its line button opens line 9 of the file in a split editor beside the preview.</td></tr>
+              <tr><td>0:28</td><td>Searching for <code>applyCoupon</code> finds the <code>Grep</code> call, its matching lines and the file the assistant read, with every match highlighted.</td></tr>
+              <tr><td>0:33</td><td>With Follow latest on, two new records are added to the file: the passing test run and the final summary, which includes a before/after table and the one-line fix.</td></tr>
+              <tr><td>0:41</td><td>A dataset of eight agent runs opens in another tab. The list shows each run’s outcome. Adding the condition <code>resolved is false</code> narrows it to the three failed runs, and selecting the most expensive one shows its model, cost and turn count above its conversation.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>The tool calls shown are recorded data. Unroll doesn’t run them.</p>
+        <p><a href="./#demo">Watch the walkthrough</a> or download the <a href="examples/claude-session.jsonl" download>Claude Code session</a>, <a href="examples/agent-runs.jsonl" download>agent runs dataset</a> and <a href="examples/chat-samples.jsonl" download>chat dataset</a>.</p>
+      </article>
+
+      <footer class="eof">
+        <span class="mono">— end of file · walkthrough.md —</span>
+        <nav aria-label="Footer">
+          <a href="./">Home</a>
+          <a href="guide.html">Guide</a>
+          <a href="privacy.html">Privacy</a>
+          <a href="https://github.com/mhermon/unroll/releases">Releases</a>
+          <a href="https://github.com/mhermon/unroll/issues/new/choose">Report a bug</a>
+          <a href="LICENSE">MIT license</a>
+        </nav>
+      </footer>
+    </main>
   </div>
-</footer>
+
+  <footer class="statusbar">
+    <span class="sb-branch"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="4.5" cy="3.5" r="1.6"/><circle cx="4.5" cy="12.5" r="1.6"/><circle cx="11.5" cy="5" r="1.6"/><path d="M4.5 5.1v5.8M11.5 6.6c0 3-7 2-7 4.3"/></svg>main</span>
+    <span id="sb-mode">Preview</span>
+    <span class="grow"></span>
+    <span class="hide-sm">UTF-8 · LF · Markdown</span>
+  </footer>
+</div>
+<script src="window.js" defer></script>
+<script src="docs.js" defer></script>
 </body>
 </html>

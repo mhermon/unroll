@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.9.0
+
+- Unroll is now on the Visual Studio Marketplace as `mhermon.unroll`. The VSIX stays available from GitHub Releases for offline installs.
+- Pending investigation actions stop when the viewer closes or investigations are turned off. Switching saved investigations keeps the latest selection; disabling clears pending questions, and removing stored keys refreshes model status.
+
+- Add investigations (experimental, off by default): ask a language model you choose about a trace or dataset. The model reads the file through read-only tools, cites the steps it used and may ask you to label examples. Connect GitHub Copilot or another VS Code model, the Anthropic API, or a Responses or Chat Completions endpoint.
+- Investigations are opt-in by design: turned on only from your user settings or **Unroll: Enable Investigations (Experimental)…**, never in Restricted Mode, and loaded only once on. Each new remote provider is confirmed before excerpts are sent, keys stay in VS Code SecretStorage, and results are saved privately unless you choose the workspace.
+- Nonlocal HTTP endpoints show an unencrypted-connection warning. Saved investigations use private POSIX file permissions and open only for the trace they belong to.
+- Resize the run list, its conditions and the investigation panel, and keep their sizes.
+- Scroll continuously across loaded messages in both directions, and reuse recent reads when you return to a conversation or record.
+- Continue conversation searches past a first partial hit and resume stopped searches where they left off.
+- List nested metadata fields under their parents, count value suggestions across the whole file, and offer only conditions that fit each field.
+- Credit every bundled library in the third-party notices.
+
 ## 0.8.0
 
 - Open saved JSONL/NDJSON directly from disk without a file-size cutoff, with bounded memory, incremental indexes, cancellable search, and live updates.
